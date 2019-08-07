@@ -1,0 +1,30 @@
+<template>
+	<div class="navigation-bar">
+		<b-navbar type="dark" variant="dark" class="h-100">
+			<!-- <navbar-brand class="col-6"> -->
+				<nuxt-link class="col-6 navbar-brand" to="/">Simplest CMS</nuxt-link>
+			<!-- </navbar-brand> -->
+
+			<!-- Right aligned nav items -->
+			<b-navbar-nav class="ml-auto col-6 d-flex justify-content-end">
+				<!-- <b-nav-item href="#">Add Content</b-nav-item>
+        		<b-nav-item href="#">Add Pages</b-nav-item>
+				<b-nav-item href="#">Logout</b-nav-item> -->
+				<nuxt-link to="/AddContent" exact class="offset-3 col-3 text-right">Add Content</nuxt-link>
+				<nuxt-link to="/AddPages" class="col-3 text-right">Add Pages</nuxt-link>
+				<nuxt-link to="/Logout" class="col-3 text-right">Logout</nuxt-link>
+			</b-navbar-nav>
+		</b-navbar>
+	</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style lang="stylus">
+	.navigation-bar
+		height 60px
+</style>

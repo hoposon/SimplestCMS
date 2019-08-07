@@ -1,0 +1,58 @@
+type Query {
+
+}
+
+type Mutation {
+
+}
+
+type Page {
+	id: ID!
+	name: String
+	code: String!
+	url: String!
+	content: Content
+}
+
+type Content {
+	simple: [String]
+	asset: [Asset!]
+	gallery: [Gallery!]
+}
+
+type Simple {
+	id: ID!
+	name: String
+	code: String!
+	text: String
+}
+
+type Asset {
+	id: ID!
+	name: String
+	code: String!
+	asset: 
+	assetType: String
+	storage: Storage!
+}
+
+type Gallery {
+	id: ID!
+	name: String
+	code: String!
+	asset: [Asset!]!
+}
+
+type Storage {
+	id: ID!
+	name: String!
+	path: String!
+	folders: [Storage!]
+}
+
+type User {
+	id: ID!
+	name: String!
+	email: String!
+}
+
