@@ -1,0 +1,3 @@
+GRANT USAGE ON SCHEMA app_public TO app_public;
+GRANT SELECT, INSERT, UPDATE, DELETE on ALL TABLES IN SCHEMA app_public to app_public;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app_public to app_public;

@@ -12,8 +12,19 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+	  { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+	  { rel: "stylesheet", type: "text/css", href:'/css/bootstrap.min.css' }
+	],
+	script: [
+		{
+			src: "/js/bootstrap.js",
+			type: "text/javascript"
+		},
+		{
+		  src: "/js/jquery.min.js",
+		  type: "text/javascript"
+		}
+	]
   },
   /*
   ** Customize the progress-bar color
@@ -39,9 +50,12 @@ export default {
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt',
+	// 'bootstrap-vue/nuxt',
+	// normal bootstrap
+	// 'jquery',
+	// 'bootstrap',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+	'@nuxtjs/axios',
   ],
   /*
   ** Axios module configuration

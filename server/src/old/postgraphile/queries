@@ -1,0 +1,81 @@
+mutation {
+  createDir(
+    input: {
+      dir: {
+        dirName: "root"
+      }
+    }
+	) {
+    dir {
+      dirName
+    }
+	}
+}
+
+mutation {
+  createDir(
+    input: {
+      dir: {
+        dirName: "pic-3",
+        parentDir: 1
+      }
+    }
+	) {
+    dir {
+      dirName
+    }
+	}
+}
+
+query {
+  dirByRowId(rowId: 1) {
+    id,
+    dirName,
+    parentDir
+  }
+}
+
+
+query {
+  allDirs(
+    first: 20,
+    condition: {parentDir: 1},
+  	orderBy: [PRIMARY_KEY_ASC]
+  ) {
+    nodes {
+      dirName
+    }
+  }
+}
+
+
+mutation {
+  createPage(
+    input: {
+      page: {
+        pageName: "Navigation Bar",
+        pageCode: "navigationBar",
+        baseUrl: "/"
+      }
+    }
+  ) {
+    page {
+      	pageName,
+        pageCode,
+        baseUrl
+    }
+  }
+}
+
+query {
+  allPages(
+    first: 20,
+  	orderBy: [PRIMARY_KEY_ASC]
+  ) {
+    nodes {
+      id,
+      rowId,
+      pageName
+    }
+  }
+}

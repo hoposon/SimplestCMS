@@ -1,22 +1,23 @@
 <template>
   	<div>
-		<NavigationBar />
+		<NavigationBarMain />
     	<nuxt />
   	</div>
 </template>
 
 <script>
-	import NavigationBar from '../components/NavigationBar'
-	import ControllsBar from '../components/ContollsBar'
+	import NavigationBarMain from '../components/NavigationBarMain'
+	import NavigationBarControls from '../components/NavigationBarControls'
 	export default {
 		components: {
-			NavigationBar,
-			ControllsBar
+			NavigationBarMain,
+			NavigationBarControls
 		}
 	}
 </script>
 
 <style>
+
 	html {
 		font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
 			Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -28,4 +29,8 @@
 		-webkit-font-smoothing: antialiased;
 		box-sizing: border-box;
 		}
+
+	.content {
+		background-color: #ebebeb;
+	}
 </style>
