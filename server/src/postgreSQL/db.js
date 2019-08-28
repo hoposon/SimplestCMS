@@ -6,8 +6,6 @@ const changeCase = require('change-case');
 let pg = knex(pgConfig);
 
 function switchCase(key, typeCase) {
-	// return changeCase[typeCase](key)
-	// console.log('changeCase.snakeCase(key) >>>> ', changeCase.snakeCase(key))
 	if (typeCase === 'snakeCase') return changeCase.snakeCase(key)
 	if (typeCase === 'camelCase') return changeCase.camelCase(key)
 }
@@ -21,19 +19,11 @@ class DB {
 	async user({email}) {
 		try {
 			return new User((await pg.select().from('users').where('email', email))[0], 'camelCase');
-			// return {
-			// 	res: new User(user[0], 'camelCase'),
-			// 	exception: '',
-			// 	code: 'OK'
-			// }
 		}
 		catch(e) {
 			console.log('pg.user exception: ', e)
-			// return {
-			// 	exception: e,
-			// 	code: 'EXCEPTION',
-			// 	res: []
-			// }
+			// !TODO - log exception
+			// throw exception
 			return undefined
 		}
 	}
@@ -115,17 +105,22 @@ class DB {
 		}
 		catch(e) {
 			console.log('pg.createUser exception: ', e)
-			// log({
-			// 	exception: e,
-			// 	code: 'EXCEPTION',
-			// 	res: []
-			// });
+			// !TODO - log exception
+			// throw exception
 			return undefined;
 		}
 	}
 
-	async createUrl(url, userId) {
-
+	async createUrl(url) {
+		try {
+			return new URL((await pg.raw('select url_id as id, url_name, owner as is_owner from app_public.create_users_urls(?, ?, ?);', Object.values(new URL(url, 'snakeCase')))).rows[0], 'camelCase')
+		}
+		catch(e) {
+			console.log('pg.createUrl exception: ', e)
+			// !TODO - log exception
+			// throw exception
+			return undefined;
+		}
 	}
 
 	async createPage(page, url, userId) {
@@ -170,12 +165,20 @@ class User {
 	constructor(user, typeCase) {
 		Object.keys(user).forEach(key => {
 			if (key === 'password') {
-				this[switchCase('password_hash', typeCase)] = user[key]
-			} else if (key === 'passwor_hash') {
-				this[switchCase('password', typeCase)] = user[key]
+				this['password_hash'] = user[key]
+			} else if (key === 'password_hash') {
+				this['password'] = user[key]
 			} else {
 				this[switchCase(key, typeCase)] = user[key]
 			}
+		})
+	}
+}
+
+class URL {
+	constructor(url, typeCase) {
+		Object.keys(url).forEach(key => {
+			this[switchCase(key, typeCase)] = url[key]
 		})
 	}
 }

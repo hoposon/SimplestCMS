@@ -1,4 +1,4 @@
-const APP_SECRET = 'IKJSlkdois55sf.,,sdifhi!Ksdlfjfds-574fsdakjHJS'
+const APP_SECRET = 'DA14,.fd5jhdhjLjjV-kQQQQl?/84'
 
 module.exports = {
 	APP_SECRET

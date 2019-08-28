@@ -32,7 +32,17 @@ async function login(parent, args, context, info) {
 	}
 }
 
+async function createUrl(parent, args, context, info) {
+	const userId = getUserId(context);
+	const url = await context.db.createUrl({urlName: args.urlName, userId, isOwner: true});
+	if (!url) {
+		throw new Error('Url not created')
+	}
+	return url
+}
+
 module.exports = {
 	signup,
-	login
+	login,
+	createUrl
 }

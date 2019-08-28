@@ -5,6 +5,7 @@ type Query {
 type Mutation {
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): AuthPayload
   	login(email: String!, password: String!): AuthPayload
+	createUrl(urlName: String!): URL
 }
 
 type AuthPayload {
@@ -18,6 +19,12 @@ type User {
   	nickName: String
   	firstName: String
   	lastName: String
+}
+
+type URL {
+	id: ID!
+	urlName: String!
+	isOwner: Boolean!
 }
 
 # type Page {
