@@ -38,7 +38,7 @@ const server = new GraphQLServer({
 	context: request => {
 		return {
 			...request,
-			db: new DB(),
+			db: new DB()
 		}
 	},
 })

@@ -6,6 +6,7 @@ type Mutation {
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): AuthPayload
   	login(email: String!, password: String!): AuthPayload
 	createUrl(urlName: String!): URL
+	createDir(dirName: String!, urlId: ID!, parentDir: ID) : DIR
 }
 
 type AuthPayload {
@@ -25,6 +26,13 @@ type URL {
 	id: ID!
 	urlName: String!
 	isOwner: Boolean!
+}
+
+type DIR {
+	id: ID!
+	dirName: String!
+	urlId: ID!
+	parentDir: ID
 }
 
 # type Page {

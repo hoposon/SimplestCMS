@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 
 export default {
   mode: 'universal',
@@ -13,17 +14,22 @@ export default {
     ],
     link: [
 	  { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-	  { rel: "stylesheet", type: "text/css", href:'/css/bootstrap.min.css' }
+	//   { rel: "stylesheet", type: "text/css", href:'/css/bootstrap.min.css' }
 	],
 	script: [
+		{
+		  src: "/js/jquery.min.js",
+		  type: "text/javascript"
+		},
 		{
 			src: "/js/bootstrap.js",
 			type: "text/javascript"
 		},
-		{
-		  src: "/js/jquery.min.js",
-		  type: "text/javascript"
-		}
+		
+		// {
+		// 	src: '/js/popper.min.js',
+		// 	type: "text/javascript"
+		// }
 	]
   },
   /*
@@ -34,11 +40,13 @@ export default {
   ** Global CSS
   */
   css: [
+	'bootstrap/dist/css/bootstrap.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+	// '~plugins/bootstrap.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -70,21 +78,38 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
-		// if (ctx.isDev && ctx.isClient) {
-		// 	config.module.rules.push({
-		// 		test: /\.vue$/,
-		// 		loader: 'vue-loader'
-		// 	});
-		// 	config.module.rules.push({
-		// 		test: /\.styl(us)?$/,
-		// 		use: [
-		// 			'vue-style-loader',
-		// 			'css-loader',
-		// 			'stylus-loader'
-		// 		]
-		// 	});
-		// }
-    }
+    // extend(config, ctx) {
+	// 	// if (ctx.isDev && ctx.isClient) {
+	// 	// 	config.module.rules.push({
+	// 	// 		test: /\.vue$/,
+	// 	// 		loader: 'vue-loader'
+	// 	// 	});
+	// 	// 	config.module.rules.push({
+	// 	// 		test: /\.styl(us)?$/,
+	// 	// 		use: [
+	// 	// 			'vue-style-loader',
+	// 	// 			'css-loader',
+	// 	// 			'stylus-loader'
+	// 	// 		]
+	// 	// 	});
+	// 	// }
+	// }
+
+    // plugins: [
+    //   // set shortcuts as global for bootstrap
+    //   new webpack.ProvidePlugin({
+    //     // $: 'jquery',
+    //     // jQuery: 'jquery',
+	// 	// 'window.jQuery': 'jquery',
+	// 	$: require.resolve('jquery'),
+	// 	jQuery: require.resolve('jquery')
+	//   }),
+	// //   new webpack.ProvidePlugin({
+	// // 	bootstrap: 'bootstrap'
+    // //   })
+	// ],
+	
+	// analyze: true,
+
   }
 }

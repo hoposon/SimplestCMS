@@ -28,7 +28,7 @@ CREATE TABLE app_public.DIRS (
 	url_id INT REFERENCES app_public.URLS(id) NOT NULL,
 	parent_dir INT,
 	created_at timestamptz NOT NULL DEFAULT now(),
-	UNIQUE (dir_name, url_id)
+	UNIQUE (dir_name, parent_dir, url_id)
 );
 ALTER TABLE app_public.DIRS ADD CONSTRAINT
 dirs_parent FOREIGN KEY(parent_dir) REFERENCES app_public.DIRS(id);

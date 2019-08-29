@@ -13,7 +13,7 @@
 
 		<!-- Right aligned nav items -->
 		<div class="navbar-nav ml-auto d-flex justify-content-end">
-			<nuxt-link to="/Assets" exact class="nav-item">Assets</nuxt-link>
+			<nuxt-link to="/Assets" exact class="nav-item">Assets<span class="nav-item-sep"></span></nuxt-link>
 			<nuxt-link to="/ManageContent" exact class="nav-item">Manage Content</nuxt-link>
 			<nuxt-link to="/AddPages" class="nav-item">Add Pages</nuxt-link>
 		</div>
@@ -31,12 +31,14 @@ export default {
 </script>
 
 <style>
-	.navigation-bar-controls.navbar {
+	.navigation-bar .navigation-bar-controls.navbar {
 		height: 60px;
 		background-color: #00D9FF;
 	}
 	
-	.navigation-bar-controls .nav-item, .navigation-bar-controls .navbar-brand, .navigation-bar-controls .dropdown {
+	.navigation-bar .navigation-bar-controls .nav-item, 
+	.navigation-bar .navigation-bar-controls .navbar-brand, 
+	.navigation-bar .navigation-bar-controls .dropdown {
 		font-size: 20px;
 		margin-right: 15px;
 		margin-left: 15px;

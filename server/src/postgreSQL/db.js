@@ -10,6 +10,14 @@ function switchCase(key, typeCase) {
 	if (typeCase === 'camelCase') return changeCase.camelCase(key)
 }
 
+function switchObjectKeysCase(obj, typeCase) {
+	let temp = {};
+	Object.keys(obj).forEach(key => {
+		temp[switchCase(key, typeCase)] = obj[key]
+	})
+	return temp;
+}
+
 class DB {
 	constructor() {
 
@@ -112,8 +120,9 @@ class DB {
 	}
 
 	async createUrl(url) {
+		console.log('createURL >>>>>')
 		try {
-			return new URL((await pg.raw('select url_id as id, url_name, owner as is_owner from app_public.create_users_urls(?, ?, ?);', Object.values(new URL(url, 'snakeCase')))).rows[0], 'camelCase')
+			return switchObjectKeysCase((await pg.raw('select url_id as id, url_name, owner as is_owner from app_public.create_users_urls(?, ?, ?);', Object.values(switchObjectKeysCase(url, 'snakeCase')))).rows[0], 'camelCase')
 		}
 		catch(e) {
 			console.log('pg.createUrl exception: ', e)
@@ -123,28 +132,33 @@ class DB {
 		}
 	}
 
+	async createDir(dir) {
+		console.log('createDir >>>>>')
+		try {
+			// const {dirName: dir_name, parentDirId: parent_dir = null} = dir;
+			return {...dir, id: (await pg('dirs').insert(switchObjectKeysCase(dir, 'snakeCase')).returning('id'))[0]}
+			// return {
+			// 	res: await pg('dirs').insert({dir_name, parent_dir}).returning('id'),
+			// 	exception: '',
+			// 	code: 'OK'
+			// }
+		}
+		catch(e) {
+			console.log('pg.createDir exception: ', e)
+			// return {
+			// 	exception: e,
+			// 	code: 'EXCEPTION',
+			// 	res: []
+			// }
+			return undefined;
+		}
+	}
+
 	async createPage(page, url, userId) {
 			
 	}
 
-	async createDir(dir, url, userId) {
-		try {
-			const {dirName: dir_name, parentDirId: parent_dir = null} = dir;
-			return {
-				res: await pg('dirs').insert({dir_name, parent_dir}).returning('id'),
-				exception: '',
-				code: 'OK'
-			}
-		}
-		catch(e) {
-			console.log('pg.createDir exception: ', e)
-			return {
-				exception: e,
-				code: 'EXCEPTION',
-				res: []
-			}
-		}
-	}
+	
 
 	// update
 	async updatePage(page, userId) {
@@ -175,15 +189,6 @@ class User {
 	}
 }
 
-class URL {
-	constructor(url, typeCase) {
-		Object.keys(url).forEach(key => {
-			this[switchCase(key, typeCase)] = url[key]
-		})
-	}
-}
-
 module.exports = {
-	DB,
-	User
+	DB
 }

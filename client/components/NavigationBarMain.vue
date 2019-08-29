@@ -27,20 +27,19 @@
 		height: 220px;
 		background-color: #0099B3;
 	}
-	.navbar {
+	.navigation-bar .navbar {
 		height: 110px;
 	}
-	.nav-item, .navbar-brand {
+	.navigation-bar .nav-item, 
+	.navigation-bar .navbar-brand {
 		font-size: 25px;
 		margin-right: 15px;
 		margin-left: 15px;
 		color: white;
 	}
-	.navbar-brand {
-		font-size: 22px;
-	}
 	
-	.nav-item:hover, .navbar-brand:hover {
+	.navigation-bar .nav-item:hover, 
+	.navigation-bar .navbar-brand:hover {
 		color: #FF8119;
 		text-decoration: none;
 	}
