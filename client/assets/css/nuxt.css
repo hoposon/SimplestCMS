@@ -1,0 +1,4 @@
+.nuxt-link-active {
+	background-color: #ffd000;
+    border-radius: 7px;
+}

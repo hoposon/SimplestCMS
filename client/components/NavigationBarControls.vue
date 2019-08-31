@@ -1,13 +1,16 @@
 <template>
 	<nav class="navigation-bar-controls navbar navbar-expand">
-		<div class="dropdown">
-			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Select page
-			</button>
-			<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<a class="dropdown-item" href="#" @click='selectPage()'>Action</a>
-				<a class="dropdown-item" href="#" @click='selectPage()'>Another action</a>
-				<a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a>
+		<div class="navbar-nav">
+			<div class="nav-item no-hover">Currently edditing:</div>
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{{ currentUrl ? currentUrl.urlName : 'Select site' }}
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" href="#" @click='selectPage()'>Action</a>
+					<a class="dropdown-item" href="#" @click='selectPage()'>Another action</a>
+					<a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a>
+				</div>
 			</div>
 		</div>
 
@@ -21,7 +24,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
+	computed: {
+		...mapState([
+			'currentUrl'
+		])
+	},
 	methods: {
 		selectPage() {
 
@@ -42,6 +52,11 @@ export default {
 		font-size: 20px;
 		margin-right: 15px;
 		margin-left: 15px;
+		color: white;
+	}
+
+	.navigation-bar .navigation-bar-controls .nav-item.no-hover:hover {
+	/* #test { */
 		color: white;
 	}
 </style>

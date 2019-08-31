@@ -22,7 +22,7 @@ export default {
 		  type: "text/javascript"
 		},
 		{
-			src: "/js/bootstrap.js",
+			src: "/js/bootstrap.min.js",
 			type: "text/javascript"
 		},
 		
@@ -40,13 +40,13 @@ export default {
   ** Global CSS
   */
   css: [
-	'bootstrap/dist/css/bootstrap.css'
+	'bootstrap/dist/css/bootstrap.css',
+	'~assets/css/nuxt.css'
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-	// '~plugins/bootstrap.js'
   ],
   /*
   ** Nuxt.js dev-modules
