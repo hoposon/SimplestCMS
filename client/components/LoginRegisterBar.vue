@@ -1,6 +1,6 @@
 <template>
 	<div class="navigation-bar">
-		<nav class="navbar navbar-expand-lg">
+		<nav class="navbar main navbar-expand-lg">
 			<nuxt-link exact class="navbar-brand" to="/">Simplest CMS</nuxt-link>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#loginRegisterBarContent" aria-controls="loginRegisterBarContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon">X</span>

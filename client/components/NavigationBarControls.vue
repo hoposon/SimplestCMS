@@ -42,7 +42,7 @@ export default {
 
 <style>
 	.navigation-bar .navigation-bar-controls.navbar {
-		height: 60px;
+		height: 70px;
 		background-color: #00D9FF;
 	}
 	
@@ -55,8 +55,22 @@ export default {
 		color: white;
 	}
 
+	.navigation-bar .navigation-bar-controls .nav-item:hover {
+		color: #c69500;
+		text-decoration: none;
+	}
+
+	.navigation-bar .navigation-bar-controls .nav-item.no-hover {
+		margin-right: 0px;
+		margin-left: 0px;
+		padding-right: 0px;
+	}
+
 	.navigation-bar .navigation-bar-controls .nav-item.no-hover:hover {
-	/* #test { */
 		color: white;
+	}
+
+	.navigation-bar .navigation-bar-controls .navbar-nav {
+		align-items: center;
 	}
 </style>

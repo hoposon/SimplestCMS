@@ -4,6 +4,12 @@
     border-radius: 7px;
 }
 
+.navigation-bar .navbar-brand.nuxt-link-active {
+	border: none;
+	box-shadow: none;
+    border-radius: 0;
+}
+
 .navigation-bar .nav-item.nuxt-link-active:hover {
 	border: 2px solid #c69500;
 	/* box-shadow: 2px 3px 14px 0px #d1d0d0; */

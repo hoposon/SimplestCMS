@@ -1,6 +1,6 @@
 <template>
 	<div class="navigation-bar">
-		<nav class="navbar navbar-expand">
+		<nav class="navbar main navbar-expand">
 			<nuxt-link exact class="navbar-brand" to="/">Simplest CMS</nuxt-link>
 			
 			<!-- Right aligned nav items -->
@@ -58,12 +58,11 @@
 		margin-left: 15px;
 		color: white;
 	}
-	.navigation-bar .navbar-brand {
-		font-size: 30px;
-	}
-
 	.navigation-bar .nav-item {
 		 padding: 7px 20px;
+	}
+	.navigation-bar .navbar-brand {
+		font-size: 30px;
 	}
 
 	.navigation-bar .navbar-brand:hover {
@@ -71,7 +70,7 @@
 		text-decoration: none;
 	}
 	
-	.navigation-bar .nav-item:hover {
+	.navigation-bar .main .nav-item:hover {
 		color: white;
 		background-color: #c69500;
 		border: 1px solid #c69500;
