@@ -1,15 +1,29 @@
 <template>
-  	<div>
+  	<div v-if='userToken'>
 		<NavigationBarMain />
     	<nuxt />
   	</div>
 </template>
 
 <script>
+
+	import { mapState } from 'vuex';
+
 	import NavigationBarMain from '../components/NavigationBarMain'
+
 	export default {
 		components: {
 			NavigationBarMain
+		},
+		computed: {
+			...mapState({
+				userToken: state => state.user.userToken
+			})
+		},
+		mounted() {
+			if(!this.userToken) {
+				this.$router.push('/login');
+			}
 		}
 	}
 </script>

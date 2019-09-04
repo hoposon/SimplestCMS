@@ -1,17 +1,16 @@
 <template>
-	<div class="login">
-	</div>
-	
+	<LoginForm />	
 </template>
 
 <script>
+	import LoginForm from '../../components/LoginForm'
 	export default {
-		layout: 'LoginRegister'
+		layout: 'LoginRegister',
+		components: {
+			LoginForm
+		}
 	}
 </script>
 
 <style>
-	.test {
-		height: 100vh
-	}
 </style>

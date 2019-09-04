@@ -1,13 +1,18 @@
 <template>
 	<div class="navigation-bar">
-		<nav class="navbar navbar-expand">
+		<nav class="navbar navbar-expand-lg">
 			<nuxt-link exact class="navbar-brand" to="/">Simplest CMS</nuxt-link>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#loginRegisterBarContent" aria-controls="loginRegisterBarContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon">X</span>
+			</button>
 
 			<!-- Right aligned nav items -->
-			<div class="navbar-nav ml-auto d-flex justify-content-end">
-				<nuxt-link v-if='userToken' exact to="/Logout" class="nav-item">Logout</nuxt-link>
-				<nuxt-link v-if='!userToken' exact to="/Login" class="nav-item">Login</nuxt-link>
-				<nuxt-link v-if='!userToken' exact to="/Register" class="nav-item">Register</nuxt-link>
+			<div class="collapse navbar-collapse" id="loginRegisterBarContent">
+				<div class="navbar-nav ml-auto d-flex justify-content-end">
+					<nuxt-link v-if='userToken' exact to="/logout" class="nav-item">Logout</nuxt-link>
+					<nuxt-link v-if='!userToken' exact to="/login" class="nav-item">Login</nuxt-link>
+					<nuxt-link v-if='!userToken' exact to="/register" class="nav-item">Register</nuxt-link>
+				</div>
 			</div>
 		</nav>
 	</div>
@@ -20,9 +25,9 @@
 		components: {
 		},
 		computed: {
-			...mapState([
-				'userToken'
-			])
+			...mapState({
+				userToken: state => state.user.userToken
+			})
 		},
 		// methods: {
 		// 	...mapActions([

@@ -59,13 +59,21 @@
 				</div>
 			</div>
 		</div>
-		<button class="btn btn-primary" type="submit">Submit form</button>
+		<button class="btn btn-warning btn-block mt-3" type="submit" @click='submit($event)'>Send Registration</button>
 	</form>
 </template>
 
 <script>
 	export default {
-		
+		methods: {
+			submit(event) {
+				event.preventDefault();
+			},
+			validate(type) {
+				// !TODO - form validations
+				// make class valid-feedback/invalid-feedback visible or do it with if ...
+			}
+		}	
 	}
 </script>
 

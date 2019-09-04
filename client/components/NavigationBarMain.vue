@@ -2,7 +2,7 @@
 	<div class="navigation-bar">
 		<nav class="navbar navbar-expand">
 			<nuxt-link exact class="navbar-brand" to="/">Simplest CMS</nuxt-link>
-
+			
 			<!-- Right aligned nav items -->
 			<div class="navbar-nav ml-auto d-flex justify-content-end">
 				<nuxt-link exact to="/Logout" class="nav-item">Logout</nuxt-link>
@@ -25,20 +25,21 @@
 				'userToken'
 			])
 		},
-		methods: {
-			...mapActions([
-				'init'
-			])
-		},
-		mounted() {
-			if(!this.userToken) {
-				// window.location.href('http://localhost:3000/login');
-				this.$router.push('/login');
-			} else {
-				this.init();
-			}
-			this.init();
-		}
+		// methods: {
+		// 	...mapActions([
+		// 		'init'
+		// 	])
+		// },
+		// created() {
+		// 	if(!this.userToken) {
+		// 		// window.location.href('http://localhost:3000/login');
+		// 		console.log('in created >>>>>>')
+		// 		this.$router.push('/login');
+		// 	} else {
+		// 		this.init();
+		// 	}
+		// 	this.init();
+		// }
 	}
 </script>
 
@@ -62,12 +63,19 @@
 	}
 
 	.navigation-bar .nav-item {
-		 padding: 10px 20px;
+		 padding: 7px 20px;
+	}
+
+	.navigation-bar .navbar-brand:hover {
+		color: #c69500;
+		text-decoration: none;
 	}
 	
-	.navigation-bar .nav-item:hover, 
-	.navigation-bar .navbar-brand:hover {
-		color: #FF8119;
-		text-decoration: underline;
+	.navigation-bar .nav-item:hover {
+		color: white;
+		background-color: #c69500;
+		border: 1px solid #c69500;
+		text-decoration: none;
+		border-radius: 4px;
 	}
 </style>
