@@ -22,18 +22,11 @@
 	import { mapState, mapActions } from 'vuex';
 
 	export default {
-		components: {
-		},
 		computed: {
 			...mapState({
 				userToken: state => state.user.userToken
 			})
 		},
-		// methods: {
-		// 	...mapActions([
-		// 		'init'
-		// 	])
-		// }
 	}
 </script>
 

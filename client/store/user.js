@@ -1,11 +1,9 @@
 import { types } from './mutations-type.js'
-import { GraphQLClient } from 'graphql-request'
-import { config } from './config'
+import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries'
 
 export const state = () => ({
 	userToken: undefined,
-	// client: new GraphQLClient(config.graphQLEndpoint, {})
 })
 
 export const mutations = {
@@ -15,14 +13,18 @@ export const mutations = {
 }
 
 export const actions = {
-	async login({commit, state}, credentials) {
+	async login({ state, commit }, credentials) {
 		try {
-			const client= new GraphQLClient(config.graphQLEndpoint, {credentials: 'omit'})
-			let result = await client.request(Queries.loginQuery, credentials);
-			commit(types.SET_USER_TOKEN, {userToken: result.login.token})
+			const client = newGrphQlClient({state})
+			const result = await client.request(Queries.loginQuery, credentials);
+			if (result && result.login && result.login.token) {
+				commit(types.SET_USER_TOKEN, {userToken: result.login.token})
+			} else {
+				throw new Error('Internal error')
+			}
+			
 			return result;
-		}
-		catch(e) {
+		} catch(e) {
 			console.log('login exception >>>> ', e)
 		}
 	},
@@ -37,7 +39,6 @@ export const actions = {
 					document.querySelector('#'+(selector||type)).classList.add('invalid')
 					return false;
 				}
-				break;
 			case 'password':
 				if (value.length > 0) {
 					document.querySelector('#'+(selector||type)).classList.remove('invalid')
@@ -46,7 +47,6 @@ export const actions = {
 					document.querySelector('#'+(selector||type)).classList.add('invalid')
 					return false;
 				}
-				break;
 		}
 	}
 

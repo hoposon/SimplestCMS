@@ -2,6 +2,7 @@
   	<div v-if='userToken'>
 		<NavigationBarMain />
     	<nuxt />
+		<Modal v-if='ModalsState.show'/>
   	</div>
 </template>
 
@@ -10,14 +11,18 @@
 	import { mapState } from 'vuex';
 
 	import NavigationBarMain from '../components/NavigationBarMain'
+	import Modal from '../components/modals/Modal';
+
 
 	export default {
 		components: {
-			NavigationBarMain
+			NavigationBarMain,
+			Modal
 		},
 		computed: {
 			...mapState({
-				userToken: state => state.user.userToken
+				userToken: state => state.user.userToken,
+				ModalsState: state => state.ModalsState
 			})
 		},
 		mounted() {

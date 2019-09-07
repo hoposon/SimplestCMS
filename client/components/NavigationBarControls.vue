@@ -7,7 +7,7 @@
 					{{ currentUrl ? currentUrl.urlName : 'Select site' }}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="#" @click='selectPage()'>Action</a>
+					<a class="dropdown-item" href="#" @click='createUrl()'>Add new site (url)</a>
 					<a class="dropdown-item" href="#" @click='selectPage()'>Another action</a>
 					<a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a>
 				</div>

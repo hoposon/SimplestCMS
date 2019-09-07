@@ -1,16 +1,30 @@
 <template>
-  	<div class="container-fixed">
+  	<div v-if='!doNotShowLogin' class="container-fixed">
 		<LoginRegisterBar />
     	<nuxt />
   	</div>
 </template>
 
 <script>
+	import { mapState, mapActions } from 'vuex';
 	import LoginRegisterBar from '../components/LoginRegisterBar'
 
 	export default {
 		components: {
 			LoginRegisterBar
+		},
+		computed: {
+			doNotShowLogin() {
+				return !!(this.userToken && this.$router.currentRoute.path === '/login')
+			},
+			...mapState({
+				userToken: state => state.user.userToken
+			})
+		},
+		mounted() {
+			if (this.doNotShowLogin) {
+				this.$router.push('/');
+			}
 		}
 	}
 </script>

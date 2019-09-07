@@ -1,11 +1,25 @@
 // import { types } from './mutations-type.js';
 
 export const state = () => ({
-	// selectedUrlId: undefined
+	ModalsState: {
+		show: false,
+		modalName: undefined,
+		commandSent: false,
+		result: '',
+		// params: {}
+	},
 })
 
-export const actions = {
-	async init({commit}) {
+// export const mutations = {
+// 	[types.SET_AUTH_HEADER] (state, {userToken}) {
+// 		state.gQLClient.headers = {
+// 			authorization: `Bearer ${userToken}`
+// 		}
+// 	}
+// }
+
+// export const actions = {
+// 	async init({commit}) {
 		
-	}
-}
+// 	}
+// }
