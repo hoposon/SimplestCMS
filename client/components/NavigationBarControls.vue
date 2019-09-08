@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
 	computed: {
@@ -33,9 +33,19 @@ export default {
 		])
 	},
 	methods: {
+		createUrl() {
+			let options = {
+				modalName: 'CreateUrlModal',
+				show: true
+			}
+			this.showModal(options);
+		},
 		selectPage() {
 
-		}
+		},
+		...mapMutations({
+			showModal: 'SET_MODAL'
+		})
 	}
 }
 </script>

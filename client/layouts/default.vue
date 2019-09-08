@@ -1,8 +1,8 @@
 <template>
   	<div v-if='userToken'>
+		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
     	<nuxt />
-		<Modal v-if='ModalsState.show'/>
   	</div>
 </template>
 

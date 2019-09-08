@@ -1,4 +1,5 @@
 export const types = {
 	SET_USER_TOKEN: 'SET_USER_TOKEN',
+	SET_MODAL: 'SET_MODAL'
 	// SET_CURRENT_URL: 'SET_CURRENT_URL'
 }

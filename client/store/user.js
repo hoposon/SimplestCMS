@@ -3,7 +3,8 @@ import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries'
 
 export const state = () => ({
-	userToken: undefined,
+	// userToken: undefined,
+	userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y"
 })
 
 export const mutations = {
