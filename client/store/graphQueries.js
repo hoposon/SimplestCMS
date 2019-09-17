@@ -17,6 +17,13 @@ const Queries = {
 			  id,
 			  urlName
 		}
+	}`,
+	userUrls: `query {
+		urls {
+			id,
+			urlName,
+			isOwner
+		}
 	}`
 }
 

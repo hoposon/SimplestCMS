@@ -2,19 +2,13 @@
 	<div class="modal" id="modalOverlay" @click='hide($event)'>
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Modal title</h5>
+				<div class="modal-close">
 					<button type="button" class="close" @click='close()'>
 						<span>&times;</span>
 					</button>
 				</div>
-				<div class="modal-body">
-					...
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
+				<ModalResult v-if='ModalsState.commandSent' v-on:close='close()' />
+				<CreateUrlModal v-else-if='ModalsState.modalName === "CreateUrlModal"' v-on:close='close()' />
 			</div>
 		</div>
 	</div>
@@ -23,7 +17,14 @@
 <script>
 	const ESCAPE = 27;
 	import { mapState, mapMutations } from 'vuex';
+	import ModalResult from './ModalResult';
+	import CreateUrlModal from './CreateUrlModal';
+
 	export default {
+		components: {
+			ModalResult,
+			CreateUrlModal
+		},
 		data () {
 			return {
 				bindedKeydownHandler: undefined
@@ -68,5 +69,61 @@
 		overflow: hidden;
 		outline: 0;
 		background-color: #2d92b09c;
+	}
+
+	.modal .modal-close {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		z-index: 1000;
+	}
+
+	.modal .modal-body {
+		padding-left: 40px;
+		padding-top: 40px;
+	}
+
+	.modal .modal-title {
+		width: 50%;
+	}
+
+	.modal .modal-data {
+		padding: 30px 0px;
+	}
+
+	.modal .form-row {
+		display: flex;
+		align-items: baseline;
+		margin: 0px auto;
+	}
+
+	.modal label {
+		margin-right: 15px;
+	}
+
+	.modal .modal-footer {
+		border: none;
+	}
+
+	.modal .modal-result {
+		padding-top: 40px;
+	}
+	.modal .modal-result:nth-child(0) {
+		display: flex;
+		flex-direction: column;
+		align-items:  center;
+	}
+
+	.modal .form-row.invalid input {
+		padding-right: calc(1.5em + 0.75rem);
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc354…%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
+		background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+		border-color: rgb(220, 53, 69);
+		background-repeat: no-repeat;
+		background-position: right calc(0.375em + 0.1875rem) center;
+	}
+
+	.modal .form-row.invalid .invalid-feedback {
+		display: block;
 	}
 </style>

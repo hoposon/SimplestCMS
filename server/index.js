@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { DB } = require('./src/postgreSQL/db')
 
+const Query = require('./src/resolvers/Query')
 const Mutation = require('./src/resolvers/Mutation')
 
 // (async function () {
@@ -29,6 +30,7 @@ const Mutation = require('./src/resolvers/Mutation')
 
 
 const resolvers = {
+	Query,
 	Mutation
 }
 

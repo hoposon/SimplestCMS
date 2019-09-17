@@ -11,21 +11,19 @@ export const state = () => ({
 })
 
 export const mutations = {
-	// [types.SET_AUTH_HEADER] (state, {userToken}) {
-	// 	state.gQLClient.headers = {
-	// 		authorization: `Bearer ${userToken}`
-	// 	}
-	// }
-	[types.SET_MODAL] (state, {modalName, show} = {}) {
-		console.log('set modal >> ', show)
+	[types.SET_MODAL] (state, {modalName, show = false} = {}) {
 		state.ModalsState = {
 			show,
 			modalName,
-			// commandSent: false,
-			// result: '',
+			commandSent: false,
+			result: '',
 			// params
 		}
-	}
+	},
+	[types.SET_MODAL_RESULT] (state, {commandSent=true, result='inProgress'} = {}) {
+		state.ModalsState.commandSent = commandSent;
+		state.ModalsState.result = result;
+	},
 }
 
 // export const actions = {

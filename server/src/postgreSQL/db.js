@@ -38,11 +38,11 @@ class DB {
 
 	async userUrls(userId) {
 		try {
-			return {
-				res: await pg.select().from('user_urls').where('user_id', userId),
-				exception: '',
-				code: 'OK'
-			}
+			let urls = await pg('users_urls').join('urls', 'users_urls.url_id', '=', 'urls.id').select('urls.id', 'urls.url_name', 'users_urls.is_owner').where('users_urls.user_id', userId)
+			urls = urls.map(url => {
+				return switchObjectKeysCase(url, 'camelCase')
+			})
+			return urls
 		}
 		catch(e) {
 			console.log('pg.userUrls exception: ', e)

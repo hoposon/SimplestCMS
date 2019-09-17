@@ -30,6 +30,8 @@ export const actions = {
 		}
 	},
 	validate({},{value, type, selector}) {
+		// !TODO - I think I should delete the type parameter
+		// not sure about the type parameter - need to check if #type selects anything. I guess I added it probably necause of the text fields of a registration form
 		switch (type) {
 			case 'email':
 				const reg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i; // eslint-disable-line no-useless-escape

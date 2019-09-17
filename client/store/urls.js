@@ -1,4 +1,4 @@
-import { types } from './mutations-type.js';
+// import { types } from './mutations-type.js';
 import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries'
 
@@ -16,10 +16,10 @@ export const actions = {
 	async createUrl({ rootState, dispatch }, {urlName}) {
 		try {
 			const client = newGrphQlClient({state: rootState})
-			const result = await client.request(Queries.createUrl, urlName);
+			const result = await client.request(Queries.createUrl, {urlName});
 			if (result) {
 				console.log('result: ', result)
-				// dispatch('getUrls')
+				dispatch('getUrls')
 			} else {
 				throw new Error('Internal error')
 			}
@@ -31,7 +31,7 @@ export const actions = {
 	async getUrls({ rootState }) {
 		try {
 			const client = newGrphQlClient({state: rootState})
-			const result = await client.request(Queries.urls, userId);
+			const result = await client.request(Queries.userUrls);
 			if (result) {
 				console.log('result: ', result)
 				// dispatch('getUrls')
