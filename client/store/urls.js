@@ -1,4 +1,4 @@
-// import { types } from './mutations-type.js';
+import { types } from './mutations-type.js';
 import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries'
 
@@ -10,6 +10,10 @@ export const mutations = {
 	// [types.SET_CURRENT_URL] (state, {currentUrl}) {
 	// 	state.currentUrl = currentUrl;
 	// }
+	[types.SET_USERS_URLS] (state, {urls}) {
+		console.log('setting urls')
+		state.urls = urls;
+	}
 }
 
 export const actions = {
@@ -28,18 +32,17 @@ export const actions = {
 		}
 		
 	},
-	async getUrls({ rootState }) {
+	async getUrls({ commit, rootState }) {
 		try {
 			const client = newGrphQlClient({state: rootState})
 			const result = await client.request(Queries.userUrls);
 			if (result) {
-				console.log('result: ', result)
-				// dispatch('getUrls')
+				commit(types.SET_USERS_URLS, {urls: result.urls})
 			} else {
 				throw new Error('Internal error')
 			}
 		} catch(e) {
-			console.log('createUrl exception >>>> ', e)
+			console.log('getUrls exception >>>> ', e)
 		}
 	}
 }

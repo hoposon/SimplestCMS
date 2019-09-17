@@ -8,8 +8,9 @@
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 					<a class="dropdown-item" href="#" @click='createUrl()'>Add new site (url)</a>
-					<a class="dropdown-item" href="#" @click='selectPage()'>Another action</a>
-					<a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a>
+					<a v-for='url in urls' :key='url.id' class="dropdown-item" href="#" @click='selectUrl()'>{{ url.urlName }}</a>
+					<!-- <a class="dropdown-item" href="#" @click='selectUrl()'>Another action</a> -->
+					<!-- <a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a> -->
 				</div>
 			</div>
 		</div>
@@ -27,10 +28,15 @@
 import { mapState, mapMutations } from 'vuex';
 
 export default {
+	data() {
+		return {
+			currentUrl: ''
+		}
+	},
 	computed: {
-		...mapState([
-			'currentUrl'
-		])
+		...mapState({
+			urls: state => state.urls.urls
+		})
 	},
 	methods: {
 		createUrl() {
@@ -40,8 +46,8 @@ export default {
 			}
 			this.showModal(options);
 		},
-		selectPage() {
-
+		selectUrl() {
+			console.log(this.urls)
 		},
 		...mapMutations({
 			showModal: 'SET_MODAL'
