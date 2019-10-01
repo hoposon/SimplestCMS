@@ -7,10 +7,9 @@
 					{{ currentUrl ? currentUrl.urlName : 'Select site' }}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="#" @click='createUrl()'>Add new site (url)</a>
-					<a v-for='url in urls' :key='url.id' class="dropdown-item" href="#" @click='selectUrl()'>{{ url.urlName }}</a>
-					<!-- <a class="dropdown-item" href="#" @click='selectUrl()'>Another action</a> -->
-					<!-- <a class="dropdown-item" href="#" @click='selectPage()'>Something else here</a> -->
+					<a v-if='currentUrl' class="dropdown-item" href="">{{createUrl.urlName}}</a>
+					<a class="dropdown-item static-action" :class='{"with-data": urls.length > 0}' href="" @click='createUrl()'>Add new site (url)</a>
+					<a v-for='url in urls' :key='url.id' class="dropdown-item" href="" @click='selectUrl(url.id)'>{{ url.urlName }}</a>
 				</div>
 			</div>
 		</div>
@@ -30,11 +29,11 @@ import { mapState, mapMutations } from 'vuex';
 export default {
 	data() {
 		return {
-			currentUrl: ''
 		}
 	},
 	computed: {
 		...mapState({
+			currentUrl: state => state.urls.currentUrl,
 			urls: state => state.urls.urls
 		})
 	},
@@ -46,11 +45,13 @@ export default {
 			}
 			this.showModal(options);
 		},
-		selectUrl() {
-			console.log(this.urls)
+		selectUrl(currentUrl) {
+			this.setCurrentUrl({currentUrl})
+			this.$router.push('/ManageContent')
 		},
 		...mapMutations({
-			showModal: 'SET_MODAL'
+			showModal: 'SET_MODAL',
+			setCurrentUrl: 'urls/SET_CURRENT_URL'
 		})
 	}
 }
@@ -88,5 +89,15 @@ export default {
 
 	.navigation-bar .navigation-bar-controls .navbar-nav {
 		align-items: center;
+	}
+
+	.static-action {
+		color: #c69500;
+	}
+
+	.static-action.with-data {
+		border-bottom: 1px solid gray;
+		padding-bottom: 10px;
+		margin-bottom: 10px;
 	}
 </style>

@@ -3,13 +3,14 @@ import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries'
 
 export const state = () => ({
+	currentUrl: '',
 	urls: []
 })
 
 export const mutations = {
-	// [types.SET_CURRENT_URL] (state, {currentUrl}) {
-	// 	state.currentUrl = currentUrl;
-	// }
+	[types.SET_CURRENT_URL] (state, {currentUrl}) {
+		state.currentUrl = state.urls.find(url => url.id === currentUrl);
+	},
 	[types.SET_USERS_URLS] (state, {urls}) {
 		console.log('setting urls')
 		state.urls = urls;

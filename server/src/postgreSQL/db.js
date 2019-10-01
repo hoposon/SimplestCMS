@@ -42,6 +42,7 @@ class DB {
 			urls = urls.map(url => {
 				return switchObjectKeysCase(url, 'camelCase')
 			})
+			console.log(urls)
 			return urls
 		}
 		catch(e) {

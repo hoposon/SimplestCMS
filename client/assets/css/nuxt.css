@@ -16,3 +16,13 @@
 	border-radius: 4px;
 	box-shadow: none;
 }
+
+.link-btn {
+	display: flex;
+	text-decoration: underline;
+	/* height: 30px; */
+}
+
+.link-btn:hover {
+	text-decoration: underline;
+}

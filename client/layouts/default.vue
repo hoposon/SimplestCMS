@@ -2,6 +2,7 @@
   	<div v-if='userToken'>
 		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
+		<ManageContent v-if='manageContentRoute' />
     	<nuxt />
   	</div>
 </template>
@@ -12,14 +13,19 @@
 
 	import NavigationBarMain from '../components/NavigationBarMain'
 	import Modal from '../components/modals/Modal';
+	import ManageContent from '../components/ManageContent';
 
 
 	export default {
 		components: {
 			NavigationBarMain,
-			Modal
+			Modal,
+			ManageContent
 		},
 		computed: {
+			manageContentRoute() {
+				return this.$router.currentRoute.path === '/ManageContent'
+			},
 			...mapState({
 				userToken: state => state.user.userToken,
 				ModalsState: state => state.ModalsState
