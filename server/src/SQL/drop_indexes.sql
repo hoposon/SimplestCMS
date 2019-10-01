@@ -11,6 +11,8 @@ DROP INDEX app_public.gallery_assets_assets_idx;
 DROP INDEX app_public.page_page_gallery_idx;
 DROP INDEX app_public.page_gallery_gallery_idx;
 DROP INDEX app_public.dirs_assets_idx;
+DROP INDEX app_public.users_user_roles_idx;
+DROP INDEX app_public.user_roles_roles_idx;
 
 SELECT
     tablename,

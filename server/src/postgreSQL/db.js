@@ -18,6 +18,10 @@ function switchObjectKeysCase(obj, typeCase) {
 	return temp;
 }
 
+class test {
+
+}
+
 class DB {
 	constructor() {
 
@@ -26,7 +30,13 @@ class DB {
 	// select
 	async user({email}) {
 		try {
-			return new User((await pg.select().from('users').where('email', email))[0], 'camelCase');
+			let user = new User((await pg.select().from('users').where('email', email))[0], 'camelCase');
+			let roles = await pg('user_roles').join('roles', 'user_roles.role_id', '=', 'roles.id').select('roles.role_name').where('user_roles.user_id', user.id);
+			roles = roles.map(role => {
+				return role.role_name
+			})
+			user.roles = roles
+			return user
 		}
 		catch(e) {
 			console.log('pg.user exception: ', e)

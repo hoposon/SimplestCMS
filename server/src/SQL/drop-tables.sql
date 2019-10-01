@@ -8,6 +8,8 @@ DROP TABLE app_public.page_content_strings cascade;
 DROP TABLE app_public.page_gallery cascade;
 DROP TABLE app_public.pages cascade;
 DROP TABLE app_public.users cascade;
+DROP TABLE app_public.user_roles cascade;
+DROP TABLE app_public.roles cascade;
 
 
 SELECT

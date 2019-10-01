@@ -2,7 +2,7 @@
   	<div v-if='userToken'>
 		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
-		<ManageContent v-if='manageContentRoute' />
+		<!-- <ManageContent v-if='manageContentRoute' /> -->
     	<nuxt />
   	</div>
 </template>
@@ -23,11 +23,12 @@
 			ManageContent
 		},
 		computed: {
-			manageContentRoute() {
-				return this.$router.currentRoute.path === '/ManageContent'
-			},
+			// manageContentRoute() {
+			// 	console.log('this.$router.currentRoute.path >>> ', this.$router.currentRoute.path)
+			// 	return this.$router.currentRoute.path === '/ManageContent'
+			// },
 			...mapState({
-				userToken: state => state.user.userToken,
+				userToken: state => state.user.user.userToken,
 				ModalsState: state => state.ModalsState
 			})
 		},

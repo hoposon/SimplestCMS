@@ -4,12 +4,18 @@ import { Queries } from './graphQueries'
 
 export const state = () => ({
 	// userToken: undefined,
-	userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y"
+	// user: {
+	// 	email: 'dsfsdfs@fsdf.com',
+	// 	userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y",
+	// 	roles: ['admin']
+	// }
+	user: {}
+	
 })
 
 export const mutations = {
-	[types.SET_USER_TOKEN] (state, {userToken}) {
-		state.userToken = userToken;
+	[types.SET_USER] (state, {user}) {
+		state.user = user;
 	}
 }
 
@@ -19,7 +25,7 @@ export const actions = {
 			const client = newGrphQlClient({state})
 			const result = await client.request(Queries.loginQuery, credentials);
 			if (result && result.login && result.login.token) {
-				commit(types.SET_USER_TOKEN, {userToken: result.login.token})
+				commit(types.SET_USER, {user: result.login})
 			} else {
 				throw new Error('Internal error')
 			}
@@ -27,6 +33,7 @@ export const actions = {
 			return result;
 		} catch(e) {
 			console.log('login exception >>>> ', e)
+			throw new Error(e.message)
 		}
 	},
 	validate({},{value, type, selector}) {

@@ -19,6 +19,9 @@
 
 .link-btn {
 	display: flex;
+	background-color: unset;
+	border: none;
+	outline: none;
 	text-decoration: underline;
 	/* height: 30px; */
 }

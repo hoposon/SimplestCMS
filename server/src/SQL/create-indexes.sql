@@ -1,4 +1,7 @@
 
+CREATE INDEX users_user_roles_idx ON app_public.USER_ROLES (user_id);
+CREATE INDEX user_roles_roles_idx ON app_public.USER_ROLES (role_id);
+
 CREATE INDEX users_users_urls_idx ON app_public.USERS_URLS (user_id);
 CREATE INDEX users_urls_urls_idx ON app_public.USERS_URLS (url_id);
 

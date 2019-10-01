@@ -3,7 +3,8 @@ import { config } from './config'
 
 function newGrphQlClient({state}) {
 	let client = undefined
-	if (state.user.userToken) {
+	console.log(state.user)
+	if (state.user && state.user.userToken) {
 		client = new GraphQLClient(config.graphQLEndpoint, {
 			credentials: 'omit', 
 			headers: {

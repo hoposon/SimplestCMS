@@ -1,13 +1,13 @@
 // List.vue
 <template>
 	<div>
-		<a v-if='root' href="" class='link-btn' @click='showHide()'>
+		<button v-if='root' class='link-btn' @click='showHide()'>
 			<span>--</span>
 			{{ subUrl }}
-		</a>
+		</button>
 		<transition name='fade'>
 			<div v-if='show'>
-				<a v-for='page in pages' :key='page.id' href="#" :class='linksClass' class="link-btn">{{ page.pageName }}</a>
+				<button v-for='page in pages' :key='page.id' :class='linksClass' class="link-btn">{{ page.pageName }}</button>
 			</div>
 		</transition>
 	</div> 
@@ -53,16 +53,18 @@
 		overflow: hidden;
 	}
 	.fade-enter-active {
-		transition: height 0.5s;/*, opacity 0.5s;*/
+		transition: height 0.5s, opacity 0.7s;
 	}
 	.fade-enter-to {
+		opacity: 1;
 		height: 30px;
 	}
 	.fade-leave {
+		opacity: 1;
 		height: 30px;
 	}
 	.fade-leave-active {
-		transition: height 0.5s;/*, opacity 0.5s;*/
+		transition: height 0.5s, opacity 0.7s;
 	}
 	.fade-leave-to {
 		opacity: 0;

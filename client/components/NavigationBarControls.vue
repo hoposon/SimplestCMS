@@ -7,9 +7,9 @@
 					{{ currentUrl ? currentUrl.urlName : 'Select site' }}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a v-if='currentUrl' class="dropdown-item" href="">{{createUrl.urlName}}</a>
-					<a class="dropdown-item static-action" :class='{"with-data": urls.length > 0}' href="" @click='createUrl()'>Add new site (url)</a>
-					<a v-for='url in urls' :key='url.id' class="dropdown-item" href="" @click='selectUrl(url.id)'>{{ url.urlName }}</a>
+					<button v-if='currentUrl' class="dropdown-item" >{{createUrl.urlName}}</button>
+					<button class="dropdown-item static-action" :class='{"with-data": urls.length > 0}' @click='createUrl()'>Add new site (url)</button>
+					<button v-for='url in urls' :key='url.id' class="dropdown-item" @click='selectUrl(url.id)'>{{ url.urlName }}</button>
 				</div>
 			</div>
 		</div>
@@ -18,7 +18,6 @@
 		<div class="navbar-nav ml-auto d-flex justify-content-end">
 			<nuxt-link to="/Assets" exact class="nav-item">Assets<span class="nav-item-sep"></span></nuxt-link>
 			<nuxt-link to="/ManageContent" exact class="nav-item">Manage Content</nuxt-link>
-			<nuxt-link to="/AddPages" class="nav-item">Add Pages</nuxt-link>
 		</div>
 	</nav>
 </template>

@@ -3,16 +3,18 @@ type Query {
 }
 
 type Mutation {
-	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): AuthPayload
-  	login(email: String!, password: String!): AuthPayload
+	# signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): AuthPayload
+  	# login(email: String!, password: String!): AuthPayload
+	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): User
+	login(email: String!, password: String!): User
 	createUrl(urlName: String!): URL
 	createDir(dirName: String!, urlId: ID!, parentDir: ID) : DIR
 }
 
-type AuthPayload {
-  	token: String
-  	user: User
-}
+# type AuthPayload {
+#   	token: String
+#   	user: User
+# }
 
 type User {
   	id: ID!
@@ -20,6 +22,8 @@ type User {
   	nickName: String
   	firstName: String
   	lastName: String
+	token: String!
+	roles: [String!]
 }
 
 type URL {

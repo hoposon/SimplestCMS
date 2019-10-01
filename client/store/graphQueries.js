@@ -4,10 +4,9 @@ const Queries = {
 			email: $email,
 			password: $password
 		) {
+			email
 			token
-			user {
-				email
-			}
+			roles
 		}
 	}`,
 	createUrl: `mutation createUrl($urlName: String!) {

@@ -1,29 +1,36 @@
 <template>
-  	<div v-if='!doNotShowLogin' class="container-fixed">
-		<LoginRegisterBar />
+  	<div v-if='userToken'>
+		<Modal v-if='ModalsState.show'/>
+		<NavigationBarMain />
+		<ManageContent />
     	<nuxt />
   	</div>
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
-	import LoginRegisterBar from '../components/LoginRegisterBar'
+
+	import { mapState } from 'vuex';
+
+	import NavigationBarMain from '../components/NavigationBarMain'
+	import Modal from '../components/modals/Modal';
+	import ManageContent from '../components/ManageContent';
+
 
 	export default {
 		components: {
-			LoginRegisterBar
+			NavigationBarMain,
+			Modal,
+			ManageContent
 		},
 		computed: {
-			doNotShowLogin() {
-				return !!(this.userToken && this.$router.currentRoute.path === '/login')
-			},
 			...mapState({
-				userToken: state => state.user.user.userToken
+				userToken: state => state.user.user.userToken,
+				ModalsState: state => state.ModalsState
 			})
 		},
 		mounted() {
-			if (this.doNotShowLogin) {
-				this.$router.push('/');
+			if(!this.userToken) {
+				this.$router.push('/login');
 			}
 		}
 	}
@@ -40,15 +47,9 @@
 		-moz-osx-font-smoothing: grayscale;
 		-webkit-font-smoothing: antialiased;
 		box-sizing: border-box;
-	}
+		}
 
 	.content {
 		background-color: #ebebeb;
 	}
-
-	.row {
-		padding: 0;
-		margin: 0;
-	}
-
 </style>

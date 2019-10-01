@@ -9,6 +9,17 @@ CREATE TABLE app_public.USERS (
   	updated_at timestamptz NOT NULL DEFAULT now()
 );
 
+CREATE TABLE app_public.ROLES (
+	id SERIAL PRIMARY KEY,
+	role_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE app_public.USER_ROLES (
+	id SERIAL PRIMARY KEY,
+	user_id INT REFERENCES app_public.USERS(id) NOT NULL,
+	role_id INT REFERENCES app_public.ROLES(id) NOT NULL
+);
+
 CREATE TABLE app_public.URLS (
 	id SERIAL PRIMARY KEY,
 	url_name VARCHAR(100) UNIQUE NOT NUll

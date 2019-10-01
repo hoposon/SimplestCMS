@@ -1,16 +1,20 @@
 <template>
 	<div class="pages-list col-2">
 		<div>Pages</div>
+		<AddPages v-if='isAdmin' />
 		<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
 	</div>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	import List from './List'
+	import AddPages from './AddPages'
 
 	export default {
 		components: {
-			List
+			List,
+			AddPages
 		},
 		data() {
 			return {
@@ -68,6 +72,9 @@
 			}
 		},
 		computed: {
+			isAdmin(){
+				return this.user.roles.find(role => role === 'admin')
+			},
 			pagesToList() {
 				const pagesList = {};
 				this.pages.forEach(page => {
@@ -84,7 +91,10 @@
 					}
 				});
 				return pagesList;
-			}
+			},
+			...mapState({
+				user: 'user/user'
+			})
 		},
 		// mounted() {
 		// 	this.pagesToList()
