@@ -1,17 +1,27 @@
 import { types } from './mutations-type.js'
 import { newGrphQlClient } from './helpers.js'
-import { Queries } from './graphQueries'
+import { Queries } from './graphQueries.js'
+import { config } from './config.js'
 
 export const state = () => ({
-	// userToken: undefined,
-	// user: {
-	// 	email: 'dsfsdfs@fsdf.com',
-	// 	userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y",
-	// 	roles: ['admin']
-	// }
-	user: {}
+	// token: undefined,
+	user: {
+		email: 'dsfsdfs@fsdf.com',
+		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y",
+		roles: ['admin']
+	}
+	// user: {}
 	
 })
+
+export const getters = {
+	
+	acl: (state) => (compName) => {
+		return config.acls[compName].find(aclRols => state.user.roles.find(role => aclRols === role))
+	}
+		
+	// config.acls[compName].find(aclRols => state.user.roles.find(role => aclRols === role))
+}
 
 export const mutations = {
 	[types.SET_USER] (state, {user}) {

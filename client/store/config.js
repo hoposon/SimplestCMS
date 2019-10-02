@@ -1,7 +1,6 @@
-const config = {
-	graphQLEndpoint: 'http://localhost:4000'
-} 
+import { acls } from './acls'
 
-module.exports = {
-	config
+export const config = {
+	graphQLEndpoint: 'http://localhost:4000',
+	acls
 }

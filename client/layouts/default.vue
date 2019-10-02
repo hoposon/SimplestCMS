@@ -1,5 +1,5 @@
 <template>
-  	<div v-if='userToken'>
+  	<div v-if='token'>
 		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
 		<!-- <ManageContent v-if='manageContentRoute' /> -->
@@ -13,14 +13,14 @@
 
 	import NavigationBarMain from '../components/NavigationBarMain'
 	import Modal from '../components/modals/Modal';
-	import ManageContent from '../components/ManageContent';
+	// import ManageContent from '../components/ManageContent';
 
 
 	export default {
 		components: {
 			NavigationBarMain,
 			Modal,
-			ManageContent
+			// ManageContent
 		},
 		computed: {
 			// manageContentRoute() {
@@ -28,12 +28,12 @@
 			// 	return this.$router.currentRoute.path === '/ManageContent'
 			// },
 			...mapState({
-				userToken: state => state.user.user.userToken,
+				token: state => state.user.user.token,
 				ModalsState: state => state.ModalsState
 			})
 		},
 		mounted() {
-			if(!this.userToken) {
+			if(!this.token) {
 				this.$router.push('/login');
 			}
 		}

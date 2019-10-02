@@ -13,33 +13,13 @@
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
+	import { mapState } from 'vuex';
 	import NavigationBarControls from '../components/NavigationBarControls';
 
 	export default {
 		components: {
 			NavigationBarControls
-		},
-		computed: {
-			...mapState([
-				'userToken'
-			])
-		},
-		// methods: {
-		// 	...mapActions([
-		// 		'init'
-		// 	])
-		// },
-		// created() {
-		// 	if(!this.userToken) {
-		// 		// window.location.href('http://localhost:3000/login');
-		// 		console.log('in created >>>>>>')
-		// 		this.$router.push('/login');
-		// 	} else {
-		// 		this.init();
-		// 	}
-		// 	this.init();
-		// }
+		}
 	}
 </script>
 

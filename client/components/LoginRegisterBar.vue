@@ -9,9 +9,9 @@
 			<!-- Right aligned nav items -->
 			<div class="collapse navbar-collapse" id="loginRegisterBarContent">
 				<div class="navbar-nav ml-auto d-flex justify-content-end">
-					<nuxt-link v-if='userToken' exact to="/logout" class="nav-item">Logout</nuxt-link>
-					<nuxt-link v-if='!userToken' exact to="/login" class="nav-item">Login</nuxt-link>
-					<nuxt-link v-if='!userToken' exact to="/register" class="nav-item">Register</nuxt-link>
+					<nuxt-link v-if='token' exact to="/logout" class="nav-item">Logout</nuxt-link>
+					<nuxt-link v-if='!token' exact to="/login" class="nav-item">Login</nuxt-link>
+					<nuxt-link v-if='!token' exact to="/register" class="nav-item">Register</nuxt-link>
 				</div>
 			</div>
 		</nav>
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
+	import { mapState } from 'vuex';
 
 	export default {
 		computed: {
 			...mapState({
-				userToken: state => state.user.userToken
+				token: state => state.user.token
 			})
 		},
 	}

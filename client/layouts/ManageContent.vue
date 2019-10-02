@@ -1,5 +1,5 @@
 <template>
-  	<div v-if='userToken'>
+  	<div v-if='token'>
 		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
 		<ManageContent />
@@ -24,12 +24,12 @@
 		},
 		computed: {
 			...mapState({
-				userToken: state => state.user.user.userToken,
+				token: state => state.user.user.token,
 				ModalsState: state => state.ModalsState
 			})
 		},
 		mounted() {
-			if(!this.userToken) {
+			if(!this.token) {
 				this.$router.push('/login');
 			}
 		}

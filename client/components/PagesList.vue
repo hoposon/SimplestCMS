@@ -1,13 +1,13 @@
 <template>
 	<div class="pages-list col-2">
 		<div>Pages</div>
-		<AddPages v-if='isAdmin' />
+		<AddPages v-if='acl("AddPages")' />
 		<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
 	</div>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import { mapState, mapGetters } from 'vuex'
 	import List from './List'
 	import AddPages from './AddPages'
 
@@ -72,9 +72,6 @@
 			}
 		},
 		computed: {
-			isAdmin(){
-				return this.user.roles.find(role => role === 'admin')
-			},
 			pagesToList() {
 				const pagesList = {};
 				this.pages.forEach(page => {
@@ -93,11 +90,19 @@
 				return pagesList;
 			},
 			...mapState({
-				user: 'user/user'
+				user: state => state.user.user
 			})
 		},
+		methods: {
+			acl(compName) {
+				return this.$store.getters['user/acl'](compName)
+			}
+		},
 		// mounted() {
-		// 	this.pagesToList()
+		// 	console.log('mounted >>> ', this.acl)
+		// 	console.log(this.$store)
+		// 	this.$store.getters['user/acl']('sfs')
+		// 	// this.pagesToList()
 		// }
 	}
 </script>

@@ -3,12 +3,11 @@ import { config } from './config'
 
 function newGrphQlClient({state}) {
 	let client = undefined
-	console.log(state.user)
-	if (state.user && state.user.userToken) {
+	if (state.user.user && state.user.user.token) {
 		client = new GraphQLClient(config.graphQLEndpoint, {
 			credentials: 'omit', 
 			headers: {
-				authorization: `Bearer ${state.user.userToken}`,
+				authorization: `Bearer ${state.user.user.token}`,
 			}})
 	} else {
 		client = new GraphQLClient(config.graphQLEndpoint, {credentials: 'omit'})
