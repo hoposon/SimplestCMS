@@ -2,7 +2,7 @@
 <template>
 	<div>
 		<button v-if='root' class='link-btn' @click='showHide()'>
-			<span>--</span>
+			<span ref="arrow" class="arrow-right small align-self-center mr-2"></span>
 			{{ subUrl }}
 		</button>
 		<transition name='fade'>
@@ -37,6 +37,8 @@
 		methods: {
 			showHide() {
 				this.show = !this.show;
+				this.$refs.arrow.classList.toggle('arrow-right')
+				this.$refs.arrow.classList.toggle('arrow-down')
 			}
 		}
 	}
@@ -44,7 +46,7 @@
 
 <style>
 	.with-sub-url {
-		margin-left: 15px;
+		margin-left: 25px;
 	}
 	
 	.fade-enter {
@@ -70,5 +72,9 @@
 		opacity: 0;
 		height: 0;
 		overflow: hidden;
+	}
+
+	.small {
+		border-width: 5px;
 	}
 </style>

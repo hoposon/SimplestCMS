@@ -7,9 +7,8 @@
 					{{ currentUrl ? currentUrl.urlName : 'Select site' }}
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<button v-if='currentUrl' class="dropdown-item" >{{createUrl.urlName}}</button>
 					<button class="dropdown-item static-action" :class='{"with-data": urls.length > 0}' @click='createUrl()'>Add new site (url)</button>
-					<button v-for='url in urls' :key='url.id' class="dropdown-item" @click='selectUrl(url.id)'>{{ url.urlName }}</button>
+					<button v-for='url in urls' :key='url.id' class="dropdown-item ttttt" @click='selectUrl(url.id)'>{{ url.urlName }}</button>
 				</div>
 			</div>
 		</div>

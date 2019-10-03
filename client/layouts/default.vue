@@ -29,12 +29,16 @@
 			// },
 			...mapState({
 				token: state => state.user.user.token,
-				ModalsState: state => state.ModalsState
+				ModalsState: state => state.ModalsState,
+				currentUrl: state => state.urls.currentUrl
 			})
 		},
 		mounted() {
-			if(!this.token) {
+			if (!this.token) {
 				this.$router.push('/login');
+			}
+			if (this.currentUrl) {
+				this.$router.push('/ManageContent');
 			}
 		}
 	}

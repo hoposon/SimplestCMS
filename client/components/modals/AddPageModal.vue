@@ -1,12 +1,12 @@
 <template>
 	<div class="modal-body">
-		<h5 class="modal-title">Add new URL</h5>
+		<h5 class="modal-title">Add new page</h5>
 		<div class="modal-data">
-			<div id="newUrl" class="form-row">
-				<label for="newUrl">Enter new url:</label>
-				<input ref="newUrl" type="text" placeholder="New url" />
+			<div id="newPage" class="form-row">
+				<label for="newPage">Enter page name:</label>
+				<input ref="newPage" type="text" placeholder="Add page" />
 				<div class="invalid-feedback">
-					Please enter valid url.
+					Please enter valid page name.
 				</div>
 			</div>
 		</div>
@@ -23,8 +23,8 @@
 		methods: {
 			async send() {
 				try {
-					if (this.$refs.newUrl.value && this.validateUrl(this.$refs.newUrl.value)) {
-						let result = await this.createUrl({urlName: this.$refs.newUrl.value});
+					if (this.$refs.newPage.value && this.validatePageName(this.$refs.newPage.value)) {
+						// let result = await this.createUrl({urlName: this.$refs.newUrl.value});
 						this.setModalState({result: 'sentSuccessful'});
 					}
 				}
@@ -32,13 +32,13 @@
 					this.setModalState({result: 'error'});
 				}
 			},
-			validateUrl(url) {
+			validatePageName(pageName) {
 				const reg = /^([A-Z]+|\.+)+$/i; // eslint-disable-line no-useless-escape
-				if (reg.test(url)) {
-					document.querySelector('#newUrl').classList.remove('invalid')
+				if (reg.test(pageName)) {
+					document.querySelector('#newPage').classList.remove('invalid')
 					return true;
 				} else {
-					document.querySelector('#newUrl').classList.add('invalid')
+					document.querySelector('#newPage').classList.add('invalid')
 					return false;
 				}
 			},

@@ -42,6 +42,19 @@ async function createUrl(parent, args, context, info) {
 	return url
 }
 
+async function createPage(parent, args, context, info) {
+	const userId = getUserId(context);
+	if (!userId) {
+		throw new Error('Not logged in')
+	}
+	console.log('mut page >>> ', args.page)
+	const page = await context.db.createPage(args.page, userId);
+	if (!page) {
+		throw new Error('Url not created')
+	}
+	return page
+}
+
 async function createDir(parent, args, context, info) {
 	console.log('createDir mut >>>>>')
 	const userId = getUserId(context);
@@ -60,5 +73,6 @@ module.exports = {
 	signup,
 	login,
 	createUrl,
-	createDir
+	createDir,
+	createPage
 }

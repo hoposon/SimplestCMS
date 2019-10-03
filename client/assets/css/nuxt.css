@@ -17,6 +17,18 @@
 	box-shadow: none;
 }
 
+.btn-custom {
+	background-color: #c69500;
+	width: 100%;
+	height: 40px;
+	border: none;
+	border-radius: 3px;
+}
+
+.btn-custom:hover {
+	background-color: #aa8209;
+}
+
 .link-btn {
 	display: flex;
 	background-color: unset;
@@ -28,4 +40,16 @@
 
 .link-btn:hover {
 	text-decoration: underline;
+}
+
+.arrow-right {
+	border-left: 10px solid #00D9FF;
+	border-bottom: 10px solid transparent;
+	border-top: 10px solid transparent;
+}
+
+.arrow-down {
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 10px solid #00D9FF;
 }

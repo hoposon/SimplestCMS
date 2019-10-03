@@ -9,6 +9,7 @@
 				</div>
 				<ModalResult v-if='ModalsState.commandSent' v-on:close='close()' />
 				<CreateUrlModal v-else-if='ModalsState.modalName === "CreateUrlModal"' v-on:close='close()' />
+				<AddPageModal v-else-if='ModalsState.modalName === "AddPageModal"' v-on:close='close()' />
 			</div>
 		</div>
 	</div>
@@ -19,11 +20,13 @@
 	import { mapState, mapMutations } from 'vuex';
 	import ModalResult from './ModalResult';
 	import CreateUrlModal from './CreateUrlModal';
+	import AddPageModal from './AddPageModal';
 
 	export default {
 		components: {
 			ModalResult,
-			CreateUrlModal
+			CreateUrlModal,
+			AddPageModal
 		},
 		data () {
 			return {

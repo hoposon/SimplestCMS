@@ -9,8 +9,12 @@ export const state = () => ({
 })
 
 export const mutations = {
-	[types.SET_CURRENT_URL] (state, {currentUrl}) {
-		state.currentUrl = state.urls.find(url => url.id === currentUrl);
+	[types.SET_CURRENT_URL] (state, {currentUrl}={}) {
+		if (!currentUrl) {
+			state.currentUrl = state.urls[0]
+		} else {
+			state.currentUrl = state.urls.find(url => url.id === currentUrl);
+		}		
 	},
 	[types.SET_USERS_URLS] (state, {urls}) {
 		console.log('setting urls')
@@ -41,6 +45,9 @@ export const actions = {
 			const result = await client.request(Queries.userUrls);
 			if (result) {
 				commit(types.SET_USERS_URLS, {urls: result.urls})
+				if (result.urls.length == 1) {
+					commit(types.SET_CURRENT_URL);
+				}
 			} else {
 				throw new Error('Internal error')
 			}

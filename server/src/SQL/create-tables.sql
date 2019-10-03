@@ -52,8 +52,7 @@ CREATE TABLE app_public.PAGES (
 	sub_url VARCHAR(100),
 	created_at timestamptz NOT NULL DEFAULT now(),
   	updated_at timestamptz NOT NULL DEFAULT now(),
-	UNIQUE (page_code, url_id),
-	UNIQUE (url_id, sub_url)
+	UNIQUE (page_code, url_id)
 );
 
 CREATE TABLE app_public.CONTENT_STRINGS (

@@ -1,13 +1,16 @@
 <template>
-	<div class="pages-list col-2">
-		<div>Pages</div>
+	<div class="pages-list col-2 d-flex flex-column" v-if='!currentUrl'>
+		<h3 class='mt-3 align-self-center'>Select site to be managed</h3>
+	</div>
+	<div v-else class="pages-list col-2 d-flex flex-column">
+		<h3 class='mt-3 align-self-center'>Manage Content</h3>
 		<AddPages v-if='acl("AddPages")' />
 		<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
 	</div>
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex'
+	import { mapState } from 'vuex'
 	import List from './List'
 	import AddPages from './AddPages'
 
@@ -90,7 +93,8 @@
 				return pagesList;
 			},
 			...mapState({
-				user: state => state.user.user
+				user: state => state.user.user,
+				currentUrl: state => state.urls.currentUrl
 			})
 		},
 		methods: {

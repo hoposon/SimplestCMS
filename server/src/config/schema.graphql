@@ -1,5 +1,6 @@
 type Query {
   urls: [URL]
+  pages(urlId: ID!): [Page]
 }
 
 type Mutation {
@@ -8,7 +9,8 @@ type Mutation {
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): User
 	login(email: String!, password: String!): User
 	createUrl(urlName: String!): URL
-	createDir(dirName: String!, urlId: ID!, parentDir: ID) : DIR
+	createDir(dirName: String!, urlId: ID!, parentDir: ID): DIR
+	createPage(page: PageInput): Page
 }
 
 # type AuthPayload {
@@ -39,13 +41,20 @@ type DIR {
 	parentDir: ID
 }
 
-# type Page {
-# 	id: ID!
-# 	name: String
-# 	code: String!
-# 	url: String!
-# 	content: Content
-# }
+type Page {
+	id: ID!
+	pageName: String
+	pageCode: String!
+	urlId: ID!
+	subUrl: String
+}
+
+input PageInput {
+	pageName: String
+	pageCode: String!
+	urlId: ID!
+	subUrl: String
+}
 
 # type Content {
 # 	simple: [String]

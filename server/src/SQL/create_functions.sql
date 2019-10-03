@@ -10,3 +10,28 @@ BEGIN
 END;
 $$  LANGUAGE plpgsql;
 
+CREATE FUNCTION app_public.create_pages(
+	in_page_name varchar, 
+	in_page_code varchar,
+	in_url_id integer,
+	in_sub_url varchar,
+	in_user_id integer
+	)
+-- RETURNS TABLE (id integer, page_name varchar, page_code varchar, url_id integer, sub_url varchar) AS $$
+RETURNS integer AS $$
+DECLARE 
+	out_id integer;
+BEGIN
+
+	insert into app_public.pages (page_name, page_code, url_id, sub_url)
+	SELECT in_page_name, in_page_code, u.url_id, in_sub_url 
+	from app_public.users_urls u
+	where u.url_id = in_url_id
+	and   u.user_id = in_user_id
+	returning id into out_id;
+	
+	return out_id;
+	
+
+END;
+$$  LANGUAGE plpgsql;
