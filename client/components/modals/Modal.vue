@@ -71,7 +71,7 @@
 		height: 100%;
 		overflow: hidden;
 		outline: 0;
-		background-color: #2d92b09c;
+		background-color: var(--modal-overlay);
 	}
 
 	.modal .modal-close {

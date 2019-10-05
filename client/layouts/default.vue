@@ -37,9 +37,9 @@
 			if (!this.token) {
 				this.$router.push('/login');
 			}
-			if (this.currentUrl) {
-				this.$router.push('/ManageContent');
-			}
+			// if (this.currentUrl) {
+			// 	this.$router.push('/ManageContent');
+			// }
 		}
 	}
 </script>

@@ -1,11 +1,13 @@
 <template>
-	<div class="pages-list col-2 d-flex flex-column" v-if='!currentUrl'>
-		<h3 class='mt-3 align-self-center'>Select site to be managed</h3>
-	</div>
-	<div v-else class="pages-list col-2 d-flex flex-column">
-		<h3 class='mt-3 align-self-center'>Manage Content</h3>
-		<AddPages v-if='acl("AddPages")' />
-		<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
+	<div class="pages-list col-2 d-flex flex-column">
+		<div class="no-site d-flex justify-content-center" v-if='!currentUrl'>
+			<span>Select site to be managed first</span>
+		</div>
+		<div v-else class="d-flex flex-column">
+			<h5>Manage Content</h5>
+			<AddPages v-if='acl("AddPages")' />
+			<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
+		</div>
 	</div>
 </template>
 
@@ -113,6 +115,18 @@
 
 <style>
 	.pages-list {
-		border-right: 1px solid gray;
+		padding-left: 30px; 
+		padding-right: 30px;
+		margin-top: 30px;
+		border-right: 1px solid var(--acc-dark-col);
 	}
+
+	.pages-list .no-site {
+		background-color: var(--main-col);
+		padding: 10px;
+		color: var(--font-light-col);
+		border-radius: 3px;
+		box-shadow: 0px 0px 10px 0px var(--shade-for-light-col)
+	}
+
 </style>

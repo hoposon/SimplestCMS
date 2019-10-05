@@ -1,13 +1,15 @@
 // List.vue
 <template>
 	<div>
-		<button v-if='root' class='link-btn' @click='showHide()'>
+		<div v-if='root' class='list-item' @click='showHide()'>
 			<span ref="arrow" class="arrow-right small align-self-center mr-2"></span>
-			{{ subUrl }}
-		</button>
+			<span class="align-self-center">{{ subUrl }}</span>
+		</div>
 		<transition name='fade'>
 			<div v-if='show'>
-				<button v-for='page in pages' :key='page.id' :class='linksClass' class="link-btn">{{ page.pageName }}</button>
+				<div v-for='page in pages' :key='page.id' :class='linksClass' class="list-item">
+					<span class="align-self-center">{{ page.pageName }}</span>
+				</div>
 			</div>
 		</transition>
 	</div> 
@@ -46,7 +48,7 @@
 
 <style>
 	.with-sub-url {
-		margin-left: 25px;
+		padding-left: 25px;
 	}
 	
 	.fade-enter {

@@ -12,11 +12,11 @@
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 						<button class="dropdown-item static-action" :class='{"with-data": urls.length > 0}' @click='createUrl()'>Add new site (url)</button>
-						<button v-for='url in urls' :key='url.id' class="dropdown-item ttttt" @click='selectUrl(url.id)'>{{ url.urlName }}</button>
+						<button v-for='url in urls' :key='url.id' class="dropdown-item" @click='selectUrl(url.id)'>{{ url.urlName }}</button>
 					</div>
 				</div>
 				<nuxt-link to="/Assets" exact class="nav-item">Assets<span class="nav-item-sep"></span></nuxt-link>
-				<nuxt-link to="/ManageContent" exact class="nav-item">Manage Content</nuxt-link>
+				<nuxt-link to="/ManageContent" exact class="nav-item">Manage Content<span class="nav-item-sep"></span></nuxt-link>
 				<nuxt-link exact to="/Logout" class="nav-item">Logout</nuxt-link>
 			</div>
 		</nav>
@@ -67,20 +67,41 @@
 		padding-right: 30px;
 	}
 	.navigation-bar .main {
+		margin-top: 2px;
 		height: 70px;
-		background-color: var(--bg-color-dark);
+		background-color: var(--acc-dark-col);
+		box-shadow: 0px 0px 5px 0px var(--shade-for-dark-col)
+	}
+
+	.navigation-bar .main .navbar-brand {
+		margin-left: -7px;
 	}
 
 	.navigation-bar .main .nav-item {
 		/* font-size: 16px; */
-		margin: 0 10px;
+		margin: 0 0 0 8px;
 		color: var(--font-light-col);
 	}
 
+	.navigation-bar .main .nav-item .nav-item-sep {
+		margin-left: 8px;
+		border-left: 1px solid var(--font-light-col);
+	}
+
+	.navigation-bar .main .nav-item.dropdown {
+		margin-right: 30px;
+	}
+
+	.navigation-bar .main .nav-item.dropdown .static-action {
+		color: var(--main-col);
+	}
+
 	.navigation-bar .main .nav-item.dropdown .btn {
-		background-color: var(--acs-col);
+		background-color: var(--acc-light-col);
+		border: none;
+    	box-shadow: 0px 0px 3px 0px var(--shade-for-dark-col);
 		/* border: 2px solid; */
-		border-color: var(--main-col);
+		/* border-color: var(--main-col); */
 		/* border-color: var(--bg-color-dark); */
 	}
 </style>
