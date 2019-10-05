@@ -1,0 +1,10 @@
+:root {
+	--bg-color-light: #fafafa;
+	--bg-color-dark: #c0bbbb;
+	--main-col: #C14E5B;
+	--acs-col: #EABD55;
+	/* --asc-dark-col: #2F4B84; */
+	--dark-col: #363636;
+
+	--font-light-col: white;
+}

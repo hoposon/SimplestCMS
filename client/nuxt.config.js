@@ -41,7 +41,10 @@ export default {
   */
   css: [
 	'bootstrap/dist/css/bootstrap.css',
+	'~assets/css/colors.css',
+	'~assets/css/main.css',
 	'~assets/css/nuxt.css'
+	
   ],
   /*
   ** Plugins to load before mounting the App

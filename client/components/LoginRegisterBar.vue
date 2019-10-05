@@ -31,11 +31,11 @@
 </script>
 
 <style>
-	.navigation-bar {
+	/* .navigation-bar {
 		height: 220px;
 		background-color: #0099B3;
 	}
 	.navigation-bar .navbar {
 		height: 110px;
-	}
+	} */
 </style>
