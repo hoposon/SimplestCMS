@@ -23,6 +23,15 @@ const Queries = {
 			urlName,
 			isOwner
 		}
+	}`,
+	createPage: `mutation createPage($page: PageInput) {
+		createPage(page: $page) {
+			id,
+			pageName,
+			pageCode,
+			urlId,
+			subUrl
+		}
 	}`
 }
 

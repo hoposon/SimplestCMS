@@ -17,7 +17,6 @@ export const mutations = {
 		}		
 	},
 	[types.SET_USERS_URLS] (state, {urls}) {
-		console.log('setting urls')
 		state.urls = urls;
 		state.urlsInitialized = true;
 	}

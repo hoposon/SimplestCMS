@@ -36,6 +36,7 @@ body {
 
 .btn-custom:hover {
 	background-color: var(--btn-hover-acc-light);
+	color: var(--font-light-col);
 }
 
 .link-btn {

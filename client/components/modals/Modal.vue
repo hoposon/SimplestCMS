@@ -72,22 +72,23 @@
 		overflow: hidden;
 		outline: 0;
 		background-color: var(--modal-overlay);
+		color: var(--shades-dark-col);
 	}
 
 	.modal .modal-close {
 		position: absolute;
-		top: 10px;
-		right: 10px;
+		top: 15px;
+		right: 20px;
 		z-index: 1000;
 	}
 
 	.modal .modal-body {
-		padding-left: 40px;
-		padding-top: 40px;
+		padding: 40px;
 	}
 
 	.modal .modal-title {
-		width: 50%;
+		/* width: 50%; */
+		color: var(--main-col);
 	}
 
 	.modal .modal-data {
@@ -97,7 +98,7 @@
 	.modal .form-row {
 		display: flex;
 		align-items: baseline;
-		margin: 0px auto;
+		margin: 15px auto;
 	}
 
 	.modal label {
@@ -105,6 +106,7 @@
 	}
 
 	.modal .modal-footer {
+		/* padding-right: 0; */
 		border: none;
 	}
 
@@ -126,7 +128,7 @@
 		background-position: right calc(0.375em + 0.1875rem) center;
 	}
 
-	.modal .form-row.invalid .invalid-feedback {
-		display: block;
-	}
+	/* .modal .modal-footer .btn-primary{
+		
+	} */
 </style>

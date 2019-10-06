@@ -2,9 +2,9 @@
 	<div class="modal-body">
 		<h5 class="modal-title">Add new URL</h5>
 		<div class="modal-data">
-			<div id="newUrl" class="form-row">
+			<div Class="form-row">
 				<label for="newUrl">Enter new url:</label>
-				<input ref="newUrl" type="text" placeholder="New url" />
+				<input ref="newUrl" id="newUrl" class="form-control" type="text" placeholder="New url" />
 				<div class="invalid-feedback">
 					Please enter valid url.
 				</div>
@@ -12,7 +12,7 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button>
-			<button type="button" class="btn btn-primary" @click='send()'>Save changes</button>
+			<button type="button" class="btn btn-custom" @click='send()'>Save changes</button>
 		</div>
 	</div>
 </template>
@@ -35,10 +35,12 @@
 			validateUrl(url) {
 				const reg = /^([A-Z]+|\.+)+$/i; // eslint-disable-line no-useless-escape
 				if (reg.test(url)) {
-					document.querySelector('#newUrl').classList.remove('invalid')
+					this.$refs.newUrl.classList.remove('is-invalid');
+					// document.querySelector('#newUrl').classList.remove('invalid')
 					return true;
 				} else {
-					document.querySelector('#newUrl').classList.add('invalid')
+					this.$refs.newUrl.classList.add('is-invalid');
+					// document.querySelector('#newUrl').classList.add('invalid')
 					return false;
 				}
 			},
