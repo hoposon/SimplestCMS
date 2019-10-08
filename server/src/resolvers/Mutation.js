@@ -47,10 +47,9 @@ async function createPage(parent, args, context, info) {
 	if (!userId) {
 		throw new Error('Not logged in')
 	}
-	console.log('mut page >>> ', args.page)
 	const page = await context.db.createPage(args.page, userId);
 	if (!page) {
-		throw new Error('Url not created')
+		throw new Error('{Page} not created')
 	}
 	return page
 }

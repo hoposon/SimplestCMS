@@ -147,14 +147,13 @@ class DB {
 	}
 
 	async createPage(page, userId) {
-		console.log('createPage >>>>>', page)
 		try {
 			const newPage = {...page, id: (await pg.raw('select * from app_public.create_pages(?, ?, ?, ?, ?);', Object.values({pageName: page.pageName, pageCode: page.pageCode, urlId: parseInt(page.urlId), subUrl: page.subUrl, user_id: userId}))).rows[0]['create_pages']}
 			// console.log(newPage)
 			return newPage
 		}
 		catch(e) {
-			console.log('pg.createUrl exception: ', e)
+			console.log('pg.createPage exception: ', e)
 			// !TODO - log exception
 			// throw exception
 			return undefined;

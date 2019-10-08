@@ -25,9 +25,22 @@ const Queries = {
 		}
 	}`,
 	createPage: `mutation createPage($page: PageInput) {
-		createPage(page: $page) {
+		createPage(
+				page: $page
+		) {
 			id,
 			pageName,
+			pageCode,
+			urlId,
+			subUrl
+		}
+	}`,
+	urlsPages: `query pages($urlId: ID!) {
+		pages(
+		  urlId: $urlId
+		) {
+		  	id,
+		  	pageName,
 			pageCode,
 			urlId,
 			subUrl

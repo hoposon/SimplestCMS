@@ -25,7 +25,6 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button> -->
 			<button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button>
 			<button type="button" class="btn btn-custom" @click='send()'>Save changes</button>
 		</div>
@@ -50,7 +49,9 @@
 			async send() {
 				try {
 					if (this.validatePage()) {
-						// let result = await this.createUrl({urlName: this.$refs.newUrl.value});
+						let result = await this.createPage({
+							pageName: this.$refs.newPage.value,
+							subUrl: this.$refs.newPageSubUrl.value});
 						this.setModalState({result: 'sentSuccessful'});
 					}
 				}
@@ -61,7 +62,7 @@
 			},
 			validatePage() {
 				// pageName
-				const regPage = /^[A-Za-z0-9-/[\]]*$/i; // eslint-disable-line no-useless-escape
+				const regPage = /^[A-Za-z0-9- /[\]]+$/i; // eslint-disable-line no-useless-escape
 				const regSubUrl = /^[A-Za-z0-9-/[\]]*$/i; // eslint-disable-line no-useless-escape
 				if (this.$refs.newPage.value && regPage.test(this.$refs.newPage.value)) {
 					this.$refs.newPage.classList.remove('is-invalid');

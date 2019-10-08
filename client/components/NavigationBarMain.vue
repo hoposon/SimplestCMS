@@ -45,7 +45,11 @@
 			createUrl() {
 				let options = {
 					modalName: 'CreateUrlModal',
-					show: true
+					show: true,
+					params: {
+						transl: 'Create URL',
+						translResSuccess: 'Url added successfuly'
+					}
 				}
 				this.showModal(options);
 			},

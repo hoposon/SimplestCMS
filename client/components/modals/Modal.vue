@@ -107,16 +107,23 @@
 
 	.modal .modal-footer {
 		/* padding-right: 0; */
+		/* width: 100%; */
 		border: none;
 	}
 
 	.modal .modal-result {
 		padding-top: 40px;
-	}
-	.modal .modal-result:nth-child(0) {
 		display: flex;
 		flex-direction: column;
 		align-items:  center;
+	}
+
+	.modal .modal-result div:first-child {
+		padding-bottom: 15px;
+	}
+
+	.modal .modal-result .modal-footer { 
+		width: 100%
 	}
 
 	.modal .form-row.invalid input {

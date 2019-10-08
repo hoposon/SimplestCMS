@@ -6,18 +6,18 @@ export const state = () => ({
 		modalName: undefined,
 		commandSent: false,
 		result: '',
-		// params: {}
+		params: {}
 	},
 })
 
 export const mutations = {
-	[types.SET_MODAL] (state, {modalName, show = false} = {}) {
+	[types.SET_MODAL] (state, {modalName, show = false, params={}} = {}) {
 		state.ModalsState = {
 			show,
 			modalName,
 			commandSent: false,
 			result: '',
-			// params
+			params
 		}
 	},
 	[types.SET_MODAL_RESULT] (state, {commandSent=true, result='inProgress'} = {}) {

@@ -9,7 +9,11 @@
 			addPage() {
 				let options = {
 					modalName: 'AddPageModal',
-					show: true
+					show: true,
+					params: {
+						transl: 'Add Page',
+						translResSuccess: 'Page added successfuly'
+					}
 				}
 				this.showModal(options);
 			},
