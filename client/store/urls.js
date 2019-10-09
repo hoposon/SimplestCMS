@@ -14,7 +14,7 @@ export const mutations = {
 			state.currentUrl = state.urls[0]
 		} else {
 			state.currentUrl = state.urls.find(url => url.id === currentUrl);
-		}		
+		}
 	},
 	[types.SET_USERS_URLS] (state, {urls}) {
 		state.urls = urls;

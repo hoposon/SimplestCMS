@@ -1,16 +1,27 @@
 <template>
 	<div class="row">
 		<PagesList />
-		<div class="col-10 vh-100"></div>
+		<!-- <div>Here {{currentPage}}</div> -->
+		<Page v-if='currentPage' />
+		<!-- <Page /> -->
 	</div>
 </template>
 
 <script>
+	import { mapState } from 'vuex';
+
 	import PagesList from './PagesList';
+	import Page from './Page';
 
 	export default {
 		components: {
-			PagesList
+			PagesList,
+			Page
+		},
+		computed: {
+			...mapState({
+				currentPage: state => state.pages.currentPage
+			})
 		}
 	}
 </script>

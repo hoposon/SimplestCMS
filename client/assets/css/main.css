@@ -58,6 +58,7 @@ body {
 	background-color: unset;
 	border: none;
 	outline: none;
+	cursor: pointer;
 }
 
 .list-item:hover {

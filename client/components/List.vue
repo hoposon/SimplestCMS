@@ -7,7 +7,7 @@
 		</div>
 		<transition name='fade'>
 			<div v-if='show'>
-				<div v-for='page in pages' :key='page.id' :class='linksClass' class="list-item">
+				<div v-for='page in pages' :key='page.id' :class='linksClass' class="list-item" @click='setCurrentPage({id: page.id})'>
 					<span class="align-self-center">{{ page.pageName }}</span>
 				</div>
 			</div>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+	import { mapMutations } from 'vuex';
+
 	export default {
 		name: 'List',
 		props: [
@@ -41,7 +43,10 @@
 				this.show = !this.show;
 				this.$refs.arrow.classList.toggle('arrow-right')
 				this.$refs.arrow.classList.toggle('arrow-down')
-			}
+			},
+			...mapMutations({
+				setCurrentPage: 'pages/SET_CURRENT_PAGE'
+			})
 		}
 	}
 </script>
@@ -57,18 +62,20 @@
 		overflow: hidden;
 	}
 	.fade-enter-active {
-		transition: height 0.5s, opacity 0.7s;
+		transition: height 0.5s, opacity 0.5s;
 	}
 	.fade-enter-to {
 		opacity: 1;
-		height: 30px;
+		height: 420px;
+		overflow: hidden;
 	}
 	.fade-leave {
 		opacity: 1;
-		height: 30px;
+		height: 420px;
+		overflow: hidden;
 	}
 	.fade-leave-active {
-		transition: height 0.5s, opacity 0.7s;
+		transition: height 0.5s, opacity 0.5s;
 	}
 	.fade-leave-to {
 		opacity: 0;

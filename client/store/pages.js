@@ -10,7 +10,7 @@ export const state = () => ({
 
 export const mutations = {
 	[types.SET_CURRENT_PAGE] (state, {id}) {
-		state.currentPage = state.pages.find(page => page.is === id);
+		state.currentPage = state.pages.find(page => page.id === id);
 	},
 	[types.SET_PAGES] (state, {pages}) {
 		state.pages = pages;
@@ -39,7 +39,6 @@ export const actions = {
 	async getPages({ commit, rootState }, {id=false}={}) {
 		try {
 			const client = newGrphQlClient({state: rootState})
-			console.log('urlid >>>>> ', rootState.urls.currentUrl.id)
 			const result = await client.request(Queries.urlsPages, {urlId: parseInt(rootState.urls.currentUrl.id)});
 			if (result) {
 				commit(types.SET_PAGES, {pages: result.pages})

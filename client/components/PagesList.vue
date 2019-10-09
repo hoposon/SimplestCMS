@@ -1,5 +1,5 @@
 <template>
-	<div class="pages-list col-2 d-flex flex-column">
+	<div class="pages-list col-2 d-flex flex-column h-100">
 		<div class="no-site d-flex justify-content-center" v-if='!currentUrl'>
 			<span>Select site to be managed first</span>
 		</div>
@@ -56,23 +56,16 @@
 				getPages: 'pages/getPages'
 			})
 		},
-		watcher: {
+		watch: {
 			currentUrl: function() {
-				console.log('current url change')
 				this.getPages();
 			}
 		},
 		mounted() {
-			if (this.currentPage) {
+			if (this.currentUrl) {
 				this.getPages();
 			}			
 		}
-		// mounted() {
-		// 	console.log('mounted >>> ', this.acl)
-		// 	console.log(this.$store)
-		// 	this.$store.getters['user/acl']('sfs')
-		// 	// this.pagesToList()
-		// }
 	}
 </script>
 
