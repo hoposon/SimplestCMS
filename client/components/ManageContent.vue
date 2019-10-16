@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div class="manage-content row">
 		<PagesList />
 		<!-- <div>Here {{currentPage}}</div> -->
 		<Page v-if='currentPage' />
@@ -25,3 +25,14 @@
 		}
 	}
 </script>
+
+<style>
+	.manage-content {
+		position: fixed;
+		top: 72px;
+		left: 0;
+		right: 0;
+		height: 100%;
+		/* margin-top: 672x; */
+	}
+</style>

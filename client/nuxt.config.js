@@ -17,19 +17,28 @@ export default {
 	//   { rel: "stylesheet", type: "text/css", href:'/css/bootstrap.min.css' }
 	],
 	script: [
+		
 		{
 		  src: "/js/jquery.min.js",
 		  type: "text/javascript"
 		},
 		{
+			src: "/js/popper.min.js",
+		  	type: "text/javascript"
+		},
+		{
 			src: "/js/bootstrap.min.js",
 			type: "text/javascript"
 		},
-		
 		// {
 		// 	src: '/js/popper.min.js',
 		// 	type: "text/javascript"
 		// }
+		// {
+		// 	src: "/js/bootstrap.bundle.min.js",
+		// 	type: "text/javascript"
+		// },
+		
 	]
   },
   /*
@@ -78,6 +87,15 @@ export default {
   ** Build configuration
   */
   build: {
+
+	plugins: [
+        new webpack.ProvidePlugin({
+            '$': "jquery",
+            'jQuery': "jquery",
+            'Popper': 'popper.js'
+        }),
+ 	]
+		// transpile: ['bootstrap']
     /*
     ** You can extend webpack config here
     */

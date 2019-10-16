@@ -1,7 +1,8 @@
 <template>
-	<div class="navigation-bar">
+	<div class="fixed-top navigation-bar">
 		<nav class="navbar main d-flex align-items-center navbar-expand">
 			<nuxt-link exact class="navbar-brand" to="/"><Logo /></nuxt-link>
+			<!-- <nuxt-link exact class="navbar-brand" to="/">Logo</nuxt-link> -->
 			
 			<!-- Right aligned nav items -->
 			<div class="navbar-nav ml-auto d-flex align-items-center justify-content-end">

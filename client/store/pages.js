@@ -5,7 +5,18 @@ import { Queries } from './graphQueries.js'
 
 export const state = () => ({
 	currentPage: '',
-	pages: []
+	pages: [],
+	pageContents: [
+		{
+			contentTypeCode: 'CONTENT_STRINGS'
+		},
+		{
+			contentTypeCode: 'ASSET'
+		},
+		{
+			contentTypeCode: 'GALLERY'
+		}
+	]
 })
 
 export const mutations = {
