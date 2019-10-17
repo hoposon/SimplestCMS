@@ -52,19 +52,6 @@ body {
 	text-decoration: underline;
 }
 
-.list-item {
-	display: flex;
-	height: 35px;
-	background-color: unset;
-	border: none;
-	outline: none;
-	cursor: pointer;
-}
-
-.list-item:hover {
-	background-color: var(--list-item-hover);
-}
-
 .arrow-right {
 	border-left: 10px solid var(--main-col);
 	border-bottom: 10px solid transparent;
