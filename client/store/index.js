@@ -26,6 +26,17 @@ export const mutations = {
 	},
 }
 
+export const getters = {
+	genCode: (state) => (name) => {
+		if (name) {
+			const regCode = /[^A-Za-z0-9]/g;
+			return name.replace(regCode, '-')
+		} else {
+			return ''
+		}
+		
+	}
+}
 // export const actions = {
 // 	async init({commit}) {
 		

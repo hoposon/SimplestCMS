@@ -11,14 +11,14 @@
 			</div>
 			<div class="form-row">
 				<label for="newPageSubUrl">Page code:</label>
-				<input ref="newPageSubUrl" id="newPageSubUrl" type="text" class="form-control" disabled v-model='pageCode'/>
+				<input ref="newPageSubUrl" id="newPageSubUrl" type="text" class="form-control" disabled :value='genCode(pageName)'/>
 				<div class="invalid-feedback">
 					Please enter valid sub URL string.
 				</div>
 			</div>
 			<div class="form-row">
 				<label for="newPageSubUrl">Enter sub URL:</label>
-				<input ref="newPageSubUrl" id="newPageSubUrl" type="text" class="form-control" placeholder="/suburl1/suburl2/" />
+				<input ref="newPageSubUrl" id="newPageSubUrl" type="text" class="form-control" placeholder="/suburl1/suburl2/" v-model='subUrl'/>
 				<div class="invalid-feedback">
 					Please enter valid sub URL string.
 				</div>
@@ -32,26 +32,26 @@
 </template>
 
 <script>
-	import { mapActions, mapMutations } from 'vuex';
+	import { mapActions, mapMutations, mapGetters } from 'vuex';
 	export default {
 		data() {
 			return {
-				pageName: ''
+				pageName: '',
+				subUrl: ''
 			}
 		},
 		computed: {
-			pageCode() {
-				const regCode = /[^A-Za-z0-9]/g;
-				return this.pageName.replace(regCode, '-')
-			}	
+			...mapGetters({
+				genCode: 'genCode'
+			})
 		},
 		methods: {
 			async send() {
 				try {
 					if (this.validatePage()) {
 						let result = await this.createPage({
-							pageName: this.$refs.newPage.value,
-							subUrl: this.$refs.newPageSubUrl.value});
+							pageName: this.pageName,
+							subUrl: this.subUrl});
 						this.setModalState({result: 'sentSuccessful'});
 					}
 				}
@@ -64,10 +64,10 @@
 				// pageName
 				const regPage = /^[A-Za-z0-9- /[\]]+$/i; // eslint-disable-line no-useless-escape
 				const regSubUrl = /^[A-Za-z0-9-/[\]]*$/i; // eslint-disable-line no-useless-escape
-				if (this.$refs.newPage.value && regPage.test(this.$refs.newPage.value)) {
+				if (regPage.test(this.pageName)) {
 					this.$refs.newPage.classList.remove('is-invalid');
 					this.$refs.newPage.classList.add('is-valid');
-					if (regSubUrl.test(this.$refs.newPageSubUrl.value)) {
+					if (regSubUrl.test(this.subUrl)) {
 						this.$refs.newPageSubUrl.classList.remove('is-invalid');
 						this.$refs.newPageSubUrl.classList.add('is-valid');
 						return true
@@ -81,7 +81,7 @@
 				}
 			},
 			...mapActions({
-				createPage: 'pages/createPage'
+				createPage: 'pages/createPage',
 			}),
 			...mapMutations({
 				setModalState: 'SET_MODAL_RESULT'

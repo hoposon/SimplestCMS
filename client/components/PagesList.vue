@@ -1,18 +1,20 @@
 <template>
-	<div class="pages-list col-2 d-flex flex-column h-100">
+	<div class="manage-pages col-2 d-flex flex-column h-100">
 		<div class="no-site d-flex justify-content-center" v-if='!currentUrl'>
 			<span>Select site to be managed first</span>
 		</div>
 		<div v-else class="d-flex flex-column">
 			<h5>Manage Content</h5>
 			<AddPages v-if='acl("AddPages")' />
-			<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
+			<div class="pages-list">
+				<List v-for='(pages, subUrl) in pagesToList' :key='subUrl' :subUrl='subUrl' :pages='pages' />
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex'
+	import { mapState, mapActions, mapMutations } from 'vuex'
 	import List from './List'
 	import AddPages from './AddPages'
 
@@ -26,20 +28,25 @@
 				const pagesList = {};
 				if (this.pages !== {}) {
 					this.pages.forEach(page => {
+						let pageTemp = JSON.parse(JSON.stringify(page));
 						if (page.subUrl && page.subUrl.substring(page.subUrl.length -1, page.subUrl.length) === '/') {
-							page.subUrl = page.subUrl.substring(0, page.subUrl.length-1)
+							pageTemp.subUrl = pageTemp.subUrl.substring(0, pageTemp.subUrl.length-1)
 						}
 						if (!page.subUrl || page.subUrl.substring(0,1) !== '/') {
-							page.subUrl = '/' + page.subUrl;
+							pageTemp.subUrl = '/' + pageTemp.subUrl;
 						}
-						if (!pagesList[page.subUrl]) {
-							pagesList[page.subUrl] = [page]
+						if (!pagesList[pageTemp.subUrl]) {
+							pagesList[pageTemp.subUrl] = [pageTemp]
 						} else {
-							pagesList[page.subUrl].push(page)
+							pagesList[pageTemp.subUrl].push(pageTemp)
 						}
 					});
 				}
-				return pagesList;
+				const pagesListOrdered = {};
+				Object.keys(pagesList).sort().forEach(key => {
+					pagesListOrdered[key] = pagesList[key]
+				})
+				return pagesListOrdered;
 			},
 			...mapState({
 				user: state => state.user.user,
@@ -54,7 +61,7 @@
 			},
 			...mapActions({
 				getPages: 'pages/getPages'
-			})
+			}),
 		},
 		watch: {
 			currentUrl: function() {
@@ -70,19 +77,29 @@
 </script>
 
 <style>
-	.pages-list {
+	.manage-pages {
 		padding-left: 30px; 
 		padding-right: 30px;
 		margin-top: 30px;
 		border-right: 1px solid var(--acc-dark-col);
 	}
 
-	.pages-list .no-site {
+	.manage-pages .no-site {
 		background-color: var(--main-col);
 		padding: 10px;
 		color: var(--font-light-col);
 		border-radius: 3px;
 		box-shadow: 0px 0px 10px 0px var(--shade-for-light-col)
+	}
+
+	.pages-list {
+		height: calc(100vh - 216px);
+		overflow: auto;
+		/* padding-right: 50px; */
+	}
+
+	.pages-list::-webkit-scrollbar { 
+		width: 0 !important 
 	}
 
 </style>

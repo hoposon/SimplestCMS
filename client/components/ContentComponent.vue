@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<TextContent v-if='content.contentTypeCode==="CONTENT_STRINGS"' :content="content" />
-		<ImageContent v-else-if='content.contentTypeCode==="ASSET"' :content="content" />
-		<GalleryContent v-else :content="content" />
+		<TextContent v-if='content.code==="CONTENT_STRING"' :content="content" />
+		<ImageContent v-else-if='content.code==="ASSET"' :content="content" />
+		<GalleryContent v-else-if='content.code==="GALLERY"' :content="content" />
 	</div>	
 </template>
 

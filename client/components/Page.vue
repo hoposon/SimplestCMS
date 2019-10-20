@@ -5,29 +5,27 @@
 				<div class="d-flex">
 					<h5>Manage page content</h5>
 					<div><span class="current-page-heading">Current page:&nbsp;</span><span>{{currentUrl.urlName}}</span><span v-if='currentPage.subUrl'>{{currentPage.subUrl}}</span><span>/{{currentPage.pageName}}</span></div>
-					<div><span class="code-heading">Page code:&nbsp;</span><span class="code">{{currentPage.pageCode}}</span></div>
+					<div class="code-heading"><span>Page code:&nbsp;</span><span class="code">{{currentPage.pageCode}}</span></div>
 				</div>
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownAddContentButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add Content</button>
 					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownAddContentButton">
-						<button v-for='contentType in contentTypes' :key='contentType.type' class="dropdown-item" @click='addContent(contentType.code)'>{{ contentType.type }}</button>
+						<button v-for='contentType in contentTypes' :key='contentType.type' class="dropdown-item" @click='addContent({contentType: contentType.code})'>{{ contentType.type }}</button>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="page-info col-12 px-0">
-				<span class="current-page-heading">Current page:&nbsp;</span><span>{{currentUrl.urlName}}</span><span v-if='currentPage.subUrl'>{{currentPage.subUrl}}</span><span>/{{currentPage.pageName}}</span>
-				<span class="code-heading">Page code:&nbsp;</span><span class="code">{{currentPage.pageCode}}</span>
-			</div> -->
 		</div>
 		<div class="page-content">
+			<!-- <ContentComponent v-for='content in pageContents' :key='content.id' :content='content' /> -->
 			<ContentComponent v-for='content in pageContents' :key='content.id' :content='content' />
 		</div>
 	</div>
 </template>
 
 <script>
-	import { mapState } from 'vuex';
-	import { contentTypes } from '../data/contentTypes.js'
+	import { mapState, mapMutations } from 'vuex';
+	// import { contentTypes } from '../data/contentTypes.js'
+	import {contentTypes } from '../data/contentTypes';
 
 	import ContentComponent from './ContentComponent.vue'
 
@@ -46,7 +44,12 @@
 				currentUrl: state => state.urls.currentUrl,
 				pageContents: state => state.pages.pageContents
 			})
-		}	
+		},
+		methods: {
+			...mapMutations({
+				addContent: 'pages/ADD_CONTENT'
+			})
+		}
 	}
 </script>
 
@@ -99,8 +102,12 @@
 		right: 0px;
 		padding-top: 40px;
 		/* margin-top: 70px; */
-		height: calc(100vh - 225px);
+		height: calc(100vh - 162px);
 		overflow: auto;
+	}
+
+	.page .page-content::-webkit-scrollbar { 
+		width: 0 !important 
 	}
 
 </style>

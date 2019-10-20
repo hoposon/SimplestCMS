@@ -63,3 +63,7 @@ body {
 	border-right: 10px solid transparent;
 	border-top: 10px solid var(--main-col);
 }
+
+.actions button {
+	margin-right: 15px
+}

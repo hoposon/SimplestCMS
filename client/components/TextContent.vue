@@ -4,24 +4,30 @@
 			<h4 class="heading">Text content</h4>
 			<div class="form-group">
 				<label for="nameInput">Content Name:</label>
-				<input type="text" class="form-control" id="nameInput" placeholder="Content name" v-model='cLocal.name' @input='changed=true'>
+				<input type="text" class="form-control" id="nameInput" placeholder="Content name" v-model='cLocal.data.csName' @input='cLocal.changed=true, cLocal.data.csCode = genCode(cLocal.data.csName)'>
 			</div>
 			<div class="form-group">
 				<label for="codeInput">Content Code:</label>
-				<input type="text" class="form-control" id="nameInput" placeholder="Content name" v-model='cLocal.code' @input='changed=true'>
+				<input type="text" class="form-control" id="nameInput" v-model='cLocal.data.csCode'>
 			</div>
 			<div class="form-group">
 				<label for="contentTextArea">Content text:</label>
-				<textarea class="form-control" id="contentTextArea" rows="5" v-model='cLocal.value' @input='changed=true'></textarea>
+				<textarea class="form-control" id="contentTextArea" rows="5" v-model='cLocal.data.csValue' @input='changed=true'></textarea>
 			</div>
-			<div v-if='changed'>
-				<button type="submit" class="btn btn-primary">Save</button>
+			<div class="actions d-flex">
+				<div v-if='cLocal.changed'>
+					<button class="btn btn-primary">Save</button>
+				</div>
+				<div>
+					<button class="btn btn-primary">Delete</button>
+				</div>
 			</div>
 		</form>
 	</div>
 </template>
 
 <script>
+	import { mapGetters } from 'vuex';
 	export default {
 		props: [
 			'content'
@@ -29,13 +35,15 @@
 		data() {
 			return {
 				cLocal: JSON.parse(JSON.stringify(this.content)),
-				changed: false
 			}
 		},
+		computed: {
+			...mapGetters({
+				genCode: 'genCode'
+			})
+		},
 		methods: {
-			changed() {
-				
-			}
+			
 		}
 	}
 </script>

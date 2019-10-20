@@ -79,6 +79,7 @@ CREATE TABLE app_public.PAGE_CONTENT_STRINGS (
 CREATE TABLE app_public.ASSETS (
 	id SERIAL PRIMARY KEY,
 	asset_type VARCHAR(50),
+	stored_asset_name VARCHAR(400),
 	directory INT REFERENCES app_public.DIRS(id) NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT now(),
   	updated_at timestamptz NOT NULL DEFAULT now()

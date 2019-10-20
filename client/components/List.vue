@@ -1,7 +1,7 @@
 // List.vue
 <template>
 	<div>
-		<div v-if='root' class='list-item' @click='showHide()'>
+		<div class='list-item' @click='showHide()'>
 			<span ref="arrow" class="arrow-right small align-self-center mr-2"></span>
 			<span class="align-self-center">{{ subUrl }}</span>
 		</div>
@@ -13,7 +13,7 @@
     		v-on:enter="enter"
     		v-on:leave="leave"
 		>
-			<div v-for='page in pagesList' :key='page.id' :class='linksClass' class="list-item" @click='setCurrentPage({id: page.id})'>
+			<div v-for='page in pagesList' :key='page.id' class="list-item with-sub-url" @click='setCurrentPage({id: page.id})'>
 				<span class="align-self-center">{{ page.pageName }}</span>
 			</div>
 		</transition-group>
@@ -34,14 +34,6 @@
 			return {
 				show: false,
 				pagesList: []
-			}
-		},
-		computed: {
-			root() {
-				return this.subUrl !== '/'
-			},
-			linksClass() {
-				return {'with-sub-url': this.root}
 			}
 		},
 		methods: {
