@@ -68,15 +68,10 @@ class DB {
 
 	async pages(urlId, userId) {
 		try {
-			console.log(urlId)
-			console.log(userId)
-			// let pages = await pg.select().from('pages').where({'pages.user_id': userId, 'pages.url_id': urlId})
-			// let pages = await pg('pages').join('users_urls', 'users_urls.url_id', '=', 'pages.url_id').select('pages.*').where({'users_urls.url_id': urlId, 'users_urls.user_id': userId})
 			let pages = await pg('pages').join('users_urls', 'users_urls.url_id', '=', 'pages.url_id').select('pages.*').where({'users_urls.url_id': urlId, 'users_urls.user_id': userId})
 			pages = pages.map(page => {
 				return switchObjectKeysCase(page, 'camelCase')
 			})
-			console.log(pages)
 			return pages
 		}
 		catch(e) {
@@ -86,21 +81,21 @@ class DB {
 	}
 
 	async pageById(pageId, userId) {
-		try {
-			return {
-				res: await pg.select().from('pages').where(),
-				exception: '',
-				code: 'OK'
-			}
-		}
-		catch(e) {
-			console.log('pg.pageById exception: ', e)
-			return {
-				exception: e,
-				code: 'EXCEPTION',
-				res: []
-			}
-		}
+		// try {
+		// 	return {
+		// 		res: await pg.select().from('pages').where(),
+		// 		exception: '',
+		// 		code: 'OK'
+		// 	}
+		// }
+		// catch(e) {
+		// 	console.log('pg.pageById exception: ', e)
+		// 	return {
+		// 		exception: e,
+		// 		code: 'EXCEPTION',
+		// 		res: []
+		// 	}
+		// }
 	}
 
 	async pageByCode(pageCode, userId) {
@@ -133,10 +128,9 @@ class DB {
 	}
 
 	async createUrl(url) {
-		console.log('createURL >>>>>')
 		try {
-			console.log(Object.values(switchObjectKeysCase(url, 'snakeCase')))
 			return switchObjectKeysCase((await pg.raw('select url_id as id, url_name, owner as is_owner from app_public.create_users_urls(?, ?, ?);', Object.values(switchObjectKeysCase(url, 'snakeCase')))).rows[0], 'camelCase')
+			// create root dir
 		}
 		catch(e) {
 			console.log('pg.createUrl exception: ', e)
@@ -148,9 +142,7 @@ class DB {
 
 	async createPage(page, userId) {
 		try {
-			const newPage = {...page, id: (await pg.raw('select * from app_public.create_pages(?, ?, ?, ?, ?);', Object.values({pageName: page.pageName, pageCode: page.pageCode, urlId: parseInt(page.urlId), subUrl: page.subUrl, user_id: userId}))).rows[0]['create_pages']}
-			// console.log(newPage)
-			return newPage
+			return {...page, id: (await pg.raw('select * from app_public.create_pages(?, ?, ?, ?, ?);', Object.values({pageName: page.pageName, pageCode: page.pageCode, urlId: parseInt(page.urlId), subUrl: page.subUrl, user_id: userId}))).rows[0]['create_pages']}
 		}
 		catch(e) {
 			console.log('pg.createPage exception: ', e)
@@ -160,16 +152,9 @@ class DB {
 		}
 	}
 
-	async createDir(dir) {
-		console.log('createDir >>>>>')
+	async createDir(dir, userId) {
 		try {
-			// const {dirName: dir_name, parentDirId: parent_dir = null} = dir;
-			return {...dir, id: (await pg('dirs').insert(switchObjectKeysCase(dir, 'snakeCase')).returning('id'))[0]}
-			// return {
-			// 	res: await pg('dirs').insert({dir_name, parent_dir}).returning('id'),
-			// 	exception: '',
-			// 	code: 'OK'
-			// }
+			return {...dir, id: (await pg.raw('select * from app_public.create_dirs(?, ?, ?, ?, ?);', Object.values({dirName: dir.dirName, parentDir: parseInt(dir.parentDir), isRoot: dir.isRoot, urlId: parseInt(dir.urlId), userId}))).rows[0]['create_dirs']}
 		}
 		catch(e) {
 			console.log('pg.createDir exception: ', e)

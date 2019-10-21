@@ -35,6 +35,7 @@ export const actions = {
 			}
 		} catch(e) {
 			console.log('createUrl exception >>>> ', e)
+			throw new Error(e)
 		}
 		
 	},

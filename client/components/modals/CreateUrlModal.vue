@@ -12,7 +12,7 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button>
-			<button type="button" class="btn btn-custom" @click='send()'>Save changes</button>
+			<button type="button" class="btn btn-custom" @click='send()'>Create url</button>
 		</div>
 	</div>
 </template>
@@ -33,7 +33,7 @@
 				}
 			},
 			validateUrl(url) {
-				const reg = /^([A-Z]+|\.+)+$/i; // eslint-disable-line no-useless-escape
+				const reg = /^([A-Z|0-9]+|\.+)+$/i; // eslint-disable-line no-useless-escape
 				if (reg.test(url)) {
 					this.$refs.newUrl.classList.remove('is-invalid');
 					// document.querySelector('#newUrl').classList.remove('invalid')

@@ -1,17 +1,8 @@
 <template>
-	<div class="test">
-	</div>
-	
 </template>
 
 <script>
 	export default {
-		layout: 'default'
+		layout: 'ManageAssets',
 	}
 </script>
-
-<style>
-	.test {
-		height: 100vh
-	}
-</style>

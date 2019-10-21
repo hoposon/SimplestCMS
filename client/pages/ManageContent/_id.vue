@@ -1,7 +1,4 @@
 <template>
-	<div class="test">
-	</div>
-	
 </template>
 
 <script>
@@ -15,9 +12,3 @@
 	}
 	
 </script>
-
-<style>
-	.test {
-		height: 100vh
-	}
-</style>

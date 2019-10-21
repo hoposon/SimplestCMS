@@ -6,14 +6,13 @@ const { APP_SECRET, getUserId } = require('../utils/authentication');
 async function signup(parent, args, context, info) {
 	const password = await bcrypt.hash(args.password, 10)
 	const user = await context.db.createUser({ ...args, password });
+	
 	if (!user) {
 		throw new Error('User not created')
 	}
-	const token = jwt.sign({ userId: user.id }, APP_SECRET)
-	return {
-		token,
-		user,
-	}
+	user.token = jwt.sign({ userId: user.id }, APP_SECRET)
+	console.log('user >>>> ', user)
+	return user
 }
 
 async function login(parent, args, context, info) {
@@ -39,6 +38,19 @@ async function createUrl(parent, args, context, info) {
 	if (!url) {
 		throw new Error('Url not created')
 	}
+	// create root dir
+	const dirArgs = {
+		dir: {
+			dirName: 'root',
+			parentDir: 0,
+			isRoot: true,
+			urlId: url.id
+		}
+	}
+	const dir = await createDir(null, dirArgs, context, null);
+	if (!dir) {
+		throw new Error('Root dir not created')
+	}
 	return url
 }
 
@@ -60,11 +72,13 @@ async function createDir(parent, args, context, info) {
 	if (!userId) {
 		throw new Error('Not logged in')
 	}
-	// const dir = await context.db.createDir({dirName: args.dirName, urlId: args.urlId, parentDir: args.parentDir || undefined});
-	const dir = await context.db.createDir({dirName, urlId, parentDir=undefined} = args);
+	let newDir = {dirName, parentDir, urlId} = args.dir;
+	newDir.isRoot = false;
+	const dir = await context.db.createDir(newDir, userId);
 	if (!dir) {
 		throw new Error('Dir not created')
 	}
+	console.log('created dir >>> ', dir)
 	return dir
 }
 
@@ -72,6 +86,6 @@ module.exports = {
 	signup,
 	login,
 	createUrl,
-	createDir,
-	createPage
+	createPage,
+	createDir
 }

@@ -9,8 +9,8 @@ type Mutation {
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): User
 	login(email: String!, password: String!): User
 	createUrl(urlName: String!): URL
-	createDir(dirName: String!, urlId: ID!, parentDir: ID): DIR
-	createPage(page: PageInput): Page
+	createPage(page: PageInput): Page,
+	createDir(dir: DirInput): Dir
 }
 
 # type AuthPayload {
@@ -34,13 +34,6 @@ type URL {
 	isOwner: Boolean!
 }
 
-type DIR {
-	id: ID!
-	dirName: String!
-	urlId: ID!
-	parentDir: ID
-}
-
 type Page {
 	id: ID!
 	pageName: String
@@ -55,6 +48,20 @@ input PageInput {
 	urlId: ID!
 	subUrl: String
 }
+
+type Dir {
+	id: ID!
+	dirName: String!
+	parentDir: ID
+	isRoot: Boolean
+	urlId: ID!	
+}
+
+input DirInput {
+	dirName: String!
+	parentDir: ID
+	urlId: ID!	
+} 
 
 # type Content {
 # 	simple: [String]

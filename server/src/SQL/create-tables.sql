@@ -38,6 +38,7 @@ CREATE TABLE app_public.DIRS (
 	dir_name VARCHAR(300),
 	url_id INT REFERENCES app_public.URLS(id) NOT NULL,
 	parent_dir INT,
+	is_root BOOLEAN,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	UNIQUE (dir_name, parent_dir, url_id)
 );

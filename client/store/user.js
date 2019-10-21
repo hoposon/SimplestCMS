@@ -7,7 +7,7 @@ export const state = () => ({
 	// token: undefined,
 	user: {
 		email: 'dsfsdfs@fsdf.com',
-		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJpYXQiOjE1Njc4OTA0NDZ9.ZDFbfTYnvWamY1NxVYk6PSaWDQ1THvXTltSzkBu8i1Y",
+		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTU3MTY5MTk5NX0.4ITvMc597i9963kAvr8jW8-dB0-q3p_n-jGhpEuNu6Y",
 		roles: ['admin']
 	}
 	// user: {}
