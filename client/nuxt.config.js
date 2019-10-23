@@ -94,7 +94,7 @@ export default {
             'jQuery': "jquery",
             'Popper': 'popper.js'
         }),
- 	]
+	 ]
 		// transpile: ['bootstrap']
     /*
     ** You can extend webpack config here

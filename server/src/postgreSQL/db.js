@@ -80,6 +80,21 @@ class DB {
 		}
 	}
 
+	async dirs(urlId, userId) {
+		try {
+			let dirs = await pg('dirs').join('users_urls', 'users_urls.url_id', '=', 'dirs.url_id').select('dirs.*').where({'users_urls.url_id': urlId, 'users_urls.user_id': userId})
+			console.log('primary dirs >>> ', dirs)
+			dirs = dirs.map(dir => {
+				return switchObjectKeysCase(dir, 'camelCase')
+			})
+			return dirs
+		}
+		catch(e) {
+			console.log('pg.dirs exception: ', e)
+			return undefined
+		}
+	}
+
 	async pageById(pageId, userId) {
 		// try {
 		// 	return {
@@ -99,10 +114,6 @@ class DB {
 	}
 
 	async pageByCode(pageCode, userId) {
-
-	}
-
-	async dirs(url, userId) {
 
 	}
 

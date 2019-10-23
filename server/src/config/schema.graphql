@@ -1,6 +1,7 @@
 type Query {
   urls: [URL]
   pages(urlId: ID!): [Page]
+  dirs(urlId: ID!): [Dir]
 }
 
 type Mutation {

@@ -70,7 +70,7 @@
 	}
 	.drop-zone {
 		height: calc(100vh - 272px);
-		margin: 100px 20px 50px 50px;
+		margin: 0px 20px 50px 50px;
 		border: 1px solid var(--acc-dark-col)
 	}
 	.thumbnail {

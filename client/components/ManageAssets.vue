@@ -1,17 +1,26 @@
 <template>
 	<div class="manage-assets row">
-		<!-- <Assets /> -->
-		<FileLoader />
-		<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
-			<button class="btn-custom" @click='uploadFiles()'>Add File</button>
-			<button class="btn-custom mt-2">Add Directory</button>
+		<div v-if='!currentUrl' class="no-site d-flex justify-content-center col-12">
+			<span class="m-auto">You need to select site to be able to add assets</span>
+		</div>
+		<div v-else class="col-12">
+			<div class="row justify-content-center">
+				<h5>Manage assets</h5>
+			</div>
+			<div class="assets-zone row">
+				<FileLoader />
+				<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
+					<button class="btn-custom" @click='uploadFiles()'>Add File</button>
+					<button class="btn-custom mt-2">Add Directory</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { mapState } from 'vuex';
-	// import Assets from './Assets';	
+	import { mapState, mapActions } from 'vuex';
+
 	import FileLoader from './FileLoader'
 
 	export default {
@@ -21,7 +30,7 @@
 		},
 		computed: {
 			...mapState({
-				// currentPage: state => state.pages.currentPage
+				currentUrl: state => state.urls.currentUrl
 			})
 		},
 		methods: {
@@ -37,8 +46,19 @@
 				} else {
 					// !TODO handle not found fileLoader
 				}
-				
+			},
+			...mapActions({
+				getDirs: 'assets/getDirs'
+			})
+		},
+		mounted() {
+			try {
+				this.getDirs();
 			}
+			catch(e) {
+				console.log('getDirs exception >>> ', e)
+			}
+			
 		}
 	}
 </script>
@@ -54,11 +74,31 @@
 		/* margin-top: 672x; */
 	}
 
-	.assets-toolbar {
+	.manage-assets .no-site {
+		background-color: var(--main-col);
+		padding: 10px;
+		margin-top: 1px;
+		color: var(--font-light-col);
+		/* border-radius: 3px; */
+		box-shadow: 0px 0px 10px 0px var(--shade-for-light-col)
+	}
+
+	.manage-assets .assets-zone {
+		margin-top: 50px;
+	}
+
+	.manage-assets .assets-toolbar {
 		/* padding: 0 30px 0 30px; */
 		padding-left: 0;
 		padding-right: 20px;
-		margin-top: 100px;
+	}
+
+	.manage-assets h5 {
+		color: var(--main-col);
+		margin-bottom: 0;
+		padding-top: 30px;
+		padding-right: 10px;
+		margin-right: 10px
 	}
 
 </style>

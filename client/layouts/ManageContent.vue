@@ -1,9 +1,9 @@
 <template>
   	<div v-if='token'>
-		<Modal v-if='ModalsState.show'/>
 		<NavigationBarMain />
 		<ManageContent />
     	<nuxt />
+		<Modal v-if='ModalsState.show'/>
   	</div>
 </template>
 

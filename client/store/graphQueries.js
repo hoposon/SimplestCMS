@@ -45,6 +45,25 @@ const Queries = {
 			urlId,
 			subUrl
 		}
+	}`,
+	createDir: `mutation createDir($dir: DirInput) {
+		createDir(dir: $dir) {
+		  	id,
+		  	dirName,
+		  	parentDir,
+		  	urlId
+		}
+	}`,
+	urlsDirs: `query dirs($urlId: ID!) {
+		dirs(
+			urlId: $urlId
+		) {
+			id,
+			dirName,
+			parentDir,
+			isRoot,
+			urlId
+		}
 	}`
 }
 

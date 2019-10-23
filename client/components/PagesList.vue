@@ -1,9 +1,6 @@
 <template>
-	<div class="manage-pages col-2 d-flex flex-column h-100">
-		<div class="no-site d-flex justify-content-center" v-if='!currentUrl'>
-			<span>Select site to be managed first</span>
-		</div>
-		<div v-else class="d-flex flex-column">
+	<div class="manage-pages col-2 d-flex h-100">
+		<div class="d-flex flex-column col-12">
 			<h5>Manage Content</h5>
 			<AddPages v-if='acl("AddPages")' />
 			<div class="pages-list">
@@ -82,14 +79,6 @@
 		padding-right: 30px;
 		margin-top: 30px;
 		border-right: 1px solid var(--acc-dark-col);
-	}
-
-	.manage-pages .no-site {
-		background-color: var(--main-col);
-		padding: 10px;
-		color: var(--font-light-col);
-		border-radius: 3px;
-		box-shadow: 0px 0px 10px 0px var(--shade-for-light-col)
 	}
 
 	.pages-list {

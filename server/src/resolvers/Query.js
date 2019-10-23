@@ -26,7 +26,21 @@ async function pages(parent, args, context, info) {
 	return pages
 }
 
+async function dirs(parent, args, context, info) {
+	const userId = getUserId(context);
+	if (!userId) {
+		throw new Error('Not logged in')
+	}
+	const dirs = await context.db.dirs(args.urlId, userId);
+	if (!dirs) {
+		throw new Error('Dirs not selected')
+	}
+	console.log(dirs);
+	return dirs
+}
+
 module.exports = {
 	urls,
-	pages
+	pages,
+	dirs
 }
