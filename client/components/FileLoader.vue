@@ -3,22 +3,37 @@
 		<!-- <button class="btn-custom" @click='selectFiles()'>Add files</button> -->
 		<input id='file-loader' type='file' multiple :accept='accept' hidden @change="uploadImages($event.files)"/>
 		<div ref='dropZone' class='drop-zone row'>
-			<div class="directories-view col-6">
-			</div>
-			<div ref='filesView' class="files-view col-6">
-			</div>
+			<DirItem v-for='dir in dirsList' :key='dir.id' :dir='dir' />
 		</div>
 	</div>
 </template>
 
 <script>
+	import { mapState, mapActions } from 'vuex';
+
+	import DirItem from './manage-assets/DirItem'
+
 	export default {
+		components: {
+			DirItem
+		},
 		props: [
 		],
 		data() {
 			return {
-				accept: 'image/png, image/jpg, image/jpeg, image/svg'
+				accept: 'image/png, image/jpg, image/jpeg, image/svg',
 			}
+		},
+		computed: {
+			dirsList() {
+				return this.currentChildren
+			},
+			...mapState({
+				currentUrl: state => state.urls.currentUrl,
+				// dirs: state => state.assets.dirs,
+				// currentDir: state => state.assets.currentDir,
+				currentChildren: state => state.assets.currentChildren
+			})
 		},
 		methods: {
 			uploadImages(files) {
@@ -54,9 +69,20 @@
 				const files = dt.files;
 
 				this.uploadImages(files);
-			}
+			},
+			...mapActions({
+				getDirs: 'assets/getDirs'
+			})
 		},
-		mounted() {
+		async mounted() {
+			if (this.currentUrl) {
+				try {
+					await this.getDirs();
+				}
+				catch(e) {
+					console.log('comp getDirs exception >>>> ', e)
+				}
+			}	
 			this.$refs.dropZone.addEventListener("dragenter", this.dragenter, false);
 			this.$refs.dropZone.addEventListener("dragover", this.dragover, false);
 			this.$refs.dropZone.addEventListener("drop", this.drop, false);
@@ -65,15 +91,17 @@
 </script>
 
 <style>
-	.directory-view {
-		height: calc(100vh - 72px);
-	}
 	.drop-zone {
 		height: calc(100vh - 272px);
 		margin: 0px 20px 50px 50px;
 		border: 1px solid var(--acc-dark-col)
 	}
+	.assets-view {
+
+	}
+
 	.thumbnail {
 		width: 40px;
 	}
+
 </style>

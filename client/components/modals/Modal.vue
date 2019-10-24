@@ -10,6 +10,7 @@
 				<ModalResult v-if='ModalsState.commandSent' v-on:close='close()' />
 				<CreateUrlModal v-else-if='ModalsState.modalName === "CreateUrlModal"' v-on:close='close()' />
 				<AddPageModal v-else-if='ModalsState.modalName === "AddPageModal"' v-on:close='close()' />
+				<CreateDirectoryModal v-else-if='ModalsState.modalName === "CreateDirectoryModal"' v-on:close='close()' />
 			</div>
 		</div>
 	</div>
@@ -21,12 +22,14 @@
 	import ModalResult from './ModalResult';
 	import CreateUrlModal from './CreateUrlModal';
 	import AddPageModal from './AddPageModal';
+	import CreateDirectoryModal from './CreateDirectoryModal';
 
 	export default {
 		components: {
 			ModalResult,
 			CreateUrlModal,
-			AddPageModal
+			AddPageModal,
+			CreateDirectoryModal
 		},
 		data () {
 			return {

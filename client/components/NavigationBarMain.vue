@@ -21,20 +21,17 @@
 				<nuxt-link exact to="/Logout" class="nav-item">Logout</nuxt-link>
 			</div>
 		</nav>
-		<!-- <NavigationBarControls /> -->
 	</div>
 </template>
 
 <script>
 	
-	// import NavigationBarControls from '../components/NavigationBarControls';
 	import { mapState, mapMutations } from 'vuex';
 	import Logo from '../components/assets/Logo'
 
 	export default {
 		components: {
 			Logo
-			// NavigationBarControls
 		},
 		computed: {
 			...mapState({
@@ -56,7 +53,9 @@
 			},
 			selectUrl(currentUrl) {
 				this.setCurrentUrl({currentUrl})
-				this.$router.push('/ManageContent')
+				if (this.$route.path === '/') {
+					this.$router.push('/ManageContent')
+				}				
 			},
 			...mapMutations({
 				showModal: 'SET_MODAL',

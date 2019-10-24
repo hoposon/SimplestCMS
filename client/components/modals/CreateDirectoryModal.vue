@@ -1,18 +1,18 @@
 <template>
 	<div class="modal-body">
-		<h5 class="modal-title">Add new URL</h5>
+		<h5 class="modal-title">Create directory</h5>
 		<div class="modal-data">
 			<div Class="form-row">
-				<label for="newUrl">Enter new url:</label>
-				<input ref="newUrl" id="newUrl" class="form-control" type="text" placeholder="New url" v-model='urlName'/>
+				<label for="newDir">Enter directory name:</label>
+				<input ref="newDir" id="newDir" class="form-control" type="text" placeholder="Directory name" v-model='dirName'/>
 				<div class="invalid-feedback">
-					Please enter valid url.
+					Please enter valid directory name.
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button>
-			<button type="button" class="btn btn-custom" @click='send()'>Create url</button>
+			<button type="button" class="btn btn-custom" @click='send()'>Create directory</button>
 		</div>
 	</div>
 </template>
@@ -22,14 +22,14 @@
 	export default {
 		data() {
 			return {
-				urlName: ''
+				dirName: ''
 			}
 		},
 		methods: {
 			async send() {
 				try {
-					if (this.urlName && this.validateUrl(this.urlName)) {
-						let result = await this.createUrl({urlName: this.urlName});
+					if (this.dirName && this.validateDir(this.dirName)) {
+						let result = await this.createDir({dirName: this.dirName});
 						this.setModalState({result: 'sentSuccessful'});
 					}
 				}
@@ -37,20 +37,20 @@
 					this.setModalState({result: 'error'});
 				}
 			},
-			validateUrl(url) {
+			validateDir(dirName) {
 				const reg = /^([A-Z|0-9]+|\.+)+$/i; // eslint-disable-line no-useless-escape
-				if (reg.test(url)) {
-					this.$refs.newUrl.classList.remove('is-invalid');
+				if (reg.test(dirName)) {
+					this.$refs.newDir.classList.remove('is-invalid');
 					// document.querySelector('#newUrl').classList.remove('invalid')
 					return true;
 				} else {
-					this.$refs.newUrl.classList.add('is-invalid');
+					this.$refs.newDir.classList.add('is-invalid');
 					// document.querySelector('#newUrl').classList.add('invalid')
 					return false;
 				}
 			},
 			...mapActions({
-				createUrl: 'urls/createUrl'
+				createDir: 'assets/createDir'
 			}),
 			...mapMutations({
 				setModalState: 'SET_MODAL_RESULT'

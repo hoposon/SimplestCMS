@@ -59,6 +59,7 @@ export const actions = {
 	},
 	async getPages({ commit, rootState }, {id=false}={}) {
 		try {
+			if (!rootState.urls.currentUrl) throw new Error('Url not selected')
 			const client = newGrphQlClient({state: rootState})
 			const result = await client.request(Queries.urlsPages, {urlId: parseInt(rootState.urls.currentUrl.id)});
 			if (result) {
@@ -71,6 +72,7 @@ export const actions = {
 			}
 		} catch(e) {
 			console.log('getPages exception >>>> ', e)
+			throw new Error(e)
 		}
 	}
 }

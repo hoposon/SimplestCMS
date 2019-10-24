@@ -11,7 +11,8 @@
 				<FileLoader />
 				<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
 					<button class="btn-custom" @click='uploadFiles()'>Add File</button>
-					<button class="btn-custom mt-2">Add Directory</button>
+					<button class="btn-custom mt-2" @click='createDir()'>Add Directory</button>
+					<button class="btn-custom mt-2" :disabled='disabled' :class="{disabled}" @click='parentDir()'>{{ buttonText }}</button>
 				</div>
 			</div>
 		</div>
@@ -19,18 +20,28 @@
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
+	import { mapState, mapMutations } from 'vuex';
 
 	import FileLoader from './FileLoader'
 
 	export default {
 		components: {
-			// Assets
 			FileLoader
 		},
 		computed: {
+			disabled() {
+				return this.currentDir.indexOf('/') == -1
+			},
+			buttonText() {
+				if (this.currentDir.indexOf('/') > -1) {
+					return 'Parent Directory'
+				} else {
+					return 'This is root directory'
+				}
+			},
 			...mapState({
-				currentUrl: state => state.urls.currentUrl
+				currentUrl: state => state.urls.currentUrl,
+				currentDir: state => state.assets.currentDir
 			})
 		},
 		methods: {
@@ -47,19 +58,22 @@
 					// !TODO handle not found fileLoader
 				}
 			},
-			...mapActions({
-				getDirs: 'assets/getDirs'
+			createDir() {
+				let options = {
+					modalName: 'CreateDirectoryModal',
+					show: true,
+					params: {
+						transl: 'Create directory',
+						translResSuccess: 'Directory created successfully'
+					}
+				}
+				this.showModal(options);
+			},
+			...mapMutations({
+				showModal: 'SET_MODAL',
+				parentDir: 'assets/CHANGE_PARENT_DIR'
 			})
 		},
-		mounted() {
-			try {
-				this.getDirs();
-			}
-			catch(e) {
-				console.log('getDirs exception >>> ', e)
-			}
-			
-		}
 	}
 </script>
 
@@ -91,6 +105,10 @@
 		/* padding: 0 30px 0 30px; */
 		padding-left: 0;
 		padding-right: 20px;
+	}
+
+	.manage-assets .assets-toolbar .disabled {
+		background-color: #a08036;
 	}
 
 	.manage-assets h5 {

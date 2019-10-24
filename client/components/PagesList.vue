@@ -65,9 +65,14 @@
 				this.getPages();
 			}
 		},
-		mounted() {
+		async mounted() {
 			if (this.currentUrl) {
-				this.getPages();
+				try {
+					await this.getPages();
+				}
+				catch(e) {
+					console.log('comp getPages exception >>>> ', e)
+				}
 			}			
 		}
 	}
