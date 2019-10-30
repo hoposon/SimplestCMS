@@ -1,15 +1,19 @@
 <template>
-	<div class='directory-view offset-2 col-6'>
-		<!-- <button class="btn-custom" @click='selectFiles()'>Add files</button> -->
+	<div class='directory-view row justify-content-between'>
 		<input id='file-loader' type='file' multiple :accept='accept' hidden @change="uploadImages($event.files)"/>
-		<div ref='dropZone' class='drop-zone row'>
-			<DirItem v-for='dir in dirsList' :key='dir.id' :dir='dir' />
+		<div ref='dropZone' class='drop-zone' :class='{"no-assets": currentChildren.length == 0}'>
+			<DirItem v-for='dir in currentChildren' :key='dir.id' :dir='dir' />
+			<div v-if='currentChildren.length == 0' class="no-assets-text">No assets here</div>
+		</div>
+		<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
+			<button class="btn-custom" @click='uploadFiles()'>Add File</button>
+			<button class="btn-custom mt-2" @click='createDir()'>Add Directory</button>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { mapState, mapActions } from 'vuex';
+	import { mapState, mapActions, mapMutations } from 'vuex';
 
 	import DirItem from './manage-assets/DirItem'
 
@@ -25,9 +29,6 @@
 			}
 		},
 		computed: {
-			dirsList() {
-				return this.currentChildren
-			},
 			...mapState({
 				currentUrl: state => state.urls.currentUrl,
 				// dirs: state => state.assets.dirs,
@@ -36,6 +37,30 @@
 			})
 		},
 		methods: {
+			uploadFiles() {
+				let fileUpload = document.querySelector('#file-loader');
+				if (fileUpload) {
+					let event = new MouseEvent('click', {
+						view: window,
+						bubbles: true,
+						cancelable: true
+					});
+					fileUpload.dispatchEvent(event);
+				} else {
+					// !TODO handle not found fileLoader
+				}
+			},
+			createDir() {
+				let options = {
+					modalName: 'CreateDirectoryModal',
+					show: true,
+					params: {
+						transl: 'Create directory',
+						translResSuccess: 'Directory created successfully'
+					}
+				}
+				this.showModal(options);
+			},
 			uploadImages(files) {
 				console.log(files)
 				for (let i = 0; i < files.length; i++) {
@@ -72,6 +97,9 @@
 			},
 			...mapActions({
 				getDirs: 'assets/getDirs'
+			}),
+			...mapMutations({
+				showModal: 'SET_MODAL',
 			})
 		},
 		async mounted() {
@@ -91,17 +119,40 @@
 </script>
 
 <style>
-	.drop-zone {
-		height: calc(100vh - 272px);
-		margin: 0px 20px 50px 50px;
-		border: 1px solid var(--acc-dark-col)
+	.directory-view {
+		padding: 0;
 	}
-	.assets-view {
+	.directory-view .drop-zone {
+		display: block;
+		width: 1004px;
+		height: calc(100vh - 272px);
+		/* margin: 0px 20px 50px 50px; */
+		/* border: 1px solid var(--acc-dark-col) */
+		
+		/* padding-left: 2px; */
+		/* padding-top: 2px; */
+		padding-bottom: 2px;
+	}
 
+	.drop-zone.no-assets {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.no-assets-text {
+		font-size: 25px;
+		color: var(--font-light-col);
 	}
 
 	.thumbnail {
 		width: 40px;
+	}
+
+	.directory-view .assets-toolbar .btn-custom {
+		height: 40px;
+		width: 198px;
+		box-shadow: 0px 0px 10px 0px var(--shade-for-dark-col)
 	}
 
 </style>

@@ -36,6 +36,12 @@
 				pagesList: []
 			}
 		},
+		computed: {
+			list() {
+				if (this.show) return this.pages;
+				else return [];
+			}
+		},
 		methods: {
 			showHide() {
 				// this.show = !this.show;
@@ -71,6 +77,11 @@
 			...mapMutations({
 				setCurrentPage: 'pages/SET_CURRENT_PAGE'
 			})
+		},
+		watch: {
+			pages: function(newP, oldP) {
+				if (this.show) this.pagesList = newP;
+			}
 		}
 	}
 </script>

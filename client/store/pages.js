@@ -62,7 +62,7 @@ export const actions = {
 			if (!rootState.urls.currentUrl) throw new Error('Url not selected')
 			const client = newGrphQlClient({state: rootState})
 			const result = await client.request(Queries.urlsPages, {urlId: parseInt(rootState.urls.currentUrl.id)});
-			if (result) {
+			if (result && result.pages) {
 				commit(types.SET_PAGES, {pages: result.pages})
 				if (id) {
 					commit(types.SET_CURRENT_PAGE, {id});

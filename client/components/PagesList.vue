@@ -23,7 +23,7 @@
 		computed: {
 			pagesToList() {
 				const pagesList = {};
-				if (this.pages !== {}) {
+				if (this.pages.length > 0) {
 					this.pages.forEach(page => {
 						let pageTemp = JSON.parse(JSON.stringify(page));
 						if (page.subUrl && page.subUrl.substring(page.subUrl.length -1, page.subUrl.length) === '/') {
@@ -43,6 +43,7 @@
 				Object.keys(pagesList).sort().forEach(key => {
 					pagesListOrdered[key] = pagesList[key]
 				})
+				console.log('pagesListOrdered >>> ', pagesListOrdered)
 				return pagesListOrdered;
 			},
 			...mapState({

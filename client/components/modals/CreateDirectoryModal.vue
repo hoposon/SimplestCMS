@@ -38,7 +38,7 @@
 				}
 			},
 			validateDir(dirName) {
-				const reg = /^([A-Z|0-9]+|\.+)+$/i; // eslint-disable-line no-useless-escape
+				const reg = /^([A-Z|0-9]| +)+$/i; // eslint-disable-line no-useless-escape
 				if (reg.test(dirName)) {
 					this.$refs.newDir.classList.remove('is-invalid');
 					// document.querySelector('#newUrl').classList.remove('invalid')

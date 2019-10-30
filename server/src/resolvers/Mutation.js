@@ -67,7 +67,7 @@ async function createPage(parent, args, context, info) {
 }
 
 async function createDir(parent, args, context, info) {
-	console.log('createDir mut >>>>>')
+	console.log('createDir mut >>>>> ', args)
 	const userId = getUserId(context);
 	if (!userId) {
 		throw new Error('Not logged in')

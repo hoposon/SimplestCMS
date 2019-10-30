@@ -8,11 +8,12 @@
 				<h5>Manage assets</h5>
 			</div>
 			<div class="assets-zone row">
-				<FileLoader />
-				<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
-					<button class="btn-custom" @click='uploadFiles()'>Add File</button>
-					<button class="btn-custom mt-2" @click='createDir()'>Add Directory</button>
-					<button class="btn-custom mt-2" :disabled='disabled' :class="{disabled}" @click='parentDir()'>{{ buttonText }}</button>
+				<div class="file-manager offset-2 col-8">
+					<div class="current-path row d-flex align-items-center">
+						<button class="btn-custom" :disabled='disabled' :class="{disabled}" @click='parentDir()'><<</button>
+						<div v-for='(subPath, index) in currentPath' :key='index' class="path-indicator-item d-flex align-items-center">{{ subPath }}</div>
+					</div>
+					<FileLoader />
 				</div>
 			</div>
 		</div>
@@ -39,38 +40,31 @@
 					return 'This is root directory'
 				}
 			},
+			currentPath() {
+				let path = '';
+				let currPath = [];
+				console.log('this.dirs >>> ', Object.keys(this.dirs))
+				if (Object.keys(this.dirs).lenght > 0) {
+					this.currentDir.split('/').forEach(val => {
+						path = path + val;
+						currPath.push(this.dirs[path].dirName)
+						path = path + '/'
+					})
+					console.log('currPath >>> ', currPath)
+					currPath.shift();
+				}
+				return currPath
+			},
 			...mapState({
 				currentUrl: state => state.urls.currentUrl,
-				currentDir: state => state.assets.currentDir
+				currentDir: state => state.assets.currentDir,
+				dirs: state => state.assets.dirs
 			})
 		},
 		methods: {
-			uploadFiles() {
-				let fileUpload = document.querySelector('#file-loader');
-				if (fileUpload) {
-					let event = new MouseEvent('click', {
-						view: window,
-						bubbles: true,
-						cancelable: true
-					});
-					fileUpload.dispatchEvent(event);
-				} else {
-					// !TODO handle not found fileLoader
-				}
-			},
-			createDir() {
-				let options = {
-					modalName: 'CreateDirectoryModal',
-					show: true,
-					params: {
-						transl: 'Create directory',
-						translResSuccess: 'Directory created successfully'
-					}
-				}
-				this.showModal(options);
-			},
+			
 			...mapMutations({
-				showModal: 'SET_MODAL',
+				// showModal: 'SET_MODAL',
 				parentDir: 'assets/CHANGE_PARENT_DIR'
 			})
 		},
@@ -97,26 +91,52 @@
 		box-shadow: 0px 0px 10px 0px var(--shade-for-light-col)
 	}
 
-	.manage-assets .assets-zone {
-		margin-top: 50px;
-	}
-
-	.manage-assets .assets-toolbar {
-		/* padding: 0 30px 0 30px; */
-		padding-left: 0;
-		padding-right: 20px;
-	}
-
-	.manage-assets .assets-toolbar .disabled {
-		background-color: #a08036;
-	}
-
 	.manage-assets h5 {
 		color: var(--main-col);
 		margin-bottom: 0;
 		padding-top: 30px;
 		padding-right: 10px;
 		margin-right: 10px
+	}
+
+	.manage-assets .assets-zone {
+		margin-top: 50px;
+	}
+
+	.assets-zone .file-manager {
+		box-shadow: 1px 1px 12px 1px var(--shade-for-light-col);
+		background-color: var(--acc-dark-col);
+		padding: 10px 10px 10px 10px;
+	}
+
+	.assets-zone .current-path {
+		width: 1000px;
+		/* height: 40px; */
+		background-color: white;
+		padding-left: 0px;
+		margin-bottom: 10px
+
+	}
+
+	.assets-zone .current-path .path-indicator-item {
+		height: 40px;
+		background-color: var(--acc-light-col);
+		padding: 0 10px;
+		color: var(--font-light-col);
+		/* margin-left: 2px */
+		border: 3px solid var(--shades-light-col);
+		border-right: none;
+	}
+
+	.assets-zone .btn-custom {
+		width: 70px;
+		/* height: 36px;
+		box-shadow: 0px 0px 10px 0px var(--shade-for-dark-col); */
+		border-radius: 0px;
+	}
+
+	.assets-zone .current-path .disabled {
+		background-color: #a08036;
 	}
 
 </style>
