@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
+const { makeDir } = require('../utils/fileSystem');
+const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
 async function signup(parent, args, context, info) {
@@ -34,6 +36,9 @@ async function createUrl(parent, args, context, info) {
 	if (!userId) {
 		throw new Error('Not logged in')
 	}
+	if (!validateUrl(args.urlName)) {
+		throw new Error('Invalid Url');
+	}
 	const url = await context.db.createUrl({urlName: args.urlName, userId, isOwner: true});
 	if (!url) {
 		throw new Error('Url not created')
@@ -50,6 +55,9 @@ async function createUrl(parent, args, context, info) {
 	const dir = await createDir(null, dirArgs, context, null);
 	if (!dir) {
 		throw new Error('Root dir not created')
+	} else {
+
+		makeDir(urlToDir(args.urlName), 'image', 'root')
 	}
 	return url
 }
