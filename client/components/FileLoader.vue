@@ -124,14 +124,22 @@
 	}
 	.directory-view .drop-zone {
 		display: block;
-		width: 1004px;
+		width: 1012px;
 		height: calc(100vh - 272px);
-		/* margin: 0px 20px 50px 50px; */
-		/* border: 1px solid var(--acc-dark-col) */
-		
-		/* padding-left: 2px; */
-		/* padding-top: 2px; */
+		overflow: auto;
 		padding-bottom: 2px;
+	}
+
+	.directory-view .drop-zone::-webkit-scrollbar { 
+		width: 4px !important 
+	}
+
+	.directory-view .drop-zone::-webkit-scrollbar-thumb {
+		background: var(--acc-light-col);
+	}
+
+	.directory-view .drop-zone::-webkit-scrollbar-track {
+		background: var(--shades-light-col)
 	}
 
 	.drop-zone.no-assets {

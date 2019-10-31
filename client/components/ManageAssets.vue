@@ -43,16 +43,18 @@
 			currentPath() {
 				let path = '';
 				let currPath = [];
-				console.log('this.dirs >>> ', Object.keys(this.dirs))
-				if (Object.keys(this.dirs).lenght > 0) {
+				// console.log('this.dirs >>> ', Object.keys(this.dirs).length)
+				if (Object.keys(this.dirs).length > 0) {
+					// console.log('> 0 >>>>>')
 					this.currentDir.split('/').forEach(val => {
 						path = path + val;
 						currPath.push(this.dirs[path].dirName)
 						path = path + '/'
 					})
-					console.log('currPath >>> ', currPath)
+					// console.log('currPath >>> ', currPath)
 					currPath.shift();
 				}
+				// console.log('currPath >>> ', currPath)
 				return currPath
 			},
 			...mapState({

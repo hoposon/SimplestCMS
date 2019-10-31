@@ -21,35 +21,35 @@ export const mutations = {
 		paths.push(`${dirs[rootIndex].id}`); // set path to root
 		state.currentDir = dirs[rootIndex].id.toString(); // set root as starting dir
 		remainingDirs.splice(rootIndex, 1); // remove root from remainingDirs
-		console.log('orderedDirs 1 >>> ', orderedDirs)
+		// console.log('orderedDirs 1 >>> ', orderedDirs)
 
 		// flatten other dirs
 		let orderedIndex = 0;
 		while(remainingDirs.length) {
-			console.log('remainingDirs.length >>> ', remainingDirs.length)
+			// console.log('remainingDirs.length >>> ', remainingDirs.length)
 			let path = paths[orderedIndex];
-			console.log('paths >>> ', paths)
-			console.log('path >>> ', path)
+			// console.log('paths >>> ', paths)
+			// console.log('path >>> ', path)
 			let parentDir = orderedDirs[path].id;
-			console.log('parentDir >>> ', parentDir)
+			// console.log('parentDir >>> ', parentDir)
 
 			for (let i = 0; i < remainingDirs.length; i++) {
-				console.log('remainingDirs[i] >>> ', remainingDirs[i])
+				// console.log('remainingDirs[i] >>> ', remainingDirs[i])
 
-				if (remainingDirs[i].parentDir = parentDir) {
+				if (remainingDirs[i].parentDir == parentDir) {
 					orderedDirs[path].children.push(remainingDirs[i]);
 					orderedDirs[path+'/'+remainingDirs[i].id] = { ...remainingDirs[i], children: []}
 					paths.push(path+'/'+remainingDirs[i].id);
 					remainingDirs.splice(i,1);
 					i--;
-					console.log('orderedDirs 2 >>> ', orderedDirs)
-					console.log('paths 2 >>> ', paths)
+					// console.log('orderedDirs 2 >>> ', orderedDirs)
+					// console.log('paths 2 >>> ', paths)
 				}
 			}
 			orderedIndex++
-			console.log('orderedIndex 2 >>> ', orderedIndex)
+			// console.log('orderedIndex 2 >>> ', orderedIndex)
 		}
-		console.log('orderedDirs >>> ', orderedDirs);
+		// console.log('orderedDirs >>> ', orderedDirs);
 		state.dirs = orderedDirs;
 		state.currentChildren = orderedDirs[state.currentDir].children
 	},
@@ -68,12 +68,9 @@ export const mutations = {
 		// console.log('dirs >>>> ', state.dirs)
 	},
 	[types.CHANGE_PARENT_DIR] (state) {
-		// let curDirTemp = state.currentDir.split('/');
-		// curDirTemp.pop();
-		// console.log('splice >>> ', state.currentDir.split('/').splice(-2,1).join('/'))
-		// console.log('state.dirs >>>> ', state.dirs)
-		state.currentDir = state.currentDir.split('/').splice(-2,1).join('/')
-		// console.log('state.currentDir >>>> ', state.currentDir)
+		let splitDir = state.currentDir.split('/');
+		splitDir.splice(-1,1)
+		state.currentDir = splitDir.join('/');
 		state.currentChildren = state.dirs[state.currentDir].children;
 	}
 }
