@@ -38,14 +38,13 @@
 				}
 			},
 			validateDir(dirName) {
-				const reg = /^([A-Z|0-9]| +)+$/i; // eslint-disable-line no-useless-escape
-				if (reg.test(dirName)) {
+				const DIR_LENGTH = 200;
+				const dirValidationRegExp = `^[a-zA-Z0-9-]{1,${DIR_LENGTH}}$`; // eslint-disable-line no-useless-escape
+				if (new RegExp(dirValidationRegExp, 'i').test(dirName)) {
 					this.$refs.newDir.classList.remove('is-invalid');
-					// document.querySelector('#newUrl').classList.remove('invalid')
 					return true;
 				} else {
 					this.$refs.newDir.classList.add('is-invalid');
-					// document.querySelector('#newUrl').classList.add('invalid')
 					return false;
 				}
 			},

@@ -104,8 +104,23 @@
 		background-color: var(--acc-light-col);
 		border: none;
     	box-shadow: 0px 0px 3px 0px var(--shade-for-dark-col);
-		/* border: 2px solid; */
-		/* border-color: var(--main-col); */
-		/* border-color: var(--bg-color-dark); */
 	}
+
+	.navbar-expand .navbar-nav .dropdown-menu {
+		height: calc(100vh - 100px);
+    	overflow-y: auto;
+	}
+
+	.navbar-expand .navbar-nav .dropdown-menu::-webkit-scrollbar { 
+		width: 4px !important 
+	}
+
+	.navbar-expand .navbar-nav .dropdown-menu::-webkit-scrollbar-thumb {
+		background: var(--acc-light-col);
+	}
+
+	.navbar-expand .navbar-nav .dropdown-menu::-webkit-scrollbar-track {
+		background: var(--shades-light-col)
+	}
+
 </style>

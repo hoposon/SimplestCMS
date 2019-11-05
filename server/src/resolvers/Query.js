@@ -9,7 +9,7 @@ async function urls(parent, args, context, info) {
 	if (!urls) {
 		throw new Error('Urls not selected')
 	}
-	console.log(urls);
+	// console.log(urls);
 	return urls
 }
 

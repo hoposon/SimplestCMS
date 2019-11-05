@@ -52,11 +52,31 @@ class DB {
 			urls = urls.map(url => {
 				return switchObjectKeysCase(url, 'camelCase')
 			})
-			console.log(urls)
+			// console.log(urls)
 			return urls
 		}
 		catch(e) {
 			console.log('pg.userUrls exception: ', e)
+			// return {
+			// 	exception: e,
+			// 	code: 'EXCEPTION',
+			// 	res: []
+			// }
+			return undefined
+		}
+	}
+
+	async userUrlById(userId, urlId) {
+		try {
+			let url = await pg('users_urls').join('urls', 'users_urls.url_id', '=', 'urls.id').select('urls.url_name').where({'users_urls.user_id': userId, 'urls.id': urlId})
+			url = url.map(url => {
+				return switchObjectKeysCase(url, 'camelCase')
+			})
+			console.log(url)
+			return url[0]
+		}
+		catch(e) {
+			console.log('pg.userUrlById exception: ', e)
 			// return {
 			// 	exception: e,
 			// 	code: 'EXCEPTION',

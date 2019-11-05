@@ -9,7 +9,7 @@ export const state = () => ({
 })
 
 export const mutations = {
-	[types.SET_CURRENT_URL] (state, {currentUrl}={}) {
+	[types.SET_CURRENT_URL] (state, {currentUrl}={}) { //currentUrl = url id
 		if (!currentUrl) {
 			state.currentUrl = state.urls[0]
 		} else {
@@ -29,7 +29,7 @@ export const actions = {
 			const result = await client.request(Queries.createUrl, {urlName});
 			if (result) {
 				console.log('result: ', result)
-				dispatch('getUrls')
+				dispatch('getUrls', result.createUrl.id)
 			} else {
 				throw new Error('Internal error')
 			}
@@ -39,7 +39,7 @@ export const actions = {
 		}
 		
 	},
-	async getUrls({ commit, rootState }) {
+	async getUrls({ commit, rootState }, createdUrl=null) {
 		try {
 			const client = newGrphQlClient({state: rootState})
 			const result = await client.request(Queries.userUrls);
@@ -47,6 +47,8 @@ export const actions = {
 				commit(types.SET_USERS_URLS, {urls: result.urls})
 				if (result.urls.length == 1) {
 					commit(types.SET_CURRENT_URL);
+				} else if (createdUrl) {
+					commit(types.SET_CURRENT_URL, {currentUrl: createdUrl});
 				}
 			} else {
 				throw new Error('Internal error')

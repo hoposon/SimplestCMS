@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
-const { makeDir } = require('../utils/fileSystem');
+const { makeDir, validateDirName } = require('../utils/fileSystem');
 const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
@@ -46,7 +46,7 @@ async function createUrl(parent, args, context, info) {
 	// create root dir
 	const dirArgs = {
 		dir: {
-			dirName: 'root',
+			dirName: '',
 			parentDir: 0,
 			isRoot: true,
 			urlId: url.id
@@ -55,10 +55,8 @@ async function createUrl(parent, args, context, info) {
 	const dir = await createDir(null, dirArgs, context, null);
 	if (!dir) {
 		throw new Error('Root dir not created')
-	} else {
-
-		makeDir(urlToDir(args.urlName), 'image', 'root')
 	}
+	
 	return url
 }
 
@@ -80,12 +78,21 @@ async function createDir(parent, args, context, info) {
 	if (!userId) {
 		throw new Error('Not logged in')
 	}
-	let newDir = {dirName, parentDir, urlId} = args.dir;
-	newDir.isRoot = false;
+	validateDirName(args.dir.dirname);
+	let newDir = {dirName:'', parentDir:-1, urlId:-1, isRoot:false, ...args.dir};
+	// newDir.isRoot = false;
+	console.log('new dir >>>> ', newDir)
 	const dir = await context.db.createDir(newDir, userId);
 	if (!dir) {
 		throw new Error('Dir not created')
 	}
+
+	const url = await context.db.userUrlById(userId, args.dir.urlId);
+	if (!url) {
+		throw new Error('Can not get url')
+	}
+	makeDir(urlToDir(url.urlName), 'image', args.dir.dirName)
+	
 	console.log('created dir >>> ', dir)
 	return dir
 }
