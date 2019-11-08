@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
-const { makeDir, validateDirName } = require('../utils/fileSystem');
+const { makeDir, validateDirName, parentDirPath } = require('../utils/fileSystem');
 const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
@@ -91,7 +91,17 @@ async function createDir(parent, args, context, info) {
 	if (!url) {
 		throw new Error('Can not get url')
 	}
-	makeDir(urlToDir(url.urlName), 'image', args.dir.dirName)
+
+	if (dir.isRoot) {
+		makeDir(urlToDir(url.urlName), 'image', '', args.dir.dirName)
+	} else {
+		const dirs = await context.db.dirs(args.dir.urlId, userId);
+		if (!dirs) {
+			throw new Error('Dirs not selected')
+		}
+		console.log('parent dir path >>> ', parentDirPath(dirs, dir.id));
+		makeDir(urlToDir(url.urlName), 'image', parentDirPath(dirs, dir.id), args.dir.dirName)
+	}
 	
 	console.log('created dir >>> ', dir)
 	return dir

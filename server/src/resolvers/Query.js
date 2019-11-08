@@ -35,7 +35,7 @@ async function dirs(parent, args, context, info) {
 	if (!dirs) {
 		throw new Error('Dirs not selected')
 	}
-	console.log(dirs);
+	console.log('get dirs >>>> ', dirs);
 	return dirs
 }
 
