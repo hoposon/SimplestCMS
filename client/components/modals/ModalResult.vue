@@ -25,10 +25,16 @@
 </template>
 
 <script>
+	const ENTER = 13;
 	import { mapState } from 'vuex';
 
 	export default {
 		name: 'ModalResult',
+		data () {
+			return {
+				bindedKeydownHandler: undefined
+			}
+		},
 		computed: {
 			resultTitle() {
 				return this.ModalsState.params.transl;
@@ -43,7 +49,21 @@
 			...mapState([
 				'ModalsState'
 			])
-		}
+		},
+		methods: {
+			hide(event) {
+				if (event.type === 'keydown' && event.keyCode === ENTER) {
+					this.$emit("close");
+				}
+			},
+		},
+		mounted: function() {
+			this.bindedKeydownHandler = this.hide.bind(this);
+			window.addEventListener('keydown', this.bindedKeydownHandler);
+		},
+		destroyed: function() {
+			window.removeEventListener('keydown', this.bindedKeydownHandler);
+		}	
 	}
 
 </script>

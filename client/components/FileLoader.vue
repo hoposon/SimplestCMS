@@ -1,9 +1,11 @@
 <template>
 	<div class='directory-view row justify-content-between'>
-		<input id='file-loader' type='file' multiple :accept='accept' hidden @change="uploadImages($event.files)"/>
-		<div ref='dropZone' class='drop-zone' :class='{"no-assets": currentChildren.length == 0}'>
+		<input id='file-loader' type='file' multiple :accept='accept' hidden @change="uploadImages($event)"/>
+		<div ref='dropZone' class='drop-zone' :class='{"no-assets": noData}'>
 			<DirItem v-for='dir in currentChildren' :key='dir.id' :dir='dir' />
-			<div v-if='currentChildren.length == 0' class="no-assets-text">No assets here</div>
+			<div v-if='noData' class="no-assets-text">No assets here</div>
+			<!-- <AssetItem v-for='asset in currentChildren' :key='' :asset='asset' /> -->
+			<UploadingFile v-for='file in uploadingFiles' :key='file.name' :file='file' />
 		</div>
 		<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
 			<button class="btn-custom" @click='uploadFiles()'>Add File</button>
@@ -16,19 +18,25 @@
 	import { mapState, mapActions, mapMutations } from 'vuex';
 
 	import DirItem from './manage-assets/DirItem'
+	import UploadingFile from './manage-assets/UploadingFile'
 
 	export default {
 		components: {
-			DirItem
+			DirItem,
+			UploadingFile
 		},
 		props: [
 		],
 		data() {
 			return {
 				accept: 'image/png, image/jpg, image/jpeg, image/svg',
+				uploadingFiles: []
 			}
 		},
 		computed: {
+			noData() {
+				return this.currentChildren.length ==  0 && this.uploadingFiles.length == 0
+			},
 			...mapState({
 				currentUrl: state => state.urls.currentUrl,
 				// dirs: state => state.assets.dirs,
@@ -61,22 +69,9 @@
 				}
 				this.showModal(options);
 			},
-			uploadImages(files) {
-				console.log(files)
-				for (let i = 0; i < files.length; i++) {
-					const file = files[i];
-					
-					if (!file.type.startsWith('image/')){ continue }
-					
-					const img = document.createElement("img");
-					img.classList.add("thumbnail");
-					img.file = file;
-					this.$refs.filesView.appendChild(img); // Assuming that "preview" is the div output where the content will be displayed.
-					
-					const reader = new FileReader();
-					reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-					reader.readAsDataURL(file);
-				}
+			uploadImages(event) {
+				console.log('files >>>>> ', event.target.files)
+				this.uploadingFiles = event.target.files;
 			},
 			dragenter(e) {
 				e.stopPropagation();
@@ -151,10 +146,6 @@
 	.no-assets-text {
 		font-size: 25px;
 		color: var(--font-light-col);
-	}
-
-	.thumbnail {
-		width: 40px;
 	}
 
 	.directory-view .assets-toolbar .btn-custom {

@@ -12,20 +12,27 @@
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" data-dismiss="modal" @click='$emit("close")'>Cancel</button>
-			<button type="button" class="btn btn-custom" @click='send()'>Create directory</button>
+			<button type="button" class="btn btn-custom" @click='send()' tabindex="1">Create directory</button>
 		</div>
 	</div>
 </template>
 
 <script>
+	const ENTER = 13;
 	import { mapActions, mapMutations } from 'vuex';
 	export default {
 		data() {
 			return {
+				bindedKeydownHandler: undefined,
 				dirName: ''
 			}
 		},
 		methods: {
+			sendOnEnter(event) {
+				if (event.type === 'keydown' && event.keyCode === ENTER) {
+					this.send();
+				}
+			},
 			async send() {
 				try {
 					if (this.dirName && this.validateDir(this.dirName)) {
@@ -54,6 +61,15 @@
 			...mapMutations({
 				setModalState: 'SET_MODAL_RESULT'
 			})
+		},
+		mounted: function() {
+			this.bindedKeydownHandler = this.sendOnEnter.bind(this);
+			window.addEventListener('keydown', this.bindedKeydownHandler);
+
+			this.$refs.newDir.focus();
+		},
+		destroyed: function() {
+			window.removeEventListener('keydown', this.bindedKeydownHandler);
 		}
 	}
 </script>
