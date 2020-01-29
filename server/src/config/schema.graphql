@@ -5,19 +5,14 @@ type Query {
 }
 
 type Mutation {
-	# signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): AuthPayload
-  	# login(email: String!, password: String!): AuthPayload
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): User
 	login(email: String!, password: String!): User
 	createUrl(urlName: String!): URL
 	createPage(page: PageInput): Page,
-	createDir(dir: DirInput): Dir
+	createDir(dir: DirInput): Dir,
+	storeAssets(fileObj: FileInput!): File!
+	# storeAssets(file: Upload!): File
 }
-
-# type AuthPayload {
-#   	token: String
-#   	user: User
-# }
 
 type User {
   	id: ID!
@@ -62,7 +57,19 @@ input DirInput {
 	dirName: String!
 	parentDir: ID
 	urlId: ID!	
-} 
+}
+
+input FileInput {
+	file: Upload!
+	uploadDir: ID!
+	urlId: ID!
+}
+
+scalar Upload
+
+type File {
+	filePath: String!
+}
 
 # type Content {
 # 	simple: [String]

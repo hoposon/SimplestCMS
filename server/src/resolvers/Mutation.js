@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
-const { makeDir, validateDirName, parentDirPath } = require('../utils/fileSystem');
+const { makeDir, validateDirName, parentDirPath, storeFS } = require('../utils/fileSystem');
 const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
@@ -107,10 +107,50 @@ async function createDir(parent, args, context, info) {
 	return dir
 }
 
+async function storeAssets(parent, args, context, info) {
+	const userId = getUserId(context);
+	if (!userId) {
+		throw new Error('Not logged in')
+	}
+	console.log('storeAssets called>>>>')
+	// const { description, tags } = args;
+	const userUrls = await context.db.userUrls(userId);
+	console.log('urls >>>> ', userUrls)
+	if (!userUrls) {
+		throw new Error('Can not get user urls')
+	}
+	console.log('request url id>>>>', args.fileObj.urlId)
+	const url = userUrls.find(url => url.id == args.fileObj.urlId);
+	console.log('curent url >>> ', url)
+	if (!url) {
+		throw new Error('Invalid url id')
+	}
+	const dirs = await context.db.dirs(args.fileObj.urlId, userId);
+	console.log('dirs >>>>', dirs)
+	if (!dirs) {
+		throw new Error('Can not get dirs')
+	}
+	// console.log('parent dir path >>> ', parentDirPath(dirs, dir));
+	const uploadDirId = args.fileObj.uploadDir;
+	const parentDir = parentDirPath(dirs, uploadDirId);
+	console.log('parent dir path >>> ', parentDir)
+	const uploadDir = dirs.find(dir => dir.id == uploadDirId)
+	console.log('upload dir>>>>', uploadDir)
+	const { filename, mimetype, createReadStream } = await args.fileObj.file;
+	// console.log('file >>>> ', args.file)
+	// console.log('filename >>> ', filename)
+	// console.log('mimetype >>>> ', mimetype)
+	
+	const stream = createReadStream();
+	const filePath = await storeFS({ stream, filename, type: 'image', uploadDir: uploadDir.dirName, ulrDir: urlToDir(url.urlName), parentDir});
+	console.log('file saved to >>>> ', filePath)
+	return filePath;
+}
 module.exports = {
 	signup,
 	login,
 	createUrl,
 	createPage,
-	createDir
+	createDir,
+	storeAssets
 }

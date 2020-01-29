@@ -12,10 +12,15 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link-http": "^1.5.16",
+    "apollo-upload-client": "^11.0.0",
     "bootstrap": "^4.3.1",
     "bootstrap-vue": "^2.0.0-rc.11",
-    "graphql": "^14.4.2",
+    "graphql": "^14.5.8",
     "graphql-request": "^1.8.2",
+    "graphql-tag": "^2.10.1",
     "jquery": "^3.4.1",
     "nuxt": "^2.0.0",
     "popper.js": "^1.16.0"

@@ -56,7 +56,7 @@ function parentDirPath(dirs, newDirId) {
 
 		for (let i = 0; i < remainingDirs.length; i++) {
 			// console.log('remainingDirs[i] >>> ', remainingDirs[i])
-			if (newDirId === remainingDirs[i].id && remainingDirs[i].parentDir == parentDir) {
+			if (newDirId == remainingDirs[i].id && remainingDirs[i].parentDir == parentDir) {
 				remainingDirs = [];
 				// console.log('parentPath >>>> ', parentPath)
 				return parentPath;
@@ -78,8 +78,31 @@ function parentDirPath(dirs, newDirId) {
 	throw new Error('Parent directory not found')
 }
 
+function storeFS({ stream, filename, type, uploadDir, ulrDir, parentDir }) {
+	console.log('final path >>>>> ', path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir))
+	// if(!fs.existsSync(`${path.join(BASE_PATH, parentDir, uploadDir)}`)) {
+	// 	throw new Error('Directory does not exist')
+	// }
+	fs.statSync(`${path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir)}`)
+	const filePath = path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir, filename)
+    // const path = `${uploadDir}/${filename}`;
+    return new Promise((resolve, reject) =>
+        stream
+            .on('error', error => {
+                if (stream.truncated)
+                    // delete the truncated file
+                    fs.unlinkSync(path);
+                reject(error);
+            })
+            .pipe(fs.createWriteStream(filePath))
+            .on('error', error => reject(error))
+            .on('finish', () => resolve({ filePath }))
+    );
+}
+
 module.exports = {
 	makeDir,
 	validateDirName,
-	parentDirPath
+	parentDirPath,
+	storeFS
 }

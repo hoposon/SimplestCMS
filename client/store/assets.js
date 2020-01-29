@@ -1,6 +1,7 @@
 import { types } from './mutations-type.js'
 import { newGrphQlClient } from './helpers.js'
 import { Queries } from './graphQueries.js'
+import { apolloClient } from './helpers.js';
 
 export const state = () => ({
 	dirs: {},
@@ -107,10 +108,63 @@ export const actions = {
 			} else {
 				throw new Error('Internal error')
 			}
-			
 		}
 		catch(e) {
 			console.log('create Dir exception >>>> ', e)
+			throw new Error(e)
+		}
+	},
+	async storeAssets({commit, state, rootState}, files) {
+		// try {
+		// 	console.log('files >>>>> ', files[0])
+		// 	const client = newGrphQlClient({state: rootState, headers: {'Content-Type': 'multipart/form-data'}});
+		// 	console.log('files >>>>> ', files[0])
+		// 	let file = async function() {
+		// 		return files[0]
+		// 	}
+		// 	// const result = await client.request(Queries.storeAssets, {file: file()});
+		// 	const result = await client.request(Queries.storeAssets, {file: files[0]});
+		// 	if (result) {
+		// 		console.log('result storeAssets >>>> ', result)
+		// 		// commit(types.CREATE_DIR, result.createDir);
+		// 	} else {
+		// 		throw new Error('Internal error')
+		// 	}
+		// }
+		// catch(e) {
+		// 	console.log('storeAssets exception >>>> ', e)
+		// 	throw new Error(e)
+		// }
+		try {
+			if (!rootState.urls.currentUrl) throw new Error('Url not selected')
+			if (!state.currentDir) throw new Error('Current directory not set')
+			console.log('files >>>>> ', files[0])
+			const appClient = apolloClient(rootState.user.user)
+			// const result = await rootState.apolloClient.mutate({
+			// let reader = new FileReader;
+			// reader.onload = async function(evt) {
+				const result = await appClient.mutate({
+					// Query
+					mutation: Queries.storeAssetsApollo,
+					variables: {
+						fileInput: {
+							file: files[0],
+							uploadDir: parseInt(state.currentDir.split('/').pop()),
+							urlId:rootState.urls.currentUrl.id
+						}
+					}
+				})
+				if (result) {
+					console.log('result storeAssets >>>> ', result)
+					// commit(types.CREATE_DIR, result.createDir);
+				} else {
+					throw new Error('Internal error')
+				}
+			// };
+			// reader.readAsBinaryString(files[0]);
+		}
+		catch(e) {
+			console.log('storeAssets exception >>>> ', e)
 			throw new Error(e)
 		}
 	}

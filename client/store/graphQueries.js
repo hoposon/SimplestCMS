@@ -1,3 +1,5 @@
+import gql from 'graphql-tag'
+
 const Queries = {
 	loginQuery: `mutation login($email: String!, $password: String!) {
 		login(
@@ -64,12 +66,29 @@ const Queries = {
 			isRoot,
 			urlId
 		}
+	}`,
+	storeAssets: `mutation storeAssets($file: Upload!) {
+		storeAssets(file: $file)
+	}`,
+	storeAssetsApollo: gql`mutation storeAssets($fileInput: FileInput!) {
+		storeAssets(fileObj: $fileInput) {
+			filePath
+		}
 	}`
 }
 
-module.exports = {
+// const storeAssetsApollo = gql`mutation ($file: Upload!) {
+// 	storeAssets(file: $file)
+// }`
+
+// module.exports = {
+// 	Queries,
+// 	// storeAssetsApollo
+// }
+
+
+export {
 	Queries
 }
-
 
 

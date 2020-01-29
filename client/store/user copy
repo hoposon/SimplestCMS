@@ -15,9 +15,7 @@ export const state = () => ({
 })
 
 export const getters = {
-	// acl: (rootState) => (compName) => {
-	// 	return config.acls[compName].find(aclRols => rootState.user.roles.find(role => aclRols === role))
-	// }
+	
 	acl: (state) => (compName) => {
 		return config.acls[compName].find(aclRols => state.user.roles.find(role => aclRols === role))
 	}

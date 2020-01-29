@@ -69,9 +69,15 @@
 				}
 				this.showModal(options);
 			},
-			uploadImages(event) {
-				console.log('files >>>>> ', event.target.files)
-				this.uploadingFiles = event.target.files;
+			async uploadImages(event) {
+				try {
+					this.uploadingFiles = event.target.files;
+					await this.storeAssets(this.uploadingFiles);
+				}
+				catch(e) {
+					console.log('UploadImages exception >>>> ', e)
+				}
+				
 			},
 			dragenter(e) {
 				e.stopPropagation();
@@ -91,7 +97,8 @@
 				this.uploadImages(files);
 			},
 			...mapActions({
-				getDirs: 'assets/getDirs'
+				getDirs: 'assets/getDirs',
+				storeAssets: 'assets/storeAssets'
 			}),
 			...mapMutations({
 				showModal: 'SET_MODAL',
