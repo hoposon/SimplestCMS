@@ -29,7 +29,20 @@ function makeDir(urlName, type, parentPath, dirName) {
 	}	
 }
 
-function parentDirPath(dirs, newDirId) {
+function removeDir(dirPath, newDir=false) {
+	try {
+		if (newDir !== false) {
+			dirPath = path.join(dirPath, newDir)
+		}
+		fs.rmdirSync(dirPath, {recursive: true})
+	}
+	catch(e) {
+		console.log(e);
+		throw new Error(e.message)
+	}
+}
+
+function dirPath(dirs, newDirId) {
 	let rootIndex = 0;
 	let remainingDirs = [...dirs];
 	let orderedDirs = {};
@@ -39,8 +52,12 @@ function parentDirPath(dirs, newDirId) {
 	rootIndex = dirs.findIndex(dir => dir.isRoot);
 	orderedDirs[`${dirs[rootIndex].id}`] = { ...dirs[rootIndex], children: [], parentPath: '' };
 	paths.push(`${dirs[rootIndex].id}`); // set path to root
-	// state.currentDir = dirs[rootIndex].id.toString(); // set root as starting dir
 	remainingDirs.splice(rootIndex, 1); // remove root from remainingDirs
+
+	// when looking for root
+	if (dirs[rootIndex].id == newDirId) {
+		return ''
+	}
 	// console.log('orderedDirs 1 >>> ', orderedDirs)
 
 	// flatten other dirs
@@ -57,9 +74,9 @@ function parentDirPath(dirs, newDirId) {
 		for (let i = 0; i < remainingDirs.length; i++) {
 			// console.log('remainingDirs[i] >>> ', remainingDirs[i])
 			if (newDirId == remainingDirs[i].id && remainingDirs[i].parentDir == parentDir) {
-				remainingDirs = [];
+				// remainingDirs = [];
 				// console.log('parentPath >>>> ', parentPath)
-				return parentPath;
+				return parentPath + '/' + remainingDirs[i].dirName;
 			}
 
 			if (remainingDirs[i].parentDir == parentDir) {
@@ -78,13 +95,10 @@ function parentDirPath(dirs, newDirId) {
 	throw new Error('Parent directory not found')
 }
 
-function storeFS({ stream, filename, type, uploadDir, ulrDir, parentDir }) {
-	console.log('final path >>>>> ', path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir))
-	// if(!fs.existsSync(`${path.join(BASE_PATH, parentDir, uploadDir)}`)) {
-	// 	throw new Error('Directory does not exist')
-	// }
-	fs.statSync(`${path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir)}`)
-	const filePath = path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir, filename)
+function storeFS({ stream, ulrDir, type, filePath, filename }) {
+	// console.log('final path >>>>> ', path.join(BASE_PATH, ulrDir, getTypePath(type), parentDir, uploadDir))
+	fs.statSync(`${path.join(BASE_PATH, ulrDir, getTypePath(type), filePath)}`)
+	const assetPath = path.join(BASE_PATH, ulrDir, getTypePath(type), filePath, filename)
     // const path = `${uploadDir}/${filename}`;
     return new Promise((resolve, reject) =>
         stream
@@ -94,15 +108,16 @@ function storeFS({ stream, filename, type, uploadDir, ulrDir, parentDir }) {
                     fs.unlinkSync(path);
                 reject(error);
             })
-            .pipe(fs.createWriteStream(filePath))
+            .pipe(fs.createWriteStream(assetPath))
             .on('error', error => reject(error))
-            .on('finish', () => resolve({ filePath }))
+            .on('finish', () => resolve({ assetPath }))
     );
 }
 
 module.exports = {
 	makeDir,
+	removeDir,
 	validateDirName,
-	parentDirPath,
+	dirPath,
 	storeFS
 }

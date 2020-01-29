@@ -72,7 +72,7 @@ const Queries = {
 	}`,
 	storeAssetsApollo: gql`mutation storeAssets($fileInput: FileInput!) {
 		storeAssets(fileObj: $fileInput) {
-			filePath
+			assetPath
 		}
 	}`
 }

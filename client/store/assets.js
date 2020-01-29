@@ -149,7 +149,7 @@ export const actions = {
 					variables: {
 						fileInput: {
 							file: files[0],
-							uploadDir: parseInt(state.currentDir.split('/').pop()),
+							uploadDirId: parseInt(state.currentDir.split('/').pop()),
 							urlId:rootState.urls.currentUrl.id
 						}
 					}

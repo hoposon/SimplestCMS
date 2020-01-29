@@ -1,17 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
-const { makeDir, validateDirName, parentDirPath, storeFS } = require('../utils/fileSystem');
+const { makeDir, removeDir, validateDirName, dirPath, storeFS } = require('../utils/fileSystem');
 const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
 async function signup(parent, args, context, info) {
 	const password = await bcrypt.hash(args.password, 10)
 	const user = await context.db.createUser({ ...args, password });
-	
-	if (!user) {
-		throw new Error('User not created')
-	}
 	user.token = jwt.sign({ userId: user.id }, APP_SECRET)
 	console.log('user >>>> ', user)
 	return user
@@ -19,9 +15,7 @@ async function signup(parent, args, context, info) {
 
 async function login(parent, args, context, info) {
 	const user = await context.db.user({ email: args.email })
-	if (!user) {
-		throw new Error('No such user found')
-	}
+
 	const valid = await bcrypt.compare(args.password, user.password)
 	if (!valid) {
 		throw new Error('Invalid password')
@@ -33,9 +27,7 @@ async function login(parent, args, context, info) {
 
 async function createUrl(parent, args, context, info) {
 	const userId = getUserId(context);
-	if (!userId) {
-		throw new Error('Not logged in')
-	}
+
 	if (!validateUrl(args.urlName)) {
 		throw new Error('Invalid Url');
 	}
@@ -62,9 +54,7 @@ async function createUrl(parent, args, context, info) {
 
 async function createPage(parent, args, context, info) {
 	const userId = getUserId(context);
-	if (!userId) {
-		throw new Error('Not logged in')
-	}
+
 	const page = await context.db.createPage(args.page, userId);
 	if (!page) {
 		throw new Error('{Page} not created')
@@ -75,32 +65,38 @@ async function createPage(parent, args, context, info) {
 async function createDir(parent, args, context, info) {
 	console.log('createDir mut >>>>> ', args)
 	const userId = getUserId(context);
-	if (!userId) {
-		throw new Error('Not logged in')
-	}
+
 	validateDirName(args.dir.dirname);
 	let newDir = {dirName:'', parentDir:-1, urlId:-1, isRoot:false, ...args.dir};
-	// newDir.isRoot = false;
 	console.log('new dir >>>> ', newDir)
-	const dir = await context.db.createDir(newDir, userId);
-	if (!dir) {
-		throw new Error('Dir not created')
-	}
+
+	// const dir = await context.db.createDir(newDir, userId);
+	// if (!dir) {
+	// 	throw new Error('Dir not created')
+	// }
 
 	const url = await context.db.userUrlById(userId, args.dir.urlId);
 	if (!url) {
 		throw new Error('Can not get url')
 	}
 
-	if (dir.isRoot) {
+	if (newDir.isRoot) {
 		makeDir(urlToDir(url.urlName), 'image', '', args.dir.dirName)
 	} else {
 		const dirs = await context.db.dirs(args.dir.urlId, userId);
 		if (!dirs) {
 			throw new Error('Dirs not selected')
 		}
-		console.log('parent dir path >>> ', parentDirPath(dirs, dir.id));
-		makeDir(urlToDir(url.urlName), 'image', parentDirPath(dirs, dir.id), args.dir.dirName)
+		// console.log('parent dir path >>> ', parentDirPath(dirs, dir.id));
+		console.log('parent dir path >>> ', dirPath(dirs, newDir.parentDir));
+		// makeDir(urlToDir(url.urlName), 'image', parentDirPath(dirs, dir.id), args.dir.dirName)
+		makeDir(urlToDir(url.urlName), 'image', dirPath(dirs, newDir.parentDir), args.dir.dirName)
+	}
+
+	const dir = await context.db.createDir(newDir, userId);
+	if (!dir) {
+		removeDir(dirPath(dirs, newDir.parentDir), args.dir.dirName)
+		throw new Error('Dir not created')
 	}
 	
 	console.log('created dir >>> ', dir)
@@ -109,9 +105,7 @@ async function createDir(parent, args, context, info) {
 
 async function storeAssets(parent, args, context, info) {
 	const userId = getUserId(context);
-	if (!userId) {
-		throw new Error('Not logged in')
-	}
+
 	console.log('storeAssets called>>>>')
 	// const { description, tags } = args;
 	const userUrls = await context.db.userUrls(userId);
@@ -131,18 +125,20 @@ async function storeAssets(parent, args, context, info) {
 		throw new Error('Can not get dirs')
 	}
 	// console.log('parent dir path >>> ', parentDirPath(dirs, dir));
-	const uploadDirId = args.fileObj.uploadDir;
-	const parentDir = parentDirPath(dirs, uploadDirId);
-	console.log('parent dir path >>> ', parentDir)
-	const uploadDir = dirs.find(dir => dir.id == uploadDirId)
-	console.log('upload dir>>>>', uploadDir)
+	const newDirPath = dirPath(dirs, args.fileObj.uploadDirId);
+	console.log('parent dir path >>> ', newDirPath)
+	// const uploadDir = dirs.find(dir => dir.id == args.fileObj.uploadDirId)
+	// if (!uploadDir) {
+	// 	throw new Error('Invalid dir id')
+	// }
+	// console.log('upload dir>>>>', uploadDir)
 	const { filename, mimetype, createReadStream } = await args.fileObj.file;
 	// console.log('file >>>> ', args.file)
 	// console.log('filename >>> ', filename)
 	// console.log('mimetype >>>> ', mimetype)
 	
 	const stream = createReadStream();
-	const filePath = await storeFS({ stream, filename, type: 'image', uploadDir: uploadDir.dirName, ulrDir: urlToDir(url.urlName), parentDir});
+	const filePath = await storeFS({ stream, ulrDir: urlToDir(url.urlName), type: 'image', filePath: newDirPath, filename });
 	console.log('file saved to >>>> ', filePath)
 	return filePath;
 }

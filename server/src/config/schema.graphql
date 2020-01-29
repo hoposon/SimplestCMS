@@ -61,14 +61,14 @@ input DirInput {
 
 input FileInput {
 	file: Upload!
-	uploadDir: ID!
+	uploadDirId: ID!
 	urlId: ID!
 }
 
 scalar Upload
 
 type File {
-	filePath: String!
+	assetPath: String!
 }
 
 # type Content {
