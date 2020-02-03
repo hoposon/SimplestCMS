@@ -70,23 +70,20 @@ async function createDir(parent, args, context, info) {
 	let newDir = {dirName:'', parentDir:-1, urlId:-1, isRoot:false, ...args.dir};
 	console.log('new dir >>>> ', newDir)
 
-	// const dir = await context.db.createDir(newDir, userId);
-	// if (!dir) {
-	// 	throw new Error('Dir not created')
-	// }
-
 	const url = await context.db.userUrlById(userId, args.dir.urlId);
 	if (!url) {
 		throw new Error('Can not get url')
 	}
 
+	let dirs = null;
 	if (newDir.isRoot) {
 		makeDir(urlToDir(url.urlName), 'image', '', args.dir.dirName)
 	} else {
-		const dirs = await context.db.dirs(args.dir.urlId, userId);
+		dirs = await context.db.dirs(args.dir.urlId, userId);
 		if (!dirs) {
 			throw new Error('Dirs not selected')
 		}
+		console.log('createDir dirs >>>>>', dirs)
 		// console.log('parent dir path >>> ', parentDirPath(dirs, dir.id));
 		console.log('parent dir path >>> ', dirPath(dirs, newDir.parentDir));
 		// makeDir(urlToDir(url.urlName), 'image', parentDirPath(dirs, dir.id), args.dir.dirName)
@@ -95,7 +92,7 @@ async function createDir(parent, args, context, info) {
 
 	const dir = await context.db.createDir(newDir, userId);
 	if (!dir) {
-		removeDir(dirPath(dirs, newDir.parentDir), args.dir.dirName)
+		removeDir(urlToDir(url.urlName), 'image', dirPath(dirs, newDir.parentDir), args.dir.dirName)
 		throw new Error('Dir not created')
 	}
 	
@@ -140,7 +137,21 @@ async function storeAssets(parent, args, context, info) {
 	const stream = createReadStream();
 	const filePath = await storeFS({ stream, ulrDir: urlToDir(url.urlName), type: 'image', filePath: newDirPath, filename });
 	console.log('file saved to >>>> ', filePath)
-	return filePath;
+
+	// store to db
+	const asset = {
+		assetType: 'image',
+		stored_asset_name: filename,
+		directory: parseInt(args.fileObj.uploadDirId)
+	}
+	const assetId = await context.db.createAsset(asset);
+	if (!assetId) {
+		// remove file if database not sucessful
+		removeFile(filePath)
+		throw new Error('Asset not stored in db')
+	}
+
+	return 'OK';
 }
 module.exports = {
 	signup,

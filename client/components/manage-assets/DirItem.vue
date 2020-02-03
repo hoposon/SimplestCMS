@@ -1,21 +1,28 @@
 <template>
-	<div class="dir-item d-flex justify-content-center align-items-center" @click='setCurrentDir({dirId: dir.id})'>
+	<div class="dir-item d-flex justify-content-center align-items-center" @click=''>
 		<span>{{ dir.dirName }}</span>
 	</div>
 </template>
 
 <script>
-	import { mapMutations } from 'vuex';
+	import { mapMutations, mapActions } from 'vuex';
 
 	export default {
 		props: [
 			'dir'
 		],
 		methods: {
+			async setThisDir() {
+				this.setCurrentDir({dirId: dir.id})
+				await this.getDirAssets();
+			},
 			...mapMutations({
 				setCurrentDir: 'assets/SET_CURRENT_DIR'
+			}),
+			...mapActions({
+				getDirAssets: 'assets/getDirAssets'
 			})
-		},
+		}
 	}
 </script>
 

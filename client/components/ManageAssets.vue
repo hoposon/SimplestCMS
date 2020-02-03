@@ -67,7 +67,7 @@
 			
 			...mapMutations({
 				// showModal: 'SET_MODAL',
-				parentDir: 'assets/CHANGE_PARENT_DIR'
+				parentDir: 'assets/SET_CURRENT_DIR'
 			})
 		},
 	}

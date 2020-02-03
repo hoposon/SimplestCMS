@@ -4,8 +4,6 @@
 		<div ref='dropZone' class='drop-zone' :class='{"no-assets": noData}'>
 			<DirItem v-for='dir in currentChildren' :key='dir.id' :dir='dir' />
 			<div v-if='noData' class="no-assets-text">No assets here</div>
-			<!-- <AssetItem v-for='asset in currentChildren' :key='' :asset='asset' /> -->
-			<UploadingFile v-for='file in uploadingFiles' :key='file.name' :file='file' />
 		</div>
 		<div class="assets-toolbar col-2 d-flex flex-column align-items-center">
 			<button class="btn-custom" @click='uploadFiles()'>Add File</button>
@@ -18,30 +16,24 @@
 	import { mapState, mapActions, mapMutations } from 'vuex';
 
 	import DirItem from './manage-assets/DirItem'
-	import UploadingFile from './manage-assets/UploadingFile'
 
 	export default {
 		components: {
-			DirItem,
-			UploadingFile
+			DirItem
 		},
-		props: [
-		],
 		data() {
 			return {
-				accept: 'image/png, image/jpg, image/jpeg, image/svg',
-				uploadingFiles: []
+				accept: 'image/png, image/jpg, image/jpeg, image/svg'
 			}
 		},
 		computed: {
 			noData() {
-				return this.currentChildren.length ==  0 && this.uploadingFiles.length == 0
+				return this.currentChildren.length == 0 && this.currentAssets.length == 0
 			},
 			...mapState({
 				currentUrl: state => state.urls.currentUrl,
-				// dirs: state => state.assets.dirs,
-				// currentDir: state => state.assets.currentDir,
-				currentChildren: state => state.assets.currentChildren
+				currentChildren: state => state.assets.currentChildren,
+				currentAssets: state => state.assets.currentAssets
 			})
 		},
 		methods: {
@@ -71,8 +63,7 @@
 			},
 			async uploadImages(event) {
 				try {
-					this.uploadingFiles = event.target.files;
-					await this.storeAssets(this.uploadingFiles);
+					await this.storeAssets(event.target.files);
 				}
 				catch(e) {
 					console.log('UploadImages exception >>>> ', e)
@@ -116,6 +107,9 @@
 			this.$refs.dropZone.addEventListener("dragenter", this.dragenter, false);
 			this.$refs.dropZone.addEventListener("dragover", this.dragover, false);
 			this.$refs.dropZone.addEventListener("drop", this.drop, false);
+		},
+		async fetch({ store }) {
+			await store.dispatch('assets/getDirAssets')		
 		}
 	}
 </script>

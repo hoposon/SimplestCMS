@@ -2,15 +2,16 @@ type Query {
   urls: [URL]
   pages(urlId: ID!): [Page]
   dirs(urlId: ID!): [Dir]
+  dirAssets(assetQ: AssetQueryParams!): [Asset]
 }
 
 type Mutation {
 	signup(email: String!, nickName: String, firstName: String, lastName: String, password: String!): User
 	login(email: String!, password: String!): User
 	createUrl(urlName: String!): URL
-	createPage(page: PageInput): Page,
-	createDir(dir: DirInput): Dir,
-	storeAssets(fileObj: FileInput!): File!
+	createPage(page: PageInput): Page
+	createDir(dir: DirInput): Dir
+	storeAssets(fileObj: FileInput!): String
 	# storeAssets(file: Upload!): File
 }
 
@@ -67,9 +68,20 @@ input FileInput {
 
 scalar Upload
 
-type File {
-	assetPath: String!
+input AssetQueryParams {
+	dirId: ID!
+	urlid: ID!
 }
+
+type Asset {
+	assetUrl: String!
+	assetName: String!
+	assetType: String!
+}
+
+# type File {
+# 	assetPath: String!
+# }
 
 # type Content {
 # 	simple: [String]

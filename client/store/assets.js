@@ -6,7 +6,8 @@ import { apolloClient } from './helpers.js';
 export const state = () => ({
 	dirs: {},
 	currentDir: '',
-	currentChildren: []
+	currentChildren: [],
+	currentAssets: []
 })
 
 export const mutations = {
@@ -54,11 +55,19 @@ export const mutations = {
 		state.dirs = orderedDirs;
 		state.currentChildren = orderedDirs[state.currentDir].children
 	},
-	[types.SET_CURRENT_DIR](state, {dirId}) {
+	[types.SET_CURRENT_DIR](state, {dirId=null}) {
 		// console.log('state.currentDir >>>> ', state.currentDir)
-		state.currentDir = state.currentDir+'/'+dirId
-		// console.log('state.currentDir >>>> ', state.currentDir)
-		state.currentChildren = state.dirs[state.currentDir].children
+		if (!dirId) { // one dir up
+			let splitDir = state.currentDir.split('/');
+			splitDir.splice(-1,1)
+			state.currentDir = splitDir.join('/');
+			state.currentChildren = state.dirs[state.currentDir].children;
+		} else {
+			state.currentDir = state.currentDir+'/'+dirId
+			// console.log('state.currentDir >>>> ', state.currentDir)
+			state.currentChildren = state.dirs[state.currentDir].children
+		}
+		
 	},
 	[types.CREATE_DIR] (state, dir) {
 		state.currentChildren.push({id: dir.id, dirName: dir.dirName, isRoot: false, parentDir: dir.parentDir, urlId: dir.urlId});
@@ -68,12 +77,16 @@ export const mutations = {
 		// console.log('currentChildren >>>> ', state.currentChildren)
 		// console.log('dirs >>>> ', state.dirs)
 	},
-	[types.CHANGE_PARENT_DIR] (state) {
-		let splitDir = state.currentDir.split('/');
-		splitDir.splice(-1,1)
-		state.currentDir = splitDir.join('/');
-		state.currentChildren = state.dirs[state.currentDir].children;
+	[types.SET_CURRENT_DIR_ASSETS] (state, assets) {
+		state.dirs[state.currentDir].assets = assets;
+		state.currentChildren = assets;
 	}
+	// [types.CHANGE_PARENT_DIR] (state) {
+	// 	let splitDir = state.currentDir.split('/');
+	// 	splitDir.splice(-1,1)
+	// 	state.currentDir = splitDir.join('/');
+	// 	state.currentChildren = state.dirs[state.currentDir].children;
+	// }
 }
 
 export const actions = {
@@ -140,32 +153,55 @@ export const actions = {
 			if (!state.currentDir) throw new Error('Current directory not set')
 			console.log('files >>>>> ', files[0])
 			const appClient = apolloClient(rootState.user.user)
-			// const result = await rootState.apolloClient.mutate({
-			// let reader = new FileReader;
-			// reader.onload = async function(evt) {
-				const result = await appClient.mutate({
-					// Query
-					mutation: Queries.storeAssetsApollo,
-					variables: {
-						fileInput: {
-							file: files[0],
-							uploadDirId: parseInt(state.currentDir.split('/').pop()),
-							urlId:rootState.urls.currentUrl.id
-						}
+			const result = await appClient.mutate({
+				// Query
+				mutation: Queries.storeAssets,
+				variables: {
+					fileInput: {
+						file: files[0],
+						uploadDirId: parseInt(state.currentDir.split('/').pop()),
+						urlId:rootState.urls.currentUrl.id
 					}
-				})
-				if (result) {
-					console.log('result storeAssets >>>> ', result)
-					// commit(types.CREATE_DIR, result.createDir);
-				} else {
-					throw new Error('Internal error')
 				}
+			})
+			if (result) {
+				console.log('result storeAssets >>>> ', result)
+				// commit(types.CREATE_DIR, result.createDir);
+			} else {
+				throw new Error('Internal error')
+			}
 			// };
 			// reader.readAsBinaryString(files[0]);
 		}
 		catch(e) {
 			console.log('storeAssets exception >>>> ', e)
 			throw new Error(e)
+		}
+	},
+	async getDirAssets({commit, state, rootState}, force=false) {
+		// !TODO - move these two checks into function
+		if (!rootState.urls.currentUrl) throw new Error('Url not selected')
+		if (!state.currentDir) throw new Error('Current directory not set')
+
+		// should we do the querry or do we alredy have assest for this dir
+		if (!state.dirs[state.currentDir].assets || force) {
+			const appClient = apolloClient(rootState.user.user)
+			const result = await appClient.query({
+				// Query
+				query: Queries.dirAssets,
+				variables: {
+					assetQ: {
+						dirId: parseInt(state.currentDir.split('/').pop()),
+						urlId: rootState.urls.currentUrl.id
+					}
+				}
+			});
+			if (result) {
+				console.log('dir assets >>>> ', result)
+				// commit(types.SET_CURRENT_DIR_ASSETS, result.assets)
+			} else {
+				throw new Error('Internal error')
+			}
 		}
 	}
 }

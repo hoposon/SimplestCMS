@@ -19,9 +19,10 @@ CREATE INDEX page_assets_assets_idx ON app_public.PAGE_ASSETS (asset_id);
 
 CREATE INDEX page_gallery_idx ON app_public.GALLERY (page_id);
 CREATE INDEX page_page_gallery_idx ON app_public.PAGE_GALLERY (page_id);
-CREATE INDEX page_gallery_gallery_idx ON app_public.GALLERY_ASSETS (gallery_id);
 
+CREATE INDEX page_gallery_gallery_idx ON app_public.GALLERY_ASSETS (gallery_id);
 CREATE INDEX gallery_gallery_assets_idx ON app_public.GALLERY_ASSETS (gallery_id);
 CREATE INDEX gallery_assets_assets_idx ON app_public.GALLERY_ASSETS (asset_id);
 
-CREATE INDEX dirs_assets_idx ON app_public.ASSETS (directory);
+CREATE INDEX dirs_assets_idx ON app_public.ASSETS (dir_id);
+CREATE INDEX urls_assets_idx ON app_public.ASSETS (url_id);

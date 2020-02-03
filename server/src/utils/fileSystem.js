@@ -29,15 +29,28 @@ function makeDir(urlName, type, parentPath, dirName) {
 	}	
 }
 
-function removeDir(dirPath, newDir=false) {
+function removeDir(urlName, type, parentPath, dirName='') {
 	try {
-		if (newDir !== false) {
-			dirPath = path.join(dirPath, newDir)
-		}
-		fs.rmdirSync(dirPath, {recursive: true})
+		const rmDirPath = path.join(BASE_PATH, urlName, getTypePath(type), parentPath, dirName)
+		console.log('removeDir >>> ', rmDirPath)
+		// if (newDir !== false) {
+		// 	console.log('removeDir 1>>>>>>', dirPath)
+		// 	dirPath = path.join(dirPath, newDir)
+		// }
+		fs.rmdirSync(rmDirPath, {recursive: true})
 	}
 	catch(e) {
 		console.log(e);
+		throw new Error(e.message)
+	}
+}
+
+function removeFile(path) {
+	try {
+		fs.unlinkSync(path)
+	}
+	catch(e) {
+		console.log(e)
 		throw new Error(e.message)
 	}
 }
@@ -49,6 +62,7 @@ function dirPath(dirs, newDirId) {
 	let paths = [];
 
 	// find root
+	console.log('dirPath >>>> ', dirs)
 	rootIndex = dirs.findIndex(dir => dir.isRoot);
 	orderedDirs[`${dirs[rootIndex].id}`] = { ...dirs[rootIndex], children: [], parentPath: '' };
 	paths.push(`${dirs[rootIndex].id}`); // set path to root
@@ -117,6 +131,7 @@ function storeFS({ stream, ulrDir, type, filePath, filename }) {
 module.exports = {
 	makeDir,
 	removeDir,
+	removeFile,
 	validateDirName,
 	dirPath,
 	storeFS

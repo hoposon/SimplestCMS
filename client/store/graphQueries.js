@@ -67,12 +67,17 @@ const Queries = {
 			urlId
 		}
 	}`,
-	storeAssets: `mutation storeAssets($file: Upload!) {
-		storeAssets(file: $file)
+	// storeAssets: `mutation storeAssets($file: Upload!) {
+	// 	storeAssets(file: $file)
+	// }`,
+	storeAssets: gql`mutation storeAssets($fileInput: FileInput!) {
+		storeAssets(fileObj: $fileInput)
 	}`,
-	storeAssetsApollo: gql`mutation storeAssets($fileInput: FileInput!) {
-		storeAssets(fileObj: $fileInput) {
-			assetPath
+	dirAssets: gql`query dirAssets($assetQ: AssetQueryParams!) {
+		dirAssets(assetQ: $assetQ) {
+			assetUrl,
+			assetName,
+			assetType
 		}
 	}`
 }
