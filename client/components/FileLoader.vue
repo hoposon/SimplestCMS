@@ -89,28 +89,42 @@
 			},
 			...mapActions({
 				getDirs: 'assets/getDirs',
-				storeAssets: 'assets/storeAssets'
+				storeAssets: 'assets/storeAssets',
+				getDirAssets: 'assets/getDirAssets'
 			}),
 			...mapMutations({
 				showModal: 'SET_MODAL',
 			})
 		},
-		async mounted() {
+		async created() {
 			if (this.currentUrl) {
 				try {
 					await this.getDirs();
+					await this.getDirAssets();	
 				}
 				catch(e) {
 					console.log('comp getDirs exception >>>> ', e)
 				}
-			}	
+			}
+		},
+		async mounted() {
 			this.$refs.dropZone.addEventListener("dragenter", this.dragenter, false);
 			this.$refs.dropZone.addEventListener("dragover", this.dragover, false);
 			this.$refs.dropZone.addEventListener("drop", this.drop, false);
-		},
-		async fetch({ store }) {
-			await store.dispatch('assets/getDirAssets')		
 		}
+		// async mounted() {
+		// 	if (this.currentUrl) {
+		// 		try {
+		// 			await this.getDirs();
+		// 		}
+		// 		catch(e) {
+		// 			console.log('comp getDirs exception >>>> ', e)
+		// 		}
+		// 	}	
+		// 	this.$refs.dropZone.addEventListener("dragenter", this.dragenter, false);
+		// 	this.$refs.dropZone.addEventListener("dragover", this.dragover, false);
+		// 	this.$refs.dropZone.addEventListener("drop", this.drop, false);
+		// },
 	}
 </script>
 

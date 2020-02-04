@@ -63,6 +63,7 @@ export const mutations = {
 			state.currentDir = splitDir.join('/');
 			state.currentChildren = state.dirs[state.currentDir].children;
 		} else {
+			console.log('set current dir')
 			state.currentDir = state.currentDir+'/'+dirId
 			// console.log('state.currentDir >>>> ', state.currentDir)
 			state.currentChildren = state.dirs[state.currentDir].children
@@ -180,28 +181,35 @@ export const actions = {
 	},
 	async getDirAssets({commit, state, rootState}, force=false) {
 		// !TODO - move these two checks into function
-		if (!rootState.urls.currentUrl) throw new Error('Url not selected')
-		if (!state.currentDir) throw new Error('Current directory not set')
+		console.log('getDirAssets >>>> ')
+		console.log('current directory >>>> ', state.currentDir)
+		try {
+			if (!rootState.urls.currentUrl) throw new Error('Url not selected')
+			if (!state.currentDir) throw new Error('Current directory not set')
 
-		// should we do the querry or do we alredy have assest for this dir
-		if (!state.dirs[state.currentDir].assets || force) {
-			const appClient = apolloClient(rootState.user.user)
-			const result = await appClient.query({
-				// Query
-				query: Queries.dirAssets,
-				variables: {
-					assetQ: {
-						dirId: parseInt(state.currentDir.split('/').pop()),
-						urlId: rootState.urls.currentUrl.id
+			// should we do the querry or do we alredy have assest for this dir
+			if (!state.dirs[state.currentDir].assets || force) {
+				const appClient = apolloClient(rootState.user.user)
+				const result = await appClient.query({
+					// Query
+					query: Queries.dirAssets,
+					variables: {
+						assetQ: {
+							dirId: parseInt(state.currentDir.split('/').pop()),
+							urlId: parseInt(rootState.urls.currentUrl.id)
+						}
 					}
+				});
+				if (result && result.data && result.data.dirAssets) {
+					console.log('dir assets >>>> ', result.data.dirAssets)
+					commit(types.SET_CURRENT_DIR_ASSETS, result.data.dirAssets)
+				} else {
+					throw new Error('Internal error')
 				}
-			});
-			if (result) {
-				console.log('dir assets >>>> ', result)
-				// commit(types.SET_CURRENT_DIR_ASSETS, result.assets)
-			} else {
-				throw new Error('Internal error')
 			}
+		}
+		catch(e) {
+
 		}
 	}
 }

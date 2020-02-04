@@ -36,14 +36,14 @@ async function dirs(parent, args, context, info) {
 async function dirAssets(parent, args, context, info) {
 	const userId = getUserId(context);
 
-	const assets = await context.db.dirAssets(args.dirId, args.urlId, userId)
+	const assets = await context.db.dirAssets(args.assetQ.dirId, args.assetQ.urlId, userId)
 	if (!assets) {
 		throw new Error('Assets not selected')
 	}
 	console.log('get assets >>>> ', assets);
 
 	// set asset URL
-	
+
 	return assets
 }
 

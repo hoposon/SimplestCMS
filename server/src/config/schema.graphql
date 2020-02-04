@@ -70,7 +70,7 @@ scalar Upload
 
 input AssetQueryParams {
 	dirId: ID!
-	urlid: ID!
+	urlId: ID!
 }
 
 type Asset {

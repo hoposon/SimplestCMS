@@ -132,6 +132,9 @@ class DB {
 
 	async dirAssets(dirId, urlId, userId) {
 		try {
+			console.log('dirId >>>>', dirId)
+			console.log('urlId >>>>', urlId)
+			console.log('userId >>>>', userId)
 			let assets = await pg('assets')
 								.join('dirs', 'dirs.id', '=', 'assets.dir_id')
 								.join('users_urls', 'users_urls.url_id', '=', 'dirs.url_id', 'users_urls.url_id', '=', 'assets.url_id')

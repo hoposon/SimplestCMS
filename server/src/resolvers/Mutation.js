@@ -142,7 +142,7 @@ async function storeAssets(parent, args, context, info) {
 	const asset = {
 		assetType: 'image',
 		stored_asset_name: filename,
-		directory: parseInt(args.fileObj.uploadDirId)
+		dirId: parseInt(args.fileObj.uploadDirId)
 	}
 	const assetId = await context.db.createAsset(asset);
 	if (!assetId) {

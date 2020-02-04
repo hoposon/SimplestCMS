@@ -1,5 +1,5 @@
 <template>
-	<div class="dir-item d-flex justify-content-center align-items-center" @click=''>
+	<div class="dir-item d-flex justify-content-center align-items-center" @click='setThisDir()'>
 		<span>{{ dir.dirName }}</span>
 	</div>
 </template>
@@ -13,7 +13,7 @@
 		],
 		methods: {
 			async setThisDir() {
-				this.setCurrentDir({dirId: dir.id})
+				this.setCurrentDir({dirId: this.dir.id})
 				await this.getDirAssets();
 			},
 			...mapMutations({
