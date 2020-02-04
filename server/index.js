@@ -1,8 +1,9 @@
-const { GraphQLServer } = require('graphql-yoga')
-const { DB } = require('./src/postgreSQL/db')
+const { GraphQLServer } = require('graphql-yoga');
+const express = require('express');
+const { DB } = require('./src/postgreSQL/db');
 
-const Query = require('./src/resolvers/Query')
-const Mutation = require('./src/resolvers/Mutation')
+const Query = require('./src/resolvers/Query');
+const Mutation = require('./src/resolvers/Mutation');
 
 // (async function () {
 // 	console.log(await db.pages());
@@ -44,4 +45,7 @@ const server = new GraphQLServer({
 		}
 	},
 })
+
+server.express.use("/", express.static("assets"));
+
 server.start(() => console.log(`Server is running on http://localhost:4000`))

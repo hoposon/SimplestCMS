@@ -72,7 +72,7 @@ class DB {
 			url = url.map(url => {
 				return switchObjectKeysCase(url, 'camelCase')
 			})
-			console.log(url)
+			console.log('userUrlById >>>>', url)
 			return url[0]
 		}
 		catch(e) {
@@ -137,7 +137,7 @@ class DB {
 			console.log('userId >>>>', userId)
 			let assets = await pg('assets')
 								.join('dirs', 'dirs.id', '=', 'assets.dir_id')
-								.join('users_urls', 'users_urls.url_id', '=', 'dirs.url_id', 'users_urls.url_id', '=', 'assets.url_id')
+								.join('users_urls', 'users_urls.url_id', '=', 'dirs.url_id')
 								.select('assets.*').where({'dirs.id': dirId, 'users_urls.url_id': urlId, 'users_urls.user_id': userId})
 			console.log('get dir assets >>> ', assets)
 			assets = assets.map(asset => {
@@ -235,7 +235,7 @@ class DB {
 			return {id: (await pg('assets').insert(switchObjectKeysCase(asset, 'snakeCase')).returning('id'))[0]}
 		}
 		catch(e) {
-			console.log('pg.createUser exception: ', e)
+			console.log('pg.createAsset exception: ', e)
 			// !TODO - log exception
 			// throw exception
 			return undefined;

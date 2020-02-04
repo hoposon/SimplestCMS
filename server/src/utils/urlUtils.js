@@ -17,10 +17,18 @@ function urlToDir(url) {
 	} else {
 		throw new Error('urlToDir not match dir name')
 	}
-	
+}
+
+function assetUrl(assetUrlDir, assetType, assetDir, assetName) {
+	console.log('assetUrlDir', assetUrlDir)
+	console.log('assetType', assetType)
+	console.log('assetDir', assetDir)
+	console.log('assetName', assetName)
+	return `${assetUrlDir}/${assetType}${assetDir}/${assetName}`
 }
 
 module.exports = {
 	validateUrl,
-	urlToDir
+	urlToDir,
+	assetUrl
 }

@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/authentication');
-const { makeDir, removeDir, validateDirName, dirPath, storeFS } = require('../utils/fileSystem');
+const { makeDir, removeDir, removeFile, validateDirName, dirPath, storeFS } = require('../utils/fileSystem');
 const { validateUrl, urlToDir } = require('../utils/urlUtils');
 
 
@@ -142,8 +142,10 @@ async function storeAssets(parent, args, context, info) {
 	const asset = {
 		assetType: 'image',
 		stored_asset_name: filename,
-		dirId: parseInt(args.fileObj.uploadDirId)
+		dirId: parseInt(args.fileObj.uploadDirId),
+		urlId: parseInt(args.fileObj.urlId)
 	}
+	console.log('asset before store >>>', asset)
 	const assetId = await context.db.createAsset(asset);
 	if (!assetId) {
 		// remove file if database not sucessful

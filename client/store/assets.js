@@ -55,7 +55,7 @@ export const mutations = {
 		state.dirs = orderedDirs;
 		state.currentChildren = orderedDirs[state.currentDir].children
 	},
-	[types.SET_CURRENT_DIR](state, {dirId=null}) {
+	[types.SET_CURRENT_DIR](state, {dirId=null}={}) {
 		// console.log('state.currentDir >>>> ', state.currentDir)
 		if (!dirId) { // one dir up
 			let splitDir = state.currentDir.split('/');
@@ -80,7 +80,7 @@ export const mutations = {
 	},
 	[types.SET_CURRENT_DIR_ASSETS] (state, assets) {
 		state.dirs[state.currentDir].assets = assets;
-		state.currentChildren = assets;
+		state.currentAssets = assets;
 	}
 	// [types.CHANGE_PARENT_DIR] (state) {
 	// 	let splitDir = state.currentDir.split('/');
@@ -128,7 +128,7 @@ export const actions = {
 			throw new Error(e)
 		}
 	},
-	async storeAssets({commit, state, rootState}, files) {
+	async storeAssets({commit, dispatch, state, rootState}, files) {
 		// try {
 		// 	console.log('files >>>>> ', files[0])
 		// 	const client = newGrphQlClient({state: rootState, headers: {'Content-Type': 'multipart/form-data'}});
@@ -167,7 +167,7 @@ export const actions = {
 			})
 			if (result) {
 				console.log('result storeAssets >>>> ', result)
-				// commit(types.CREATE_DIR, result.createDir);
+				await dispatch('getDirAssets', true)
 			} else {
 				throw new Error('Internal error')
 			}
@@ -188,6 +188,7 @@ export const actions = {
 			if (!state.currentDir) throw new Error('Current directory not set')
 
 			// should we do the querry or do we alredy have assest for this dir
+			console.log('current assets already set >>>> ', state.dirs[state.currentDir].assets)
 			if (!state.dirs[state.currentDir].assets || force) {
 				const appClient = apolloClient(rootState.user.user)
 				const result = await appClient.query({
@@ -207,6 +208,8 @@ export const actions = {
 					throw new Error('Internal error')
 				}
 			}
+
+			console.log('current assets already set 1 >>>> ', state.dirs[state.currentDir].assets)
 		}
 		catch(e) {
 

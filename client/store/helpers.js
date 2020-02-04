@@ -10,12 +10,9 @@ import { createUploadLink } from "apollo-upload-client";
 function apolloClient(user) {
 
 	let headers = {};
-	console.log('user >>>>', user)
 	if (user && user.token) {
 		headers = {authorization: `Bearer ${user.token}`}
-		console.log('headers 1 >>>>', headers)
 	}
-	console.log('headers >>>>', headers)
 
 	// HTTP connection to the API
 	// const httpLink = createHttpLink({
