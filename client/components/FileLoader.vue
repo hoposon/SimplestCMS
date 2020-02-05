@@ -3,6 +3,9 @@
 		<input id='file-loader' type='file' multiple :accept='accept' hidden @change="uploadImages($event)"/>
 		<div ref='dropZone' class='drop-zone' :class='{"no-assets": noData}'>
 			<DirItem v-for='dir in currentChildren' :key='dir.id' :dir='dir' />
+			<div v-for="asset in currentAssets" :key='asset.assetName'>
+				<img :src='"http://localhost:4000/"+asset.assetUrl' alt='img' />
+			</div>
 			<div v-if='noData' class="no-assets-text">No assets here</div>
 		</div>
 		<div class="assets-toolbar col-2 d-flex flex-column align-items-center">

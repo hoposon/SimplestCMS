@@ -79,7 +79,7 @@ function dirPath(dirs, newDirId) {
 	while(remainingDirs.length) {
 		// console.log('remainingDirs.length >>> ', remainingDirs.length)
 		let path = paths[orderedIndex];
-		let parentPath = orderedDirs[path].parentPath + '/' + orderedDirs[path].dirName;
+		let parentPath = orderedDirs[path].parentPath + orderedDirs[path].isRoot ? '' : '/' + orderedDirs[path].dirName;
 		// console.log('paths >>> ', paths)
 		// console.log('path >>> ', path)
 		let parentDir = orderedDirs[path].id;

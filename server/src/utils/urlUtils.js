@@ -1,4 +1,5 @@
 const { URL_LENGTH, urlValidateRexExp, urlToDirRegExp } = require('../config/url.config.js');
+const { getTypePath } = require('../config/fs.config.js');
 
 function validateUrl(url) {
 	console.log('validate url >>>> ', url)
@@ -24,7 +25,7 @@ function assetUrl(assetUrlDir, assetType, assetDir, assetName) {
 	console.log('assetType', assetType)
 	console.log('assetDir', assetDir)
 	console.log('assetName', assetName)
-	return `${assetUrlDir}/${assetType}${assetDir}/${assetName}`
+	return `${assetUrlDir}/${getTypePath(assetType)}${assetDir}/${assetName}`
 }
 
 module.exports = {
